@@ -2,15 +2,23 @@ export const mainTheme = {
   components: {
     Menu: {
       iconSize: 24,
-      itemActiveBg: "#19363D",
-      itemActiveColor: "#19363D",
-      itemHoverColor: "#19363D",
-      itemColor: "#8A8D8E",
-      itemSelectedBg: "#19363D",
+      itemActiveBg: "#fff",
+      itemActiveColor: "#fff",
+      itemHoverColor: "#fff",
+      itemColor: "",
+      itemSelectedBg: "rgb(237,174,56)",
       itemSelectedColor: "white",
     },
     Form: {
       colorError: "#F5382C",
+    },
+    Button: {
+      colorPrimary: "rgb(242,196,112)",
+      colorPrimaryActive: "rgb(242,196,112)",
+      colorPrimaryBg: "rgb(242,196,112)",
+      colorPrimaryBgHover: "rgb(242,196,112)",
+      colorPrimaryHover: "rgb(237,174,56)",
+      colorPrimaryTextActive: "rgb(242,196,112)",
     },
     Input: {
       colorIcon: "#19363D",

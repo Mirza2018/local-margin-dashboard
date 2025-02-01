@@ -13,19 +13,19 @@ const SignIn = () => {
   };
   return (
     <div className="text-base-color">
-      <div className="max-w-[1350px] w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-2 items-center justify-items-center gap-10 min-h-screen py-10">
-        <div className="">
+      <div className="max-w-[600px] w-[90%] mx-auto grid grid-cols-1  items-center justify-items-center gap-10 min-h-screen py-10">
+        {/* <div className="">
           <img src={AllImages.logo} alt="logo" className="min-h-60 mx-auto" />
-        </div>
+        </div> */}
         <div className="w-full md:w-[80%] lg:w-full mx-auto">
           {/* -------- Sign In Page Header ------------ */}
           <div className="flex flex-col justify-center items-center">
             <div className="text-center mt-5 mb-8">
               <h1 className="text-3xl sm:text-4xl font-medium mb-4">
-                Login to Account!
+                Log in to your account
               </h1>
               <p className="text-lg sm:text-xl mb-2 ">
-                Please enter your email and password to continue.
+                Welcome back! Please enter your details.
               </p>
             </div>
           </div>
@@ -88,7 +88,7 @@ const SignIn = () => {
                 className="h-12 text-xl bg-primary-color"
               >
                 <Select.Option value="admin">Admin</Select.Option>
-                <Select.Option value="company">Company </Select.Option>
+                {/* <Select.Option value="company">Company </Select.Option> */}
               </Select>
             </Form.Item>
             <div className="flex justify-between items-center mt-10">
@@ -104,7 +104,7 @@ const SignIn = () => {
             <Form.Item>
               <Button
                 type="primary"
-                className="w-full py-6 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-8"
+                className="w-full py-6 border  text-xl font-semibold rounded-2xl mt-8"
                 htmlType="submit"
               >
                 Sign In

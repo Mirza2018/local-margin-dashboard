@@ -2,7 +2,7 @@ import { Button, Form } from "antd";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OTPInput from "react-otp-input";
-import { AuthImages } from "../../../public/images/AllImages";
+import { AllIcons, AuthImages } from "../../../public/images/AllImages";
 
 const OtpPage = () => {
   const [otp, setOtp] = useState("");
@@ -17,23 +17,26 @@ const OtpPage = () => {
   return (
     <div className="text-base-color">
       <div className="max-w-[1350px] w-[90%] mx-auto flex flex-col lg:flex-row justify-center gap-10 items-center min-h-screen bg-site-color py-10">
-        <div className="w-full md:w-[80%] lg:w-[50%] flex justify-center items-center">
+        {/* <div className="w-full md:w-[80%] lg:w-[50%] flex justify-center items-center">
           <img
             src={AuthImages.otp}
             alt="forgot_Password_Img"
             className="h-[280px] w-[320px] md:h-[340px] md:w-[380px] lg:h-[480px] lg:w-[520px]"
           />
-        </div>
-        <div className="h-[80vh] w-[2px] bg-[#19363D] hidden lg:block"></div>
+        </div> */}
+        {/* <div className="h-[80vh] w-[2px] bg-[#19363D] hidden lg:block"></div> */}
         <div className="w-full md:w-[80%] lg:w-[50%] ">
           <div className="">
-            <div className="mb-8">
-              <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-4">
-                Verify OTP
-              </h1>
-              <p className="md:text-lg lg:text-xl mb-2 ">
-                Please check your email. We have sent a code to contact
-                @gmail.com
+            <div className="mb-8 flex flex-col justify-center items-center">
+              <img
+                src={AllIcons.mail}
+                alt="forgot_Password_Img"
+                sizes="100vw"
+                className=""
+              />
+              <h1 className="text-[30px] font-bold mb-4">Check your email</h1>
+              <p className="text-[#667085] mb-2 max-w-xs px-10 text-center">
+                No worries, we’ll send you reset instructions.
               </p>
             </div>
 
@@ -50,20 +53,20 @@ const OtpPage = () => {
                   />
                 </div>
               </Form.Item>
-              <div className="flex justify-between py-1">
-                <p>Didn’t receive code?</p>
+              <div className="flex justify-center gap-2 py-1 text-[#667085]">
+                <p>Didn’t receive the email?</p>
                 <Link
                   href="/otp-verification"
                   className="!text-[#19363D] !underline font-semibold"
                 >
-                  Resend
+                  Click to resend
                 </Link>
               </div>
 
-              <Form.Item>
+              <Form.Item className="text-center">
                 <Button
                   type="primary"
-                  className="w-full py-6 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-8"
+                  className="px-32 py-6 text-xl font-semibold rounded-2xl mt-8"
                   onClick={handleOTPSubmit}
                 >
                   Get OTP

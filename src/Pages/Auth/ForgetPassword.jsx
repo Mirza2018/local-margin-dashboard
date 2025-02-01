@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 
 import { useNavigate } from "react-router-dom";
-import { AuthImages } from "../../../public/images/AllImages";
+import { AllIcons, AuthImages } from "../../../public/images/AllImages";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -12,8 +12,8 @@ const ForgotPassword = () => {
   };
   return (
     <div className="text-base-color">
-      <div className="max-w-[1350px] w-[90%] mx-auto flex flex-col lg:flex-row justify-center gap-10 items-center min-h-screen bg-site-color py-10">
-        <div className="w-full md:w-[80%] lg:w-[50%] flex justify-center items-center">
+      <div className="max-w-[600px] w-[90%] mx-auto grid grid-cols-1  items-center justify-items-center gap-10 min-h-screen py-10">
+        {/* <div className="w-full md:w-[80%] lg:w-[50%] flex justify-center items-center">
           <img
             src={AuthImages.ForgotPassword}
             alt="forgot_Password_Img"
@@ -22,17 +22,22 @@ const ForgotPassword = () => {
             sizes="100vw"
             className="h-[320px] w-[320px] md:h-[380px] md:w-[380px] lg:h-[520px] lg:w-[520px]"
           />
-        </div>
-        <div className="h-[80vh] w-[2px] bg-[#19363D] hidden lg:block"></div>
-        <div className="w-full md:w-[80%] lg:w-[50%]">
+        </div> */}
+        {/* <div className="h-[80vh] w-[2px] bg-[#19363D] hidden lg:block"></div> */}
+        <div className="w-full md:w-[80%] lg:w-full mx-auto">
           <div className="">
-            <div className="mb-8">
+            <div className="mb-8 flex-col flex justify-center items-center">
+              <img
+                src={AllIcons.forgot}
+                alt="forgot_Password_Img"
+                sizes="100vw"
+                className=""
+              />
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-4">
-                Forget password
+                Forgot password?
               </h1>
               <p className="md:text-lg lg:text-xl mb-2 ">
-                Enter your email address to get a verification code for
-                resetting your password.
+                No worries, we’ll send you reset instructions.
               </p>
             </div>
 
@@ -42,6 +47,7 @@ const ForgotPassword = () => {
               onFinish={onFinish}
             >
               <Form.Item
+                label="Email"
                 rules={[
                   {
                     required: true,
@@ -61,7 +67,7 @@ const ForgotPassword = () => {
               <Form.Item>
                 <Button
                   type="primary"
-                  className="w-full py-6 border border-secondary-color hover:border-secondary-color text-xl text-primary-color bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-8"
+                  className="w-full py-6 text-xl border font-semibold rounded-2xl mt-8"
                   htmlType="submit"
                 >
                   Get OTP

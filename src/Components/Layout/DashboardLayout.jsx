@@ -260,7 +260,7 @@ const DashboardLayout = () => {
     },
     {
       key: "settings",
-      label: <span className="text-[#8A8D8E]">Setting</span>,
+      label: <span className="text-black">Setting</span>,
       icon: <img src={setting} alt="setting" width={16} height={16} />,
       children: [
         {
@@ -372,7 +372,7 @@ const DashboardLayout = () => {
   return (
     <div className="h-screen bg-white ">
       <TopLoadingBar
-        color="#559BAC" // Customize the color
+        color="#F2C470" // Customize the color
         progress={progress} // Dynamic progress based on state
         height={5} // Customize height of the bar
         onLoaderFinished={() => setProgress(0)} // Reset after loading
@@ -385,7 +385,7 @@ const DashboardLayout = () => {
           collapsible
           collapsed={collapsed}
           style={{
-            background: "#FFFFFF",
+            background: "#F2C470",
             boxShadow: "0px 0px 5px #00000040",
             position: "sticky",
             top: 0,
@@ -401,7 +401,7 @@ const DashboardLayout = () => {
               width={0}
               height={0}
               sizes="100vw"
-              className="my-7 mx-auto w-full"
+              className="my-7 mx-auto w-48"
             />
           </Link>
 
@@ -415,7 +415,7 @@ const DashboardLayout = () => {
               marginLeft: "12%",
             }}
           >
-            Menu
+            {/* Menu */}
           </Typography.Title>
           <Menu
             mode="inline"
@@ -440,7 +440,7 @@ const DashboardLayout = () => {
               marginLeft: "12%",
             }}
           >
-            Other
+            {/* Other */}
           </Typography.Title>
           <Menu
             mode="inline"

@@ -1,4 +1,4 @@
-import logo from "./logo.png";
+import logo from "./logo.svg";
 
 // Auth Images
 import ForgotPassword from "./authImages/ForgotPassword.png";
@@ -19,6 +19,11 @@ import serviceUser from "./icons/serviceUser.png";
 import carer from "./icons/carer.png";
 import employee from "./icons/employee.png";
 import bell from "./icons/bell.png";
+
+////
+import mail from "./icons/checkMail.svg";
+import newPass from "./icons/setNewPass.svg";
+import forgot from "./icons/forgotIcon.svg";
 
 export const AllImages = {
   logo,
@@ -41,4 +46,7 @@ export const AllIcons = {
   carer,
   employee,
   bell,
+  mail,
+  newPass,
+  forgot
 };
