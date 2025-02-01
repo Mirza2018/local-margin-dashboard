@@ -38,6 +38,7 @@ import CompanyReport from "../Pages/Company/CompanyReport";
 import Loading from "../Components/UI/Loading";
 import AddFeedback from "../Pages/Company/AddFeedback";
 import AdminAllFeedBack from "../Pages/Admin/AllFeedback";
+import OverviewPage from "../Pages/Admin/NewAdmin/OverviewPage";
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -74,6 +75,11 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
+      {
+        path: "overview",
+        element: <OverviewPage />,
+      },
+
       {
         path: "dashboard",
         element: <AdminDashboard />,

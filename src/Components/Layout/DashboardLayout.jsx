@@ -24,7 +24,7 @@ import { Layout, Menu, Typography } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
 import { useEffect, useState } from "react";
-import { AllImages } from "../../../public/images/AllImages";
+import { AllIcons, AllImages } from "../../../public/images/AllImages";
 import TopLoadingBar from "react-top-loading-bar";
 
 const DashboardLayout = () => {
@@ -153,6 +153,191 @@ const DashboardLayout = () => {
       ),
       label: <NavLink to="carer">Carer</NavLink>,
     },
+    {
+      key: "overview",
+      icon: (
+        <img
+          src={AllIcons.overview}
+          alt="overview"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("overview")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="overview">Overview</NavLink>,
+    },
+    {
+      key: "staff",
+      icon: (
+        <img
+          src={AllIcons.staff}
+          alt="staff"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("staff")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="staff">Staff</NavLink>,
+    },
+
+    {
+      key: "queries",
+      icon: (
+        <img
+          src={AllIcons.queries}
+          alt="queries"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("queries")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="queries">Queries</NavLink>,
+    },
+    {
+      key: "feedback",
+      icon: (
+        <img
+          src={AllIcons.feedback}
+          alt="feedback"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("feedback")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="feedback">Feedback</NavLink>,
+    },
+
+    {
+      key: "data-management",
+      label: <span className="text-black">Data Management</span>,
+      icon: (
+        <img src={AllIcons.data} alt="data-management" width={16} height={16} />
+      ),
+      children: [
+        {
+          key: "handbook",
+          icon: (
+            <img src={AllIcons.data} alt="handbook" width={16} height={16} />
+          ),
+          label: <NavLink to="handbook">Handbook</NavLink>,
+        },
+        {
+          key: "instruction",
+          icon: (
+            <img
+              src={AllIcons.instruction}
+              alt="instruction"
+              width={16}
+              height={16}
+            />
+          ),
+          label: <NavLink to="instruction">Instruction and Guide</NavLink>,
+        },
+        {
+          key: "disclaimer",
+          icon: (
+            <img
+              src={AllIcons.disclaimer}
+              alt="disclaimer"
+              width={16}
+              height={16}
+            />
+          ),
+          label: <NavLink to="disclaimer">Disclaimer</NavLink>,
+        },
+        {
+          key: "instruction",
+          icon: (
+            <img
+              src={AllIcons.instruction}
+              alt="instruction"
+              width={16}
+              height={16}
+            />
+          ),
+          label: <NavLink to="instruction">Instruction and Guide</NavLink>,
+        },
+        {
+          key: "privacy",
+          icon: (
+            <img src={AllIcons.privacy} alt="privacy" width={16} height={16} />
+          ),
+          label: <NavLink to="privacy">Privacy Policy</NavLink>,
+        },
+        {
+          key: "terms",
+          icon: <img src={AllIcons.terms} alt="terms" width={16} height={16} />,
+          label: <NavLink to="terms">Terms of Service</NavLink>,
+        },
+        {
+          key: "faq",
+          icon: <img src={AllIcons.faq} alt="faq" width={16} height={16} />,
+          label: <NavLink to="faq">FAQ</NavLink>,
+        },
+        {
+          key: "announcement",
+          icon: (
+            <img
+              src={AllIcons.announcement}
+              alt="announcement"
+              width={16}
+              height={16}
+            />
+          ),
+          label: <NavLink to="announcement">Announcement</NavLink>,
+        },
+      ],
+    },
+
+    {
+      key: "settings",
+      label: <span className="text-black">settings</span>,
+      icon: (
+        <img src={AllIcons.settings} alt="settings" width={16} height={16} />
+      ),
+      children: [
+        {
+          key: "profile",
+          icon: (
+            <img src={AllIcons.profile} alt="profile" width={16} height={16} />
+          ),
+          label: <NavLink to="Profile"></NavLink>,
+        },
+      ],
+    },
+    {
+      key: "logout",
+      icon: (
+        <img
+          src={AllIcons.logOut}
+          alt="logout"
+          width={16}
+          height={16}
+          style={{ color: "#222222", fontSize: "16px" }}
+        />
+      ),
+      label: (
+        <div onClick={() => localStorage.removeItem("home_care_user")}>
+          <NavLink to="/signin">Log Out</NavLink>
+        </div>
+      ),
+    },
   ];
 
   const companyMenuItems = [
@@ -258,6 +443,7 @@ const DashboardLayout = () => {
       ),
       label: <NavLink to="profile">Profile</NavLink>,
     },
+
     {
       key: "settings",
       label: <span className="text-black">Setting</span>,
@@ -469,7 +655,7 @@ const DashboardLayout = () => {
             <Topbar collapsed={collapsed} setCollapsed={setCollapsed} />
           </Header>
           <Content>
-            <div className="bg-white px-2 xl:px-5 py-4 xl:py-5">
+            <div className="bg-primary-color px-2 xl:px-5 py-4 xl:py-5">
               <Outlet />
             </div>
           </Content>
