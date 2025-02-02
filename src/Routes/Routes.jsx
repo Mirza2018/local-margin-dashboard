@@ -20,8 +20,8 @@ import SettingsChangePassword from "../Pages/Common/settings/SettingsChangePassw
 import SettingsForgotPassword from "../Pages/Common/settings/SettingsForgotPassword";
 import SettingsOtpPage from "../Pages/Common/settings/SettingsOtpPage";
 import SettingsUpdatePassword from "../Pages/Common/settings/SettingsUpdatePassword";
-import TermsOfService from "../Pages/Common/settings/TermsOfService";
-import PrivacyPolicy from "../Pages/Common/settings/PrivacyPolicy";
+
+
 
 //* Admin Dashboard
 import AdminDashboard from "../Pages/Admin/AdminDashboard";
@@ -41,6 +41,15 @@ import AdminAllFeedBack from "../Pages/Admin/AllFeedback";
 import OverviewPage from "../Pages/Admin/NewAdmin/OverviewPage";
 import StaffPage from "../Pages/Admin/NewAdmin/StaffPage";
 import QueriesPage from "../Pages/Admin/NewAdmin/QueriesPage";
+import FeedbackPage from "../Pages/Admin/NewAdmin/FeedbackPage";
+
+import InstructionandGuide from "../Pages/Admin/NewAdmin/DataManagementPages/InstructionandGuide";
+import Disclaimer from "../Pages/Admin/NewAdmin/DataManagementPages/Disclaimer";
+import FAQ from "../Pages/Admin/NewAdmin/DataManagementPages/FAQ";
+import PrivacyPolicy from "../Pages/Admin/NewAdmin/DataManagementPages/PrivacyPolicy";
+import TermsofService from "../Pages/Admin/NewAdmin/DataManagementPages/TermsofService";
+import Announcement from "../Pages/Admin/NewAdmin/DataManagementPages/Announcement";
+import SettingPage from "../Pages/Admin/NewAdmin/SettingPage";
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -48,7 +57,7 @@ function AuthRedirect() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("home_care_user"));
     if (user && user.role) {
-      navigate(`/${user.role}/dashboard`, { replace: true });
+      navigate(`/${user.role}/overview`, { replace: true });
     } else {
       navigate("/signin", { replace: true });
     }
@@ -91,7 +100,35 @@ const router = createBrowserRouter([
       },
       {
         path: "feedback",
-        element: <QueriesPage />,
+        element: <FeedbackPage />,
+      },
+      {
+        path: "instruction",
+        element: <InstructionandGuide />,
+      },
+      {
+        path: "disclaimer",
+        element: <Disclaimer />,
+      },
+      {
+        path: "privacy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "terms",
+        element: <TermsofService />,
+      },
+      {
+        path: "faq",
+        element: <FAQ />,
+      },
+      {
+        path: "announcement",
+        element: <Announcement />,
+      },
+      {
+        path: "setting",
+        element: <SettingPage />,
       },
 
       {
@@ -132,7 +169,7 @@ const router = createBrowserRouter([
       },
       {
         path: "terms-and-condition",
-        element: <TermsOfService />,
+        element: <TermsofService />,
       },
       {
         path: "settings/change-password",

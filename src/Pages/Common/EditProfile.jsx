@@ -39,30 +39,21 @@ const EditProfile = () => {
       className="bg-highlight-color min-h-[90vh]  rounded-xl"
       style={{ boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.25)" }}
     >
-      <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
-        <div className=" w-[95%] mx-auto  flex items-center ">
-          <IoChevronBackOutline
-            className="text-4xl cursor-pointer text-primary-color font-semibold"
-            onClick={() => window.history.back()}
-          />
-          <p className="text-3xl text-primary-color font-semibold">
-            Edit Profile
-          </p>
-        </div>
-      </div>
-      <div className=" flex justify-center items-center">
-        <Form
-          onFinish={onFinish}
-          layout="vertical"
-          className="bg-transparent py-10 text-base-color h-full w-full lg:w-[70%]"
-        >
-          <div className="mt-5 flex flex-col justify-center items-center gap-x-4">
+      <Form
+        onFinish={onFinish}
+        layout="vertical"
+        className="bg-transparent py-10 text-base-color  grid lg:grid-cols-5 mx-10 "
+      >
+        <div className="col-span-3">
+          <div className="mt-5 flex flex-col justify-start items-start gap-x-4">
             <div className=" relative">
+              <p className="text-base font-bold mb-4">Profile Image</p>
               <img
                 className="h-40 w-40 relative rounded-full border border-secondary-color object-contain"
                 src={imageUrl}
                 alt=""
               />
+
               <Form.Item name="image">
                 <Upload
                   beforeUpload={() => false} // Prevent automatic upload to server
@@ -91,12 +82,42 @@ const EditProfile = () => {
                 </Upload>
               </Form.Item>
             </div>
-            <p className="text-5xl font-semibold -mt-5">James Mitchell</p>
+            {/* <p className="text-5xl font-semibold -mt-5">James Mitchell</p> */}
           </div>
 
           <div className=" text-white mt-5">
             <Typography.Title level={5} style={{ color: "#222222" }}>
-              Email
+              Full Name<span className="text-secondary-color">*</span>
+            </Typography.Title>
+            <Form.Item
+              initialValue={profileData.fullname}
+              name="userName"
+              className="text-white"
+            >
+              <Input
+                suffix={<MdOutlineEdit />}
+                placeholder="Enter your Name"
+                className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
+              />
+            </Form.Item>
+
+            <Typography.Title level={5} style={{ color: "#222222" }}>
+              Phone
+            </Typography.Title>
+            <Form.Item
+              initialValue={profileData.contactNumber}
+              name="contactNumber"
+              className="text-white"
+            >
+              <Input
+                suffix={<MdOutlineEdit />}
+                placeholder="Enter your Contact number"
+                className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
+              />
+            </Form.Item>
+
+            <Typography.Title level={5} style={{ color: "#222222" }}>
+              Email<span className="text-secondary-color">*</span>
             </Typography.Title>
             <Form.Item
               initialValue={profileData.email}
@@ -110,45 +131,34 @@ const EditProfile = () => {
                 className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
               />
             </Form.Item>
-            <Typography.Title level={5} style={{ color: "#222222" }}>
-              User Name
-            </Typography.Title>
-            <Form.Item
-              initialValue={profileData.fullname}
-              name="userName"
-              className="text-white"
-            >
-              <Input
-                suffix={<MdOutlineEdit />}
-                placeholder="Enter your Name"
-                className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
-              />
-            </Form.Item>
-            <Typography.Title level={5} style={{ color: "#222222" }}>
-              Contact number
-            </Typography.Title>
-            <Form.Item
-              initialValue={profileData.contactNumber}
-              name="contactNumber"
-              className="text-white"
-            >
-              <Input
-                suffix={<MdOutlineEdit />}
-                placeholder="Enter your Contact number"
-                className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                className="w-full py-6 border !border-secondary-color hover:border-secondary-color text-xl !text-primary-color bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-8"
-                htmlType="submit"
-              >
-                Save & Change
-              </Button>
-            </Form.Item>
           </div>
-        </Form>
-      </div>
+        </div>
+        {/* <div className="col-span-2 flex justify-end items-end">
+          <Form.Item>
+            <Button
+              className="w-full py-6 border !border-secondary-color hover:border-secondary-color text-xl !text-primary-color bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-8"
+              htmlType="submit"
+            >
+              Save & Change
+            </Button>
+          </Form.Item>
+        </div> */}
+
+        <div className="col-span-2 flex justify-end items-end gap-3">
+          <button
+            onClick={() => setContent("")} // Clears the editor content
+            className="border border-[#EF4A00] text-[#EF4A00] hover:border-[#bc4812] transition delay-150 duration-100 py-3 px-8 rounded-xl"
+          >
+            Cancel
+          </button>
+          <button
+            htmlType="submit"
+            className="bg-secondary-color hover:bg-[#f1ae31] transition delay-150 duration-100 py-3 px-9 rounded-xl text-white"
+          >
+            Save
+          </button>
+        </div>
+      </Form>
     </div>
   );
 };

@@ -5,6 +5,8 @@ import StaffOverviewAreaChart from "../../../Components/OverviewPage/StaffOvervi
 import QueriesResolvedBarChart from "../../../Components/OverviewPage/QueriesResolvedBarChart";
 import TopCategoriesBarChart from "../../../Components/OverviewPage/TopCategoriesBarChart";
 import StaffSatisfactionRatePieChart from "../../../Components/OverviewPage/StaffSatisfactionRatePieChart";
+import StaffTable from "../../../Components/StaffPage/StaffTable";
+import ShortStafflist from "../../../Components/OverviewPage/ShortStaffList";
 
 const OverviewPage = () => {
   return (
@@ -14,10 +16,11 @@ const OverviewPage = () => {
         <StaffOverviewAreaChart />
         <QueriesResolvedBarChart />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-5">
         <TopCategoriesBarChart />
         <StaffSatisfactionRatePieChart />
       </div>
+      <ShortStafflist />
     </React.Fragment>
   );
 };

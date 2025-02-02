@@ -88,71 +88,7 @@ const DashboardLayout = () => {
   }, []);
 
   const adminMenuItems = [
-    {
-      key: "dashboard",
-      icon: (
-        <img
-          src={dashboardLogo}
-          alt="dashboard"
-          width={20}
-          style={{
-            filter: location.pathname.includes("dashboard")
-              ? "brightness(0) invert(1)"
-              : undefined,
-          }}
-        />
-      ),
-      label: <NavLink to="dashboard">Dashboard</NavLink>,
-    },
-    {
-      key: "companies",
-      icon: (
-        <img
-          src={companies}
-          alt="companies"
-          width={20}
-          style={{
-            filter: location.pathname.includes("companies")
-              ? "brightness(0) invert(1)"
-              : undefined,
-          }}
-        />
-      ),
-      label: <NavLink to="companies">Companies</NavLink>,
-    },
-    {
-      key: "service-User",
-      icon: (
-        <img
-          src={serviceUser}
-          alt="Service User"
-          width={20}
-          style={{
-            filter: location.pathname.includes("service-User")
-              ? "brightness(0) invert(1)"
-              : undefined,
-          }}
-        />
-      ),
-      label: <NavLink to="service-User">Service User</NavLink>,
-    },
-    {
-      key: "carer",
-      icon: (
-        <img
-          src={carer}
-          alt="carer"
-          width={16}
-          height={16}
-          style={{
-            filter: location.pathname.includes("carer")
-              ? "brightness(0) invert(1)"
-              : undefined,
-          }}
-        />
-      ),
-      label: <NavLink to="carer">Carer</NavLink>,
-    },
+  
     {
       key: "overview",
       icon: (
@@ -231,13 +167,6 @@ const DashboardLayout = () => {
       ),
       children: [
         {
-          key: "handbook",
-          icon: (
-            <img src={AllIcons.data} alt="handbook" width={16} height={16} />
-          ),
-          label: <NavLink to="handbook">Handbook</NavLink>,
-        },
-        {
           key: "instruction",
           icon: (
             <img
@@ -260,18 +189,6 @@ const DashboardLayout = () => {
             />
           ),
           label: <NavLink to="disclaimer">Disclaimer</NavLink>,
-        },
-        {
-          key: "instruction",
-          icon: (
-            <img
-              src={AllIcons.instruction}
-              alt="instruction"
-              width={16}
-              height={16}
-            />
-          ),
-          label: <NavLink to="instruction">Instruction and Guide</NavLink>,
         },
         {
           key: "privacy",
@@ -317,7 +234,7 @@ const DashboardLayout = () => {
           icon: (
             <img src={AllIcons.profile} alt="profile" width={16} height={16} />
           ),
-          label: <NavLink to="Profile"></NavLink>,
+          label: <NavLink to="setting">profile</NavLink>,
         },
       ],
     },
@@ -424,108 +341,108 @@ const DashboardLayout = () => {
   ];
 
   const commonItems = [
-    {
-      key: "profile",
-      icon: (
-        <img
-          src={profile}
-          alt="profile"
-          width={16}
-          height={16}
-          style={{
-            filter:
-              location.pathname.includes("/profile") ||
-              location.pathname.includes("/edit-profile")
-                ? "brightness(0) invert(1)"
-                : undefined,
-          }}
-        />
-      ),
-      label: <NavLink to="profile">Profile</NavLink>,
-    },
+    // {
+    //   key: "profile",
+    //   icon: (
+    //     <img
+    //       src={profile}
+    //       alt="profile"
+    //       width={16}
+    //       height={16}
+    //       style={{
+    //         filter:
+    //           location.pathname.includes("/profile") ||
+    //           location.pathname.includes("/edit-profile")
+    //             ? "brightness(0) invert(1)"
+    //             : undefined,
+    //       }}
+    //     />
+    //   ),
+    //   label: <NavLink to="profile">Profile</NavLink>,
+    // },
 
-    {
-      key: "settings",
-      label: <span className="text-black">Setting</span>,
-      icon: <img src={setting} alt="setting" width={16} height={16} />,
-      children: [
-        {
-          key: "change-password",
-          icon: <span>&#8226;</span>,
-          label: (
-            <NavLink to="settings/change-password">Change Password</NavLink>
-          ),
-        },
-        // Include Privacy Policy and Terms of Service only for admin users
-        ...(userRole?.role === "admin"
-          ? [
-              {
-                key: "privacy-policy",
-                icon: <span>&#8226;</span>,
-                label: <NavLink to="privacy-policy">Privacy Policy</NavLink>,
-              },
-              {
-                key: "terms-and-condition",
-                icon: <span>&#8226;</span>,
-                label: (
-                  <NavLink to="terms-and-condition">Terms & Conditions</NavLink>
-                ),
-              },
-            ]
-          : []),
-      ],
-    },
-    userRole?.role === "admin"
-      ? {
-          key: "show-feedback",
-          icon: (
-            <img
-              src={feedback}
-              alt="show-feedback"
-              width={20}
-              style={{
-                filter: location.pathname.includes("/show-feedback")
-                  ? "brightness(0) invert(1)"
-                  : undefined,
-              }}
-            />
-          ),
-          label: <NavLink to="show-feedback">Feedback</NavLink>,
-        }
-      : {
-          key: "add-feedback",
-          icon: (
-            <img
-              src={feedback}
-              alt="add-feedback"
-              width={16}
-              height={16}
-              style={{
-                filter: location.pathname.includes("/add-feedback")
-                  ? "brightness(0) invert(1)"
-                  : undefined,
-              }}
-            />
-          ),
-          label: <NavLink to="add-feedback">Feedback</NavLink>,
-        },
-    {
-      key: "logout",
-      icon: (
-        <img
-          src={logout}
-          alt="logout"
-          width={16}
-          height={16}
-          style={{ color: "#222222", fontSize: "16px" }}
-        />
-      ),
-      label: (
-        <div onClick={() => localStorage.removeItem("home_care_user")}>
-          <NavLink to="/signin">Logout</NavLink>
-        </div>
-      ),
-    },
+    // {
+    //   key: "settings",
+    //   label: <span className="text-black">Setting</span>,
+    //   icon: <img src={setting} alt="setting" width={16} height={16} />,
+    //   children: [
+    //     {
+    //       key: "change-password",
+    //       icon: <span>&#8226;</span>,
+    //       label: (
+    //         <NavLink to="settings/change-password">Change Password</NavLink>
+    //       ),
+    //     },
+    //     // Include Privacy Policy and Terms of Service only for admin users
+    //     ...(userRole?.role === "admin"
+    //       ? [
+    //           {
+    //             key: "privacy-policy",
+    //             icon: <span>&#8226;</span>,
+    //             label: <NavLink to="privacy-policy">Privacy Policy</NavLink>,
+    //           },
+    //           {
+    //             key: "terms-and-condition",
+    //             icon: <span>&#8226;</span>,
+    //             label: (
+    //               <NavLink to="terms-and-condition">Terms & Conditions</NavLink>
+    //             ),
+    //           },
+    //         ]
+    //       : []),
+    //   ],
+    // },
+    // userRole?.role === "admin"
+    //   ? {
+    //       key: "show-feedback",
+    //       icon: (
+    //         <img
+    //           src={feedback}
+    //           alt="show-feedback"
+    //           width={20}
+    //           style={{
+    //             filter: location.pathname.includes("/show-feedback")
+    //               ? "brightness(0) invert(1)"
+    //               : undefined,
+    //           }}
+    //         />
+    //       ),
+    //       label: <NavLink to="show-feedback">Feedback</NavLink>,
+    //     }
+    //   : {
+    //       key: "add-feedback",
+    //       icon: (
+    //         <img
+    //           src={feedback}
+    //           alt="add-feedback"
+    //           width={16}
+    //           height={16}
+    //           style={{
+    //             filter: location.pathname.includes("/add-feedback")
+    //               ? "brightness(0) invert(1)"
+    //               : undefined,
+    //           }}
+    //         />
+    //       ),
+    //       label: <NavLink to="add-feedback">Feedback</NavLink>,
+    //     },
+    // {
+    //   key: "logout",
+    //   icon: (
+    //     <img
+    //       src={logout}
+    //       alt="logout"
+    //       width={16}
+    //       height={16}
+    //       style={{ color: "#222222", fontSize: "16px" }}
+    //     />
+    //   ),
+    //   label: (
+    //     <div onClick={() => localStorage.removeItem("home_care_user")}>
+    //       <NavLink to="/signin">Logout</NavLink>
+    //     </div>
+    //   ),
+    // },
   ];
 
   // Select the appropriate menu items based on user role
