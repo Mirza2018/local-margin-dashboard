@@ -1,0 +1,107 @@
+[
+  {
+    "uid": "001",
+    "query": "What are today's specials?",
+    "category": "Menu",
+    "staff": "Lisa Ackermann",
+    "submittedOn": "24 Jan, 2024"
+  },
+  {
+    "uid": "002",
+    "query": "Can I have the bill, please?",
+    "category": "Home",
+    "staff": "John Doe",
+    "submittedOn": "25 Jan, 2024"
+  },
+  {
+    "uid": "003",
+    "query": "I'd like a glass of water.",
+    "category": "About Us",
+    "staff": "Emma Smith",
+    "submittedOn": "26 Jan, 2024"
+  },
+  {
+    "uid": "004",
+    "query": "Is the dessert menu available?",
+    "category": "Contact",
+    "staff": "Michael Johnson",
+    "submittedOn": "27 Jan, 2024"
+  },
+  {
+    "uid": "005",
+    "query": "Could you recommend a vegetarian dish?",
+    "category": "Services",
+    "staff": "Sarah Brown",
+    "submittedOn": "28 Jan, 2024"
+  },
+  {
+    "uid": "007",
+    "query": "I'm allergic to peanuts. Can you suggest something safe?",
+    "category": "Events",
+    "staff": "Olivia Martinez",
+    "submittedOn": "30 Jan, 2024"
+  },
+  {
+    "uid": "008",
+    "query": "What type of tea do you have?",
+    "category": "Portfolio",
+    "staff": "Daniel Lee",
+    "submittedOn": "31 Jan, 2024"
+  },
+  {
+    "uid": "009",
+    "query": "Do you serve breakfast all day?",
+    "category": "Blog",
+    "staff": "Sophia Garcia",
+    "submittedOn": "01 Feb, 2024"
+  },
+  {
+    "uid": "010",
+    "query": "Are your ingredients locally sourced?",
+    "category": "Testimonials",
+    "staff": "William Rodriguez",
+    "submittedOn": "02 Feb, 2024"
+  },
+  {
+    "uid": "011",
+    "query": "Can I customize my order?",
+    "category": "FAQ",
+    "staff": "Ethan Taylor",
+    "submittedOn": "03 Feb, 2024"
+  },
+  {
+    "uid": "012",
+    "query": "What time do you close today?",
+    "category": "Support",
+    "staff": "Ava Moore",
+    "submittedOn": "04 Feb, 2024"
+  },
+  {
+    "uid": "013",
+    "query": "Is there outdoor seating available?",
+    "category": "Terms & Conditions",
+    "staff": "James Anderson",
+    "submittedOn": "05 Feb, 2024"
+  },
+  {
+    "uid": "014",
+    "query": "Do you have a kids' menu?",
+    "category": "Privacy Policy",
+    "staff": "Grace Thomas",
+    "submittedOn": "06 Feb, 2024"
+  },
+  {
+    "uid": "015",
+    "query": "May I see the wine list, please?",
+    "category": "Feedback",
+    "staff": "Benjamin White",
+    "submittedOn": "07 Feb, 2024"
+  },
+  {
+    "uid": "016",
+    "query": "Are reservations required for dinner?",
+    "category": "Settings",
+    "staff": "Nora Scott",
+    "submittedOn": "08 Feb, 2024"
+  }
+]

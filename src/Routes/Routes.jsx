@@ -39,6 +39,8 @@ import Loading from "../Components/UI/Loading";
 import AddFeedback from "../Pages/Company/AddFeedback";
 import AdminAllFeedBack from "../Pages/Admin/AllFeedback";
 import OverviewPage from "../Pages/Admin/NewAdmin/OverviewPage";
+import StaffPage from "../Pages/Admin/NewAdmin/StaffPage";
+import QueriesPage from "../Pages/Admin/NewAdmin/QueriesPage";
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -78,6 +80,18 @@ const router = createBrowserRouter([
       {
         path: "overview",
         element: <OverviewPage />,
+      },
+      {
+        path: "staff",
+        element: <StaffPage />,
+      },
+      {
+        path: "queries",
+        element: <QueriesPage />,
+      },
+      {
+        path: "feedback",
+        element: <QueriesPage />,
       },
 
       {

@@ -6,10 +6,12 @@ import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 
 //* Modal Table
-import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
-import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
+import QueriesTable from "../../../Components/QueriesPage/QueriesTable";
+import ViewQueriesDetails from "../../../Components/QueriesPage/ViewQueriesDetails";
+// import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
+// import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
-const CompanyServiceUser = () => {
+const QueriesPage = () => {
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -28,7 +30,7 @@ const CompanyServiceUser = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/ServiceUsers.json");
+        const response = await axios.get("/data/queries.json");
         setData(response?.data); // Make sure this is an array
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -89,9 +91,9 @@ const CompanyServiceUser = () => {
         </div>
       </div>
 
-       {/* Table  */}
+      {/* Table  */}
       <div className="px-10 py-10">
-        <AllServiceUserTable
+        <QueriesTable
           data={filteredData}
           loading={loading}
           showViewServiceUserModal={showViewServiceUserModal}
@@ -101,7 +103,7 @@ const CompanyServiceUser = () => {
 
       {/* Modals */}
 
-      <ViewAdminServiceUserModal
+      <ViewQueriesDetails
         isServiceUserViewModalVisible={isServiceUserViewModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
@@ -110,4 +112,4 @@ const CompanyServiceUser = () => {
   );
 };
 
-export default CompanyServiceUser;
+export default QueriesPage;
