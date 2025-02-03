@@ -3,16 +3,15 @@ import Topbar from "../Shared/Topbar";
 // import logo from "/images/logo.png";
 import dashboardLogo from "../../../public/images/dashboard-logo/dashboard.svg";
 
-import companies from "../../../public/images/dashboard-logo/companies.svg";
 import carer from "../../../public/images/dashboard-logo/carer.svg";
-import serviceUser from "../../../public/images/dashboard-logo/service.svg";
 import employee from "../../../public/images/dashboard-logo/employee.svg";
 import report from "../../../public/images/dashboard-logo/report.svg";
-import setting from "../../../public/images/dashboard-logo/setting.svg";
-import profile from "../../../public/images/dashboard-logo/profile.svg";
-import feedback from "../../../public/images/dashboard-logo/feedback.svg";
-import logout from "../../../public/images/dashboard-logo/logout.svg";
+import serviceUser from "../../../public/images/dashboard-logo/service.svg";
 
+import { Layout, Menu, Typography } from "antd";
+import Sider from "antd/es/layout/Sider";
+import { Content, Header } from "antd/es/layout/layout";
+import { useEffect, useState } from "react";
 import {
   Link,
   NavLink,
@@ -20,12 +19,8 @@ import {
   ScrollRestoration,
   useLocation,
 } from "react-router-dom";
-import { Layout, Menu, Typography } from "antd";
-import Sider from "antd/es/layout/Sider";
-import { Content, Header } from "antd/es/layout/layout";
-import { useEffect, useState } from "react";
-import { AllIcons, AllImages } from "../../../public/images/AllImages";
 import TopLoadingBar from "react-top-loading-bar";
+import { AllIcons, AllImages } from "../../../public/images/AllImages";
 
 const DashboardLayout = () => {
   const userRole = JSON.parse(localStorage.getItem("home_care_user")); // Parse the stored JSON string
@@ -481,8 +476,10 @@ const DashboardLayout = () => {
         onLoaderFinished={() => setProgress(0)} // Reset after loading
       />
       <ScrollRestoration />
-      <Layout className="!relative !bg-white">
+      <Layout className="!relative !bg-white ">
         <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
           width={240}
           trigger={null}
           collapsible
@@ -504,7 +501,7 @@ const DashboardLayout = () => {
               width={0}
               height={0}
               sizes="100vw"
-              className="my-7 mx-auto w-48"
+              className="my-7 mx-auto w-48 "
             />
           </Link>
 
@@ -562,7 +559,7 @@ const DashboardLayout = () => {
         <Layout>
           <Header
             style={{
-              background: "#ffffff",
+              background: "transparent",
               position: "sticky",
               top: 0,
               zIndex: 999,
@@ -572,7 +569,7 @@ const DashboardLayout = () => {
             <Topbar collapsed={collapsed} setCollapsed={setCollapsed} />
           </Header>
           <Content>
-            <div className="bg-primary-color px-2 xl:px-5 py-4 xl:py-5">
+            <div className="px-2 xl:px-5 py-4 xl:py-5 ">
               <Outlet />
             </div>
           </Content>

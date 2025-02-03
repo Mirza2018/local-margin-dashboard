@@ -70,9 +70,9 @@ const Topbar = ({ collapsed, setCollapsed }) => {
         See More
       </Link>
     </div>
-  );
+  ); 
   return (
-    <div className="pt-4 mx-[-50px] flex justify-between items-center bg-[#ffffff] ">
+    <div className="py-4 mx-[-40px] flex justify-between items-center bg-[#F2C470]  rounded-full  mt-2">
       <div className="flex items-center gap-2 text-base-color ml-4">
         <BarsOutlined
           onClick={() => setCollapsed(!collapsed)}

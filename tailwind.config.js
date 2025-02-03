@@ -10,6 +10,12 @@ export default {
         "highlight-color": "#FDFDFD",
         "input-color": "#0C0C0C",
       },
+      fontFamily: {
+        // For the static Sora files:
+        sora: ["Sora", "sans-serif"],
+        // For the variable font version:
+        soraVariable: ["Sora Variable", "sans-serif"],
+      },
     },
   },
   plugins: [],

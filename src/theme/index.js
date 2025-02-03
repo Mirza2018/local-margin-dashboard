@@ -1,13 +1,19 @@
 export const mainTheme = {
+  token: {
+    fontFamily: "Sora, serif",
+  },
   components: {
     Menu: {
       iconSize: 24,
-      itemActiveBg: "#fff",
-      itemActiveColor: "#fff",
-      itemHoverColor: "#fff",
-      itemColor: "",
+      itemColor: "black",
       itemSelectedBg: "rgb(237,174,56)",
       itemSelectedColor: "white",
+
+      itemHoverBg: "rgb(237,174,56)",
+      itemHoverColor: "rgb(0,0,0)",
+
+      itemActiveColor: "#fff",
+      itemHoverColor: "#fff",
     },
     Form: {
       colorError: "#F5382C",
@@ -66,7 +72,7 @@ export const mainTheme = {
       headerSplitColor: "#0C0C0C",
     },
     Pagination: {
-      itemActiveBg: "#19363D",
+      itemActiveBg: "rgb(242,196,112)",
       colorPrimary: "#F3F3F3",
       colorPrimaryHover: "#F3F3F3",
     },
