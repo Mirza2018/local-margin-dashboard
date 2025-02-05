@@ -49,7 +49,7 @@ const EditProfile = () => {
             <div className=" relative">
               <p className="text-base font-bold mb-4">Profile Image</p>
               <img
-                className="h-40 w-40 relative rounded-full border border-secondary-color object-contain"
+                className="h-40 w-40 relative rounded-full border border-secondary-color object-contain "
                 src={imageUrl}
                 alt=""
               />
@@ -60,7 +60,7 @@ const EditProfile = () => {
                   onChange={handleImageUpload}
                   maxCount={1}
                   accept="image/*"
-                  className="absolute -top-10 !right-3 text-end"
+                  className="  text-end"
                   style={{
                     width: "100%",
                     height: "100%",
@@ -72,12 +72,9 @@ const EditProfile = () => {
                     style={{
                       zIndex: 1,
                     }}
-                    className="bg-white p-2 w-fit h-fit rounded-full shadow !border-none"
+                    className="bg-white p-2 w-fit h-fit  shadow !border-none  absolute -top-12 left-32   rounded-full"
                   >
-                    <IoCameraOutline
-                      className="w-5 h-5"
-                      style={{ color: "#19363D" }}
-                    />
+                    <IoCameraOutline className="w-6 h-6 " />
                   </Button>
                 </Upload>
               </Form.Item>
