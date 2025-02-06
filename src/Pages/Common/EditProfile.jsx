@@ -92,6 +92,7 @@ const EditProfile = () => {
               className="text-white"
             >
               <Input
+                required
                 suffix={<MdOutlineEdit />}
                 placeholder="Enter your Name"
                 className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
@@ -107,6 +108,7 @@ const EditProfile = () => {
               className="text-white"
             >
               <Input
+                required
                 suffix={<MdOutlineEdit />}
                 placeholder="Enter your Contact number"
                 className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
@@ -122,6 +124,7 @@ const EditProfile = () => {
               className="text-white "
             >
               <Input
+                required
                 suffix={<MdOutlineEdit />}
                 type="email"
                 placeholder="Enter your email"
