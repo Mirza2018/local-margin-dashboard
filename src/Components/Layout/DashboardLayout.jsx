@@ -134,6 +134,33 @@ const DashboardLayout = () => {
       ),
       label: <NavLink to="user-list">User List</NavLink>,
     },
+
+    {
+      key: "data-management",
+      label: <span className="">Data Management</span>,
+      icon: (
+        <img src={AllIcons.data} alt="data-management" width={16} height={16} />
+      ),
+      children: [
+        {
+          key: "privacy",
+          icon: (
+            <img src={AllIcons.privacy} alt="privacy" width={16} height={16} />
+          ),
+          label: <NavLink to="privacy">Privacy Policy</NavLink>,
+        },
+        {
+          key: "terms",
+          icon: <img src={AllIcons.terms} alt="terms" width={16} height={16} />,
+          label: <NavLink to="terms">Terms of Service</NavLink>,
+        },
+        {
+          key: "faq",
+          icon: <img src={AllIcons.faq} alt="faq" width={16} height={16} />,
+          label: <NavLink to="faq">FAQ</NavLink>,
+        },
+      ],
+    },
   ];
 
   const restaurantOwner = [
@@ -209,7 +236,7 @@ const DashboardLayout = () => {
 
     {
       key: "data-management",
-      label: <span className="text-black">Data Management</span>,
+      label: <span className="">Data Management</span>,
       icon: (
         <img src={AllIcons.data} alt="data-management" width={16} height={16} />
       ),
@@ -239,23 +266,6 @@ const DashboardLayout = () => {
           label: <NavLink to="disclaimer">Disclaimer</NavLink>,
         },
         {
-          key: "privacy",
-          icon: (
-            <img src={AllIcons.privacy} alt="privacy" width={16} height={16} />
-          ),
-          label: <NavLink to="privacy">Privacy Policy</NavLink>,
-        },
-        {
-          key: "terms",
-          icon: <img src={AllIcons.terms} alt="terms" width={16} height={16} />,
-          label: <NavLink to="terms">Terms of Service</NavLink>,
-        },
-        {
-          key: "faq",
-          icon: <img src={AllIcons.faq} alt="faq" width={16} height={16} />,
-          label: <NavLink to="faq">FAQ</NavLink>,
-        },
-        {
           key: "announcement",
           icon: (
             <img
@@ -268,40 +278,6 @@ const DashboardLayout = () => {
           label: <NavLink to="announcement">Announcement</NavLink>,
         },
       ],
-    },
-
-    {
-      key: "settings",
-      label: <span className="text-black">settings</span>,
-      icon: (
-        <img src={AllIcons.settings} alt="settings" width={16} height={16} />
-      ),
-      children: [
-        {
-          key: "profile",
-          icon: (
-            <img src={AllIcons.profile} alt="profile" width={16} height={16} />
-          ),
-          label: <NavLink to="setting">profile</NavLink>,
-        },
-      ],
-    },
-    {
-      key: "logout",
-      icon: (
-        <img
-          src={AllIcons.logOut}
-          alt="logout"
-          width={16}
-          height={16}
-          style={{ color: "#222222", fontSize: "16px" }}
-        />
-      ),
-      label: (
-        <div onClick={() => localStorage.removeItem("home_care_user")}>
-          <NavLink to="/signin">Log Out</NavLink>
-        </div>
-      ),
     },
   ];
 
@@ -389,6 +365,39 @@ const DashboardLayout = () => {
   ];
 
   const commonItems = [
+    {
+      key: "settings",
+      label: <span className="">Settings</span>,
+      icon: (
+        <img src={AllIcons.settings} alt="settings" width={16} height={16} />
+      ),
+      children: [
+        {
+          key: "profile",
+          icon: (
+            <img src={AllIcons.profile} alt="profile" width={16} height={16} />
+          ),
+          label: <NavLink to="setting">profile</NavLink>,
+        },
+      ],
+    },
+    {
+      key: "logout",
+      icon: (
+        <img
+          src={AllIcons.logOut}
+          alt="logout"
+          width={16}
+          height={16}
+          style={{ color: "#222222", fontSize: "16px" }}
+        />
+      ),
+      label: (
+        <div onClick={() => localStorage.removeItem("home_care_user")}>
+          <NavLink to="/signin">Log Out</NavLink>
+        </div>
+      ),
+    },
     // {
     //   key: "profile",
     //   icon: (

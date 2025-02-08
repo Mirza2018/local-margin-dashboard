@@ -93,7 +93,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
           />
         </Dropdown>
         <Link
-          to="profile"
+          to="setting"
           className="flex items-center justify-center gap-2 bg-transparent text-base-color border-0 rounded-lg h-8 px-2 py-1  mr-5"
         >
           <p className="text-base-color text-lg">David Wilson</p>

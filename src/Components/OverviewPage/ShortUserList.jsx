@@ -2,17 +2,15 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Button, ConfigProvider, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import RestaurantListTable from "../../../Components/RestaurantListPage/RestaurantListTable";
-import ViewRestaurantDetails from "../../../Components/RestaurantListPage/ViewRestaurantDetails";
+import UserListTable from "../UserListPage/UserListTable";
+import ViewUserDetails from "../UserListPage/ViewUserDetails";
 
 //* Modal Table
 
 // import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
-const RestaurantListPage = () => {
+const ShortUserList = ({ title }) => {
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -31,7 +29,7 @@ const RestaurantListPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/reaturantsData.json");
+        const response = await axios.get("/data/staffData.json");
         setData(response?.data); // Make sure this is an array
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -65,14 +63,14 @@ const RestaurantListPage = () => {
 
   return (
     <div
-      className="bg-highlight-color min-h-[90vh]  rounded-xl"
+      className="bg-highlight-color   rounded-xl  ps-5"
       style={{ boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.25)" }}
     >
       {/* Header  */}
-      <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
+      {/* <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
         <div className=" w-[95%] mx-auto  flex items-center justify-between">
           <p className="text-3xl text-primary-color font-semibold">
-            Restaurant List
+            Staff List
           </p>
           <div className="flex gap-4 items-center">
             <ConfigProvider
@@ -90,25 +88,22 @@ const RestaurantListPage = () => {
             </ConfigProvider>
           </div>
         </div>
-      </div>
-      <div className="my-4 text-end me-8
-      ">
-        <Button className="text-xl font-bold bg-secondary-color text-white px-4 py-6 me-2">+Add New Restaurant</Button>
-      </div>
+      </div> */}
+      <h1 className="text-2xl font-bold pt-5 ps-5">{title}</h1>
 
       {/* Table  */}
-      <div className="px-10 pb-10">
-        <RestaurantListTable
+      <div className="px-10 py-10">
+        <UserListTable
           data={filteredData}
           loading={loading}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={12}
+          pageSize={7}
         />
       </div>
 
       {/* Modals */}
 
-      <ViewRestaurantDetails
+      <ViewUserDetails
         isServiceUserViewModalVisible={isServiceUserViewModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
@@ -117,4 +112,4 @@ const RestaurantListPage = () => {
   );
 };
 
-export default RestaurantListPage;
+export default ShortUserList;

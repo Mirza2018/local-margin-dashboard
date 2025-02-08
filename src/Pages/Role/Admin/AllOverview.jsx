@@ -4,7 +4,7 @@ import OverviewAreaChart from "../../../Components/OverviewPage/OverviewAreaChar
 import QueriesResolvedBarChart from "../../../Components/OverviewPage/QueriesResolvedBarChart";
 import TopCategoriesBarChart from "../../../Components/OverviewPage/TopCategoriesBarChart";
 import StaffSatisfactionRatePieChart from "../../../Components/OverviewPage/StaffSatisfactionRatePieChart";
-import ShortStafflist from "../../../Components/OverviewPage/ShortStaffList";
+import ShortUserList from "../../../Components/OverviewPage/ShortUserList";
 
 const AllOverview = () => {
   return (
@@ -18,7 +18,7 @@ const AllOverview = () => {
         <TopCategoriesBarChart />
         <StaffSatisfactionRatePieChart />
       </div>
-      <ShortStafflist title="User List" />
+      <ShortUserList title="User List" />
     </React.Fragment>
   );
 };

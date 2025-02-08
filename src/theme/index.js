@@ -5,7 +5,7 @@ export const mainTheme = {
   components: {
     Menu: {
       iconSize: 24,
-      itemColor: "black",
+      itemColor: "white",
       itemSelectedBg: "rgb(237,174,56)",
       itemSelectedColor: "white",
 

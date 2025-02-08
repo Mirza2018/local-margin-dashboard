@@ -99,18 +99,7 @@ const router = createBrowserRouter([
         path: "disclaimer",
         element: <Disclaimer />,
       },
-      {
-        path: "privacy",
-        element: <PrivacyPolicy />,
-      },
-      {
-        path: "terms",
-        element: <TermsofService />,
-      },
-      {
-        path: "faq",
-        element: <FAQ />,
-      },
+
       {
         path: "announcement",
         element: <Announcement />,
@@ -118,6 +107,24 @@ const router = createBrowserRouter([
       {
         path: "notifications",
         element: <Notifications />,
+      },
+      {
+        path: "setting",
+        element: <SettingPage />,
+      },
+      {
+        path: "settings/forgot-password",
+        element: <SettingsForgotPassword />,
+      },
+
+      {
+        path: "settings/otp-page",
+        element: <SettingsOtpPage />,
+      },
+
+      {
+        path: "settings/update-password",
+        element: <SettingsUpdatePassword />,
       },
     ],
   },
@@ -145,6 +152,36 @@ const router = createBrowserRouter([
         path: "notifications",
         element: <Notifications />,
       },
+      {
+        path: "setting",
+        element: <SettingPage />,
+      },
+      {
+        path: "settings/forgot-password",
+        element: <SettingsForgotPassword />,
+      },
+
+      {
+        path: "settings/otp-page",
+        element: <SettingsOtpPage />,
+      },
+
+      {
+        path: "settings/update-password",
+        element: <SettingsUpdatePassword />,
+      },
+      {
+        path: "privacy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "terms",
+        element: <TermsofService />,
+      },
+      {
+        path: "faq",
+        element: <FAQ />,
+      },
     ],
   },
   {
@@ -168,38 +205,9 @@ const router = createBrowserRouter([
     path: "setting",
     element: <SettingPage />,
   },
-
-  {
-    path: "profile",
-    element: <Profile />,
-  },
-  {
-    path: "edit-profile",
-    element: <EditProfile />,
-  },
-  {
-    path: "privacy-policy",
-    element: <PrivacyPolicy />,
-  },
-  {
-    path: "terms-and-condition",
-    element: <TermsofService />,
-  },
   {
     path: "settings/change-password",
     element: <SettingsChangePassword />,
-  },
-  {
-    path: "settings/forgot-password",
-    element: <SettingsForgotPassword />,
-  },
-  {
-    path: "settings/otp-page",
-    element: <SettingsOtpPage />,
-  },
-  {
-    path: "settings/update-password",
-    element: <SettingsUpdatePassword />,
   },
 ]);
 
