@@ -24,18 +24,21 @@ import SettingsUpdatePassword from "../Pages/Common/settings/SettingsUpdatePassw
 //* Company Dashboard
 import Loading from "../Components/UI/Loading";
 // import AdminAllFeedBack from "../Pages/Admin/AllFeedback";
-import FeedbackPage from "../Pages/Admin/RestaurantOwner/FeedbackPage";
-import OverviewPage from "../Pages/Admin/RestaurantOwner/OverviewPage";
-import QueriesPage from "../Pages/Admin/RestaurantOwner/QueriesPage";
-import StaffPage from "../Pages/Admin/RestaurantOwner/StaffPage";
+import FeedbackPage from "../Pages/Role/RestaurantOwner/FeedbackPage";
+import OverviewPage from "../Pages/Role/RestaurantOwner/OverviewPage";
+import QueriesPage from "../Pages/Role/RestaurantOwner/QueriesPage";
+import StaffPage from "../Pages/Role/RestaurantOwner/StaffPage";
 
-import Announcement from "../Pages/Admin/RestaurantOwner/DataManagementPages/Announcement";
-import Disclaimer from "../Pages/Admin/RestaurantOwner/DataManagementPages/Disclaimer";
-import FAQ from "../Pages/Admin/RestaurantOwner/DataManagementPages/FAQ";
-import InstructionandGuide from "../Pages/Admin/RestaurantOwner/DataManagementPages/InstructionandGuide";
-import PrivacyPolicy from "../Pages/Admin/RestaurantOwner/DataManagementPages/PrivacyPolicy";
-import TermsofService from "../Pages/Admin/RestaurantOwner/DataManagementPages/TermsofService";
-import SettingPage from "../Pages/Admin/RestaurantOwner/SettingPage";
+import Announcement from "../Pages/Role/RestaurantOwner/DataManagementPages/Announcement";
+import Disclaimer from "../Pages/Role/RestaurantOwner/DataManagementPages/Disclaimer";
+import FAQ from "../Pages/Role/RestaurantOwner/DataManagementPages/FAQ";
+import InstructionandGuide from "../Pages/Role/RestaurantOwner/DataManagementPages/InstructionandGuide";
+import PrivacyPolicy from "../Pages/Role/RestaurantOwner/DataManagementPages/PrivacyPolicy";
+import TermsofService from "../Pages/Role/RestaurantOwner/DataManagementPages/TermsofService";
+import SettingPage from "../Pages/Role/RestaurantOwner/SettingPage";
+import AllOverview from "../Pages/Role/Admin/AllOverview";
+import UserList from "../Pages/Role/Admin/UserList";
+import RestaurantListPage from "../Pages/Role/Admin/RestaurantListPage";
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -113,55 +116,36 @@ const router = createBrowserRouter([
         element: <Announcement />,
       },
       {
-        path: "setting",
-        element: <SettingPage />,
+        path: "notifications",
+        element: <Notifications />,
+      },
+    ],
+  },
+  {
+    path: "admin",
+    element: (
+      <ProtectedRoute role="admin">
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "overview",
+        element: <AllOverview />,
+      },
+      {
+        path: "user-list",
+        element: <UserList />,
+      },
+      {
+        path: "restaurant-list",
+        element: <RestaurantListPage />,
       },
       {
         path: "notifications",
         element: <Notifications />,
       },
-
-      {
-        path: "profile",
-        element: <Profile />,
-      },
-      {
-        path: "edit-profile",
-        element: <EditProfile />,
-      },
-      {
-        path: "privacy-policy",
-        element: <PrivacyPolicy />,
-      },
-      {
-        path: "terms-and-condition",
-        element: <TermsofService />,
-      },
-      {
-        path: "settings/change-password",
-        element: <SettingsChangePassword />,
-      },
-      {
-        path: "settings/forgot-password",
-        element: <SettingsForgotPassword />,
-      },
-      {
-        path: "settings/otp-page",
-        element: <SettingsOtpPage />,
-      },
-      {
-        path: "settings/update-password",
-        element: <SettingsUpdatePassword />,
-      },
     ],
-  },
-  {
-    path: "company",
-    element: (
-      <ProtectedRoute role="company">
-        <DashboardLayout />
-      </ProtectedRoute>
-    ),
   },
   {
     path: "signin",
@@ -178,6 +162,44 @@ const router = createBrowserRouter([
   {
     path: "update-password",
     element: <UpdatePassword />,
+  },
+  ,
+  {
+    path: "setting",
+    element: <SettingPage />,
+  },
+
+  {
+    path: "profile",
+    element: <Profile />,
+  },
+  {
+    path: "edit-profile",
+    element: <EditProfile />,
+  },
+  {
+    path: "privacy-policy",
+    element: <PrivacyPolicy />,
+  },
+  {
+    path: "terms-and-condition",
+    element: <TermsofService />,
+  },
+  {
+    path: "settings/change-password",
+    element: <SettingsChangePassword />,
+  },
+  {
+    path: "settings/forgot-password",
+    element: <SettingsForgotPassword />,
+  },
+  {
+    path: "settings/otp-page",
+    element: <SettingsOtpPage />,
+  },
+  {
+    path: "settings/update-password",
+    element: <SettingsUpdatePassword />,
   },
 ]);
 

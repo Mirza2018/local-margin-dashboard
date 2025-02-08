@@ -25,9 +25,7 @@ import forgot from "./icons/forgotIcon.svg";
 import totalStaff from "./icons/Total Staff.svg";
 import querie from "./icons/Queries.svg";
 import userFeedBack from "./icons/User Feedback.svg";
-
-
-
+import resturants from "./icons/resturants.svg";
 
 import overview from "./menuItems/Overview.svg";
 import staff from "./menuItems/Staff.svg";
@@ -60,10 +58,8 @@ export const AuthImages = {
 };
 
 export const AllIcons = {
-  
   employee,
   bell,
-
 
   mail,
   newPass,
@@ -71,8 +67,6 @@ export const AllIcons = {
   totalStaff,
   querie,
   userFeedBack,
-
-
 
   overview,
   staff,
@@ -87,6 +81,8 @@ export const AllIcons = {
   terms,
   faq,
   announcement,
+
+  resturants,
 
   settings,
   profile,

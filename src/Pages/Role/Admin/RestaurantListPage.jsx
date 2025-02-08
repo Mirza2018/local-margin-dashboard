@@ -4,15 +4,15 @@ import { useState } from "react";
 import axios from "axios";
 import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import StaffTable from "../StaffPage/StaffTable";
-import ViewStaffDetails from "../StaffPage/ViewStaffDetails";
+import RestaurantListTable from "../../../Components/RestaurantListPage/RestaurantListTable";
+import ViewRestaurantDetails from "../../../Components/RestaurantListPage/ViewRestaurantDetails";
 
 //* Modal Table
 
 // import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
-const ShortStafflist = ({title}) => {
+const RestaurantListPage = () => {
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -31,7 +31,7 @@ const ShortStafflist = ({title}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/data/staffData.json");
+        const response = await axios.get("/data/reaturantsData.json");
         setData(response?.data); // Make sure this is an array
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -65,15 +65,13 @@ const ShortStafflist = ({title}) => {
 
   return (
     <div
-      className="bg-highlight-color   rounded-xl  ps-5"
+      className="bg-highlight-color min-h-[90vh]  rounded-xl"
       style={{ boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.25)" }}
     >
       {/* Header  */}
-      {/* <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
+      <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
         <div className=" w-[95%] mx-auto  flex items-center justify-between">
-          <p className="text-3xl text-primary-color font-semibold">
-            Staff List
-          </p>
+          <p className="text-3xl text-primary-color font-semibold">User List</p>
           <div className="flex gap-4 items-center">
             <ConfigProvider
               theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
@@ -90,22 +88,21 @@ const ShortStafflist = ({title}) => {
             </ConfigProvider>
           </div>
         </div>
-      </div> */}
-      <h1 className="text-2xl font-bold pt-5 ps-5">{ title}</h1>
+      </div>
 
       {/* Table  */}
       <div className="px-10 py-10">
-        <StaffTable
+        <RestaurantListTable
           data={filteredData}
           loading={loading}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={7}
+          pageSize={12}
         />
       </div>
 
       {/* Modals */}
 
-      <ViewStaffDetails
+      <ViewRestaurantDetails
         isServiceUserViewModalVisible={isServiceUserViewModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
@@ -114,4 +111,4 @@ const ShortStafflist = ({title}) => {
   );
 };
 
-export default ShortStafflist;
+export default RestaurantListPage;

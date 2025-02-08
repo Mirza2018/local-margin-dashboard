@@ -82,6 +82,60 @@ const DashboardLayout = () => {
     };
   }, []);
 
+  const adminMenuItems = [
+    {
+      key: "overview",
+      icon: (
+        <img
+          src={AllIcons.overview}
+          alt="overview"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("overview")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="overview">Overview</NavLink>,
+    },
+    {
+      key: "restaurant-list",
+      icon: (
+        <img
+          src={AllIcons.feedback}
+          alt="restaurant-list"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("restaurant-list")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="restaurant-list">Restaurant List</NavLink>,
+    },
+    {
+      key: "user-list",
+      icon: (
+        <img
+          src={AllIcons.feedback}
+          alt="user-list"
+          width={16}
+          height={16}
+          style={{
+            filter: location.pathname.includes("user-list")
+              ? "brightness(0) invert(1)"
+              : undefined,
+          }}
+        />
+      ),
+      label: <NavLink to="user-list">User List</NavLink>,
+    },
+  ];
+
   const restaurantOwner = [
     {
       key: "overview",
@@ -354,7 +408,6 @@ const DashboardLayout = () => {
     //   ),
     //   label: <NavLink to="profile">Profile</NavLink>,
     // },
-
     // {
     //   key: "settings",
     //   label: <span className="text-black">Setting</span>,

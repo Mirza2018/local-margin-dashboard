@@ -28,7 +28,7 @@ const data = [
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
-const StaffOverviewAreaChart = () => {
+const StaffOverviewAreaChart = ({title}) => {
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;
 
@@ -38,7 +38,7 @@ const StaffOverviewAreaChart = () => {
   return (
     <div className="py-5 bg-white rounded-lg">
       <div className="flex justify-between items-center mx-5 my-5">
-        <h1 className="text-2xl font-bold">Staff overview</h1>
+        <h1 className="text-2xl font-bold">{title}</h1>
 
         <div>
           <DatePicker onChange={onChange} picker="year" prefix="User" />
