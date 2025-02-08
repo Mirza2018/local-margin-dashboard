@@ -49,7 +49,6 @@ export const AllImages = {
   logo,
   profile,
   userImage,
-  PDFImage,
   user,
   yellow,
 };

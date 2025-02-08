@@ -76,7 +76,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
       <div className="flex items-center gap-2 text-base-color ml-4">
         <BarsOutlined
           onClick={() => setCollapsed(!collapsed)}
-          className="text-3xl"
+          className="text-3xl text-white"
         />
       </div>
       <div className="flex items-center justify-center mr-5 gap-5">

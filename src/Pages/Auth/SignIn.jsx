@@ -88,7 +88,9 @@ const SignIn = () => {
                 className="h-12 text-xl bg-primary-color"
               >
                 <Select.Option value="admin">Admin</Select.Option>
-                {/* <Select.Option value="company">Company </Select.Option> */}
+                <Select.Option value="restaurantOwner">
+                  Restaurant Owner
+                </Select.Option>
               </Select>
             </Form.Item>
             <div className="flex justify-between items-center mt-10">

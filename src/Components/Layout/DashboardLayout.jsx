@@ -82,8 +82,7 @@ const DashboardLayout = () => {
     };
   }, []);
 
-  const adminMenuItems = [
-  
+  const restaurantOwner = [
     {
       key: "overview",
       icon: (
@@ -442,7 +441,7 @@ const DashboardLayout = () => {
 
   // Select the appropriate menu items based on user role
   const menuItems =
-    userRole?.role === "admin" ? adminMenuItems : companyMenuItems;
+    userRole?.role === "admin" ? adminMenuItems : restaurantOwner;
 
   const [progress, setProgress] = useState(0);
 
