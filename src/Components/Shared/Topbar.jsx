@@ -55,7 +55,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
       {notifications.map((notification) => (
         <div className="test-start" key={notification.id}>
           <div className="flex gap-2">
-            <BellFilled style={{ color: "#242424" }} />
+            <BellFilled style={{ color: "#F2C470" }} />
             <div className="flex flex-col items-start">
               <p>{notification.message}</p>
               <p className="text-gray-400">{notification.time}</p>
@@ -70,7 +70,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
         See More
       </Link>
     </div>
-  ); 
+  );
   return (
     <div className="py-4 mx-[-40px] flex justify-between items-center bg-[#F2C470]  rounded-full  mt-2">
       <div className="flex items-center gap-2 text-base-color ml-4">
@@ -89,20 +89,26 @@ const Topbar = ({ collapsed, setCollapsed }) => {
           <BellFilled
             shape="circle"
             size="small"
-            className="bg-[#F7F5F5] py-4 px-2 text-xl rounded-full shadow h-6 font-bold text-[#242424]"
+            className="bg-[#F7F5F5] py-4 px-2 text-xl rounded-full shadow h-6 font-bold text-secondary-color border border-[#8D969B]"
           />
         </Dropdown>
         <Link
           to="setting"
           className="flex items-center justify-center gap-2 bg-transparent text-base-color border-0 rounded-lg h-8 px-2 py-1  mr-5"
         >
-          <p className="text-base-color text-lg">David Wilson</p>
-          <img
-            src={AllImages.user}
-            alt="profile_pic"
-            style={{ width: "40px", height: "40px", marginRight: "10px" }}
-            className="rounded"
-          />
+          <div className="flex gap-2 bg-white border border-[#8D969B] p-1 rounded-lg">
+            <img
+              src={AllImages.user}
+              alt="profile_pic"
+              className="rounded-full object-cover aspect-square size-10"
+            />
+            <div>
+              <p className="text-black text-sm font-bold">David Wilson</p>
+              <p className="text-xs font-normal !hover:bg-secondary-color">
+                Admin
+              </p>
+            </div>
+          </div>
         </Link>
       </div>
     </div>
