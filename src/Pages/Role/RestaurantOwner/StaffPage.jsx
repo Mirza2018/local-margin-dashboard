@@ -73,14 +73,14 @@ const StaffPage = () => {
       <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
         <div className=" w-[95%] mx-auto  flex items-center justify-between">
           <p className="text-3xl text-primary-color font-semibold">
-            Service Users
+            Staff List
           </p>
           <div className="flex gap-4 items-center">
             <ConfigProvider
               theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
             >
               <Input
-                placeholder="Search User..."
+                placeholder="Search Staff..."
                 value={searchText}
                 onChange={(e) => onSearch(e.target.value)}
                 className="text-primary-color font-semibold !border-primary-color !bg-transparent py-2 !rounded-full"

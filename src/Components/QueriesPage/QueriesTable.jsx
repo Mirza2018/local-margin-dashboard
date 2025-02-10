@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { AllImages } from "../../../public/images/AllImages";
 import { IoMdDownload } from "react-icons/io";
 
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 // Function to get unique company names
 const getUniqueCompanyNames = (data) => {
   const companyNames = data.map((item) => item.companyName);
@@ -19,6 +22,30 @@ const QueriesTable = ({
   pageSize = 0,
 }) => {
   // Filter data based on the selected company (this will apply to the table)
+
+  // };
+
+  const downloadExcel = (record) => {
+    const data = [
+      {
+        ID: `${record.uid}`,
+        Query: `${record.query}`,
+        Category: `${record.category}`,
+        Staff: `${record.staff}`,
+        Submitted_On: `${record.submittedOn}`,
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Query Info");
+
+    // Writing the file
+    XLSX.writeFile(
+      workbook,
+      `Query"${record.staff}"${record.uid}.xlsx`
+    );
+  };
 
   const columns = [
     {
@@ -119,7 +146,7 @@ const QueriesTable = ({
       render: (_, record) => (
         <Space size="middle">
           {/* View Details Tooltip */}
-          <Tooltip placement="right" title="View Details">
+          <Tooltip placement="right" title="Dowenload Query">
             <Button
               className="!p-0"
               style={{
@@ -127,9 +154,12 @@ const QueriesTable = ({
                 border: "none",
                 color: "#222222",
               }}
-              onClick={() => showViewServiceUserModal(record)}
+              onClick={() => downloadExcel(record)}
             >
-              <IoMdDownload style={{ fontSize: "24px" }} className="text-secondary-color" />
+              <IoMdDownload
+                style={{ fontSize: "24px" }}
+                className="text-secondary-color"
+              />
             </Button>
           </Tooltip>
         </Space>

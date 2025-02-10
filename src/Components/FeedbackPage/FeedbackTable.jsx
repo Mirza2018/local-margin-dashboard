@@ -44,9 +44,20 @@ const FeedbackTable = ({
       title: "Status",
       dataIndex: "Status",
       key: "Status",
+      filters: [
+        {
+          text: "Resolved",
+          value: "true",
+        },
+        {
+          text: "Pending",
+          value: "false",
+        },
+      ],
+      onFilter: (value, record) => record.Status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
-          {text == "Resolved" ? (
+          {text ? (
             <p className="text-base font-bold text-[#15D26A]">Resolved</p>
           ) : (
             <p className="text-base font-bold text-secondary-color">Pending</p>
@@ -65,7 +76,7 @@ const FeedbackTable = ({
       key: "Action",
       render: (text) => (
         <div className=" bg-secondary-color text-base font-bold text-white p-[10px] w-fit">
-         {text}
+          {text}
         </div>
       ),
     },

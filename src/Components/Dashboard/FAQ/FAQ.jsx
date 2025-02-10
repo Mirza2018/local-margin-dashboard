@@ -49,22 +49,24 @@ const FAQ = () => {
 
   return (
     <div
-      className="min-h-screen  py-1 px-6 rounded-lg"
-      style={{ boxShadow: "0px 0px 5px 2px #00000040" }}
+      className="min-h-screen rounded-lg"
+     
     >
-      <div className="p-2 rounded flex flex-col gap-5 w-full sm:w-[90%] md:w-[90%] lg:w-[80%] xl:w-[70%] mx-auto">
-        <div>
-          <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold py-4 text-secondary-color">
+      <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
+        <div className=" w-[95%] mx-auto  flex items-center justify-between">
+          <p className="text-3xl text-primary-color font-semibold">
             FAQ
-          </h1>
+          </p>
         </div>
+      </div>
+      <div className="p-2 rounded flex flex-col gap-5 w-full  mx-auto">
         {/* Q/A Portions */}
         <ConfigProvider
           theme={{
             components: {
               Collapse: {
                 colorTextHeading: "#222222",
-                colorBorder: "#FEEBEA",
+                // colorBorder: "#FEEBEA",
                 colorText: "#222222",
                 borderRadiusLG: 0,
                 headerPadding: "12px 20px",
@@ -107,7 +109,7 @@ const FAQ = () => {
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
                       }
-                      className="h-10 !bg-[#FEEBEA] border !border-[#FEEBEA] !text-base-color placeholder:text-gray-600"
+                      className="h-10  border !border-secondary-color !text-base-color placeholder:text-gray-600"
                     />
                   </div>
                   <div className="flex flex-col gap-3">
@@ -145,20 +147,7 @@ const FAQ = () => {
             <PlusOutlined />
             Add More Questions
           </Button>
-          <Button
-            block
-            onClick={handleOnSave}
-            style={{
-              marginTop: "16px",
-              padding: "1px",
-              fontSize: "24px",
-              fontWeight: "500",
-              color: "#FAFAFA",
-              background: "#19363D",
-              height: "40px",
-              border: "none",
-            }}
-          >
+          <Button block type="primary mt-5 py-5" onClick={handleOnSave}>
             Save
           </Button>
         </div>

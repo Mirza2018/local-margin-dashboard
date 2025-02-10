@@ -45,7 +45,7 @@ const QueriesPage = () => {
   const filteredData = useMemo(() => {
     if (!searchText) return data;
     return data.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
+      item.query.toLowerCase().includes(searchText.toLowerCase())
     );
   }, [data, searchText]);
 
@@ -78,7 +78,7 @@ const QueriesPage = () => {
               theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
             >
               <Input
-                placeholder="Search User..."
+                placeholder="Search Query..."
                 value={searchText}
                 onChange={(e) => onSearch(e.target.value)}
                 className="text-primary-color font-semibold !border-primary-color !bg-transparent py-2 !rounded-full"

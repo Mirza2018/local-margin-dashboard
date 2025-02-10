@@ -47,7 +47,7 @@ const FeedbackPage = () => {
   const filteredData = useMemo(() => {
     if (!searchText) return data;
     return data.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
+      item.Feedback.toLowerCase().includes(searchText.toLowerCase())
     );
   }, [data, searchText]);
 
@@ -74,13 +74,12 @@ const FeedbackPage = () => {
           {/* Header  */}
           <div className="w-full p-4   rounded-tl-xl rounded-tr-xl">
             <div className=" w-[95%] mx-auto  flex items-end justify-end">
-             
               <div className="">
                 <ConfigProvider
                   theme={{ token: { colorTextPlaceholder: "#000000" } }}
                 >
                   <Input
-                    placeholder="Search User..."
+                    placeholder="Search Feedback..."
                     value={searchText}
                     onChange={(e) => onSearch(e.target.value)}
                     className=" font-semibold !border- !bg-transparent py-2 !rounded-full"

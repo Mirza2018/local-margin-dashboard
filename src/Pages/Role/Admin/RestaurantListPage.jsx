@@ -2,8 +2,16 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Button, ConfigProvider, Input } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  Button,
+  ConfigProvider,
+  Form,
+  Input,
+  Modal,
+  Select,
+  Typography,
+} from "antd";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import RestaurantListTable from "../../../Components/RestaurantListPage/RestaurantListTable";
 import ViewRestaurantDetails from "../../../Components/RestaurantListPage/ViewRestaurantDetails";
 
@@ -20,6 +28,9 @@ const RestaurantListPage = () => {
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(true);
+  const [loadingAddNewResturant, setLoadingAddNewResturant] = useState(false);
+  const [openAddNewResturant, setOpenAddNewResturant] = useState(false);
+  const [form] = Form.useForm();
 
   //* It's Use to Show Modal
   const [isServiceUserViewModalVisible, setIsServiceUserViewModalVisible] =
@@ -46,7 +57,7 @@ const RestaurantListPage = () => {
   const filteredData = useMemo(() => {
     if (!searchText) return data;
     return data.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
+      item.restaurantName.toLowerCase().includes(searchText.toLowerCase())
     );
   }, [data, searchText]);
 
@@ -61,6 +72,36 @@ const RestaurantListPage = () => {
 
   const handleCancel = () => {
     setIsServiceUserViewModalVisible(false);
+  };
+
+  const showModalAddNewResturant = () => {
+    setOpenAddNewResturant(true);
+  };
+
+  // const handleOkAddNewResturant = () => {
+  //   setLoadingAddNewResturant(true);
+  //   setTimeout(() => {
+  //     setLoadingAddNewResturant(false);
+  //     // setOpenAddNewResturant(false);
+  //   }, 2000);
+  // };
+
+  const handleCancelAddNewResturant = () => {
+    setOpenAddNewResturant(false);
+  };
+
+  const handleNewResturantData = (values) => {
+    console.log(values);
+    setLoadingAddNewResturant(true);
+
+
+    setTimeout(() => {
+          form.resetFields();
+    }, 1000);
+    setTimeout(() => {
+      handleCancelAddNewResturant();
+      setLoadingAddNewResturant(false);
+    }, 2000);
   };
 
   return (
@@ -79,7 +120,7 @@ const RestaurantListPage = () => {
               theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
             >
               <Input
-                placeholder="Search User..."
+                placeholder="Search Restaurant Name..."
                 value={searchText}
                 onChange={(e) => onSearch(e.target.value)}
                 className="text-primary-color font-semibold !border-primary-color !bg-transparent py-2 !rounded-full"
@@ -91,10 +132,91 @@ const RestaurantListPage = () => {
           </div>
         </div>
       </div>
-      <div className="my-4 text-end me-8
-      ">
-        <Button className="text-xl font-bold bg-secondary-color text-white px-4 py-6 me-2">+Add New Restaurant</Button>
+      <div
+        className="my-4 text-end me-8
+      "
+      >
+        <Button
+          onClick={showModalAddNewResturant}
+          className="text-xl font-bold bg-secondary-color text-white px-4 py-6 me-2"
+        >
+          +Add New Restaurant
+        </Button>
       </div>
+
+      <Modal
+        open={openAddNewResturant}
+        title={<p className="text-3xl font-bold">Add New Restaurant</p>}
+        onOk={handleCancelAddNewResturant}
+        onCancel={handleCancelAddNewResturant}
+        footer={[]}
+        className="!w-[700px]"
+      >
+        <Form form={form} onFinish={handleNewResturantData}>
+          <Typography.Title level={4} style={{ color: "#222222" }}>
+            Restaurant Name
+          </Typography.Title>
+          <Form.Item
+            rules={[{ required: true }]}
+            name="restaurantName"
+            className="text-white"
+          >
+            <Input
+              placeholder="Enter Restaurant Name"
+              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+            />
+          </Form.Item>
+          <Typography.Title level={4} style={{ color: "#222222" }}>
+            Location
+          </Typography.Title>
+          <Form.Item
+            rules={[{ required: true }]}
+            name="location"
+            className="text-white"
+          >
+            <Input
+              placeholder="Enter location"
+              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+            />
+          </Form.Item>
+          <Typography.Title level={4} style={{ color: "#222222" }}>
+            Assigned Owner
+          </Typography.Title>
+          <Form.Item
+            rules={[{ required: true }]}
+            name="assignedOwner"
+            className="text-white"
+          >
+            <Input
+              placeholder="Enter Assigned Owner"
+              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+            />
+          </Form.Item>
+          <Typography.Title level={4} style={{ color: "#222222" }}>
+            Phone No
+          </Typography.Title>
+          <Form.Item
+            rules={[{ required: true }]}
+            name="phoneNo"
+            className="text-white"
+          >
+            <Input
+              placeholder="Enter Phone No"
+              type="tel"
+              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+            />
+          </Form.Item>
+          <Button
+            key="submit"
+            type="primary"
+            className="w-full !py-5"
+            loading={loadingAddNewResturant}
+            htmlType="submit"
+          >
+            Save
+          </Button>
+        </Form>
+      </Modal>
 
       {/* Table  */}
       <div className="px-10 pb-10">

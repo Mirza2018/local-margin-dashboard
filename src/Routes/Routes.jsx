@@ -31,7 +31,7 @@ import StaffPage from "../Pages/Role/RestaurantOwner/StaffPage";
 
 import Announcement from "../Pages/Role/RestaurantOwner/DataManagementPages/Announcement";
 import Disclaimer from "../Pages/Role/RestaurantOwner/DataManagementPages/Disclaimer";
-import FAQ from "../Pages/Role/RestaurantOwner/DataManagementPages/FAQ";
+
 import InstructionandGuide from "../Pages/Role/RestaurantOwner/DataManagementPages/InstructionandGuide";
 import PrivacyPolicy from "../Pages/Role/RestaurantOwner/DataManagementPages/PrivacyPolicy";
 import TermsofService from "../Pages/Role/RestaurantOwner/DataManagementPages/TermsofService";
@@ -39,6 +39,7 @@ import SettingPage from "../Pages/Role/RestaurantOwner/SettingPage";
 import AllOverview from "../Pages/Role/Admin/AllOverview";
 import UserList from "../Pages/Role/Admin/UserList";
 import RestaurantListPage from "../Pages/Role/Admin/RestaurantListPage";
+import FAQ from "../Components/Dashboard/FAQ/FAQ";
 
 function AuthRedirect() {
   const navigate = useNavigate();

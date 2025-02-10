@@ -28,8 +28,8 @@ const RestaurantListTable = ({
     },
     {
       title: "Restaurant Name",
-      dataIndex: "Restaurant Name",
-      key: "Restaurant Name",
+      dataIndex: "restaurantName",
+      key: "restaurantName",
       // render: (text) => (
       //   <div className="flex items-center gap-2">
       //     <img

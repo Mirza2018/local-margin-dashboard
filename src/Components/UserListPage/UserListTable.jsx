@@ -70,6 +70,17 @@ const UserListTable = ({
       title: "Status",
       dataIndex: "status",
       key: "status",
+      filters: [
+        {
+          text: "Active",
+          value: "true",
+        },
+        {
+          text: "Inactive",
+          value: "false",
+        },
+      ],
+      onFilter: (value, record) => record.status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
           {text ? (

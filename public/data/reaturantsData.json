@@ -1,7 +1,7 @@
 [
   {
     "UID": "#001",
-    "Restaurant Name": "The Golden Spoon",
+    "restaurantName": "The Golden Spoon",
     "Assigned Owner": "Alice Johnson",
     "Total Queries": 1234,
     "Location": "New York, NY",
@@ -10,7 +10,7 @@
   },
   {
     "UID": "#002",
-    "Restaurant Name": "The Silver Fork",
+    "restaurantName": "The Silver Fork",
     "Assigned Owner": "Bob Smith",
     "Total Queries": 5678,
     "Location": "Los Angeles, CA",
@@ -19,7 +19,7 @@
   },
   {
     "UID": "#003",
-    "Restaurant Name": "The Bronze Knife",
+    "restaurantName": "The Bronze Knife",
     "Assigned Owner": "Emma Davis",
     "Total Queries": 9012,
     "Location": "Chicago, IL",
@@ -28,7 +28,7 @@
   },
   {
     "UID": "#004",
-    "Restaurant Name": "The Platinum Spoon",
+    "restaurantName": "The Platinum Spoon",
     "Assigned Owner": "David Wilson",
     "Total Queries": 3456,
     "Location": "Miami, FL",
@@ -37,7 +37,7 @@
   },
   {
     "UID": "#005",
-    "Restaurant Name": "The Copper Fork",
+    "restaurantName": "The Copper Fork",
     "Assigned Owner": "Sophia Lee",
     "Total Queries": 7890,
     "Location": "San Francisco, CA",
@@ -46,7 +46,7 @@
   },
   {
     "UID": "#006",
-    "Restaurant Name": "The Titanium Knife",
+    "restaurantName": "The Titanium Knife",
     "Assigned Owner": "James Martinez",
     "Total Queries": 2345,
     "Location": "Seattle, WA",
@@ -55,7 +55,7 @@
   },
   {
     "UID": "#007",
-    "Restaurant Name": "The Silver Spoon",
+    "restaurantName": "The Silver Spoon",
     "Assigned Owner": "Olivia Garcia",
     "Total Queries": 6789,
     "Location": "Austin, TX",
@@ -64,7 +64,7 @@
   },
   {
     "UID": "#008",
-    "Restaurant Name": "The Gold Fork",
+    "restaurantName": "The Gold Fork",
     "Assigned Owner": "William Rodriguez",
     "Total Queries": 1234,
     "Location": "Denver, CO",
@@ -73,7 +73,7 @@
   },
   {
     "UID": "#009",
-    "Restaurant Name": "The Diamond Knife",
+    "restaurantName": "The Diamond Knife",
     "Assigned Owner": "Ava Nguyen",
     "Total Queries": 5678,
     "Location": "Portland, OR",
@@ -82,7 +82,7 @@
   },
   {
     "UID": "#010",
-    "Restaurant Name": "The Rustic Spoon",
+    "restaurantName": "The Rustic Spoon",
     "Assigned Owner": "Ethan Kim",
     "Total Queries": 9012,
     "Location": "Boston, MA",

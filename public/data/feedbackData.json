@@ -3,7 +3,7 @@
     "UID": "001",
     "Feedback": "What are today's specials?",
     "Staff": "Lisa Ackermann",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "24 Jan, 2024",
     "Action": "Resolve"
   },
@@ -11,7 +11,7 @@
     "UID": "002",
     "Feedback": "Why is the system slow today?",
     "Staff": "John Smith",
-    "Status": "Pending",
+    "Status": false,
     "Submitted On": "25 Jan, 2024",
     "Action": "Resolve"
   },
@@ -19,7 +19,7 @@
     "UID": "003",
     "Feedback": "How can we improve user experience?",
     "Staff": "Emily Johnson",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "26 Jan, 2024",
     "Action": "Resolve"
   },
@@ -27,7 +27,7 @@
     "UID": "004",
     "Feedback": "Any reported bugs in the system?",
     "Staff": "Michael Brown",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "27 Jan, 2024",
     "Action": "Resolve"
   },
@@ -35,7 +35,7 @@
     "UID": "005",
     "Feedback": "Is the new feature ready for release?",
     "Staff": "Sophia Martinez",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "28 Jan, 2024",
     "Action": "Resolve"
   },
@@ -43,7 +43,7 @@
     "UID": "006",
     "Feedback": "Any pending customer requests?",
     "Staff": "Daniel Wilson",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "29 Jan, 2024",
     "Action": "Resolve"
   },
@@ -51,7 +51,7 @@
     "UID": "007",
     "Feedback": "What are the top customer complaints?",
     "Staff": "Olivia Anderson",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "30 Jan, 2024",
     "Action": "Resolve"
   },
@@ -59,7 +59,7 @@
     "UID": "008",
     "Feedback": "How can we improve website load time?",
     "Staff": "Rachel Lee",
-    "Status": "Pending",
+    "Status": false,
     "Submitted On": "31 Jan, 2024",
     "Action": "Resolve"
   },
@@ -67,7 +67,7 @@
     "UID": "009",
     "Feedback": "Is there a way to enhance mobile app performance?",
     "Staff": "David King",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "1 Feb, 2024",
     "Action": "Resolve"
   },
@@ -75,7 +75,7 @@
     "UID": "010",
     "Feedback": "Can we add more customization options for users?",
     "Staff": "Sophia Green",
-    "Status": "Pending",
+    "Status": false,
     "Submitted On": "2 Feb, 2024",
     "Action": "Resolve"
   },
@@ -83,7 +83,7 @@
     "UID": "011",
     "Feedback": "Do we have any analytics on user behavior?",
     "Staff": "James Wilson",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "3 Feb, 2024",
     "Action": "Resolve"
   },
@@ -91,7 +91,7 @@
     "UID": "012",
     "Feedback": "Why isn't the chat feature working?",
     "Staff": "Amelia Turner",
-    "Status": "Pending",
+    "Status": false,
     "Submitted On": "4 Feb, 2024",
     "Action": "Resolve"
   },
@@ -99,7 +99,7 @@
     "UID": "013",
     "Feedback": "Can we integrate social media login options?",
     "Staff": "Lucas Scott",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "5 Feb, 2024",
     "Action": "Resolve"
   },
@@ -107,7 +107,7 @@
     "UID": "014",
     "Feedback": "Is the customer support team properly trained?",
     "Staff": "Grace Martinez",
-    "Status": "Resolved",
+    "Status": true,
     "Submitted On": "6 Feb, 2024",
     "Action": "Resolve"
   },
@@ -115,7 +115,7 @@
     "UID": "015",
     "Feedback": "Any new features planned for next quarter?",
     "Staff": "John Evans",
-    "Status": "Pending",
+    "Status": false,
     "Submitted On": "7 Feb, 2024",
     "Action": "Resolve"
   }
