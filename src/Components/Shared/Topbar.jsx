@@ -71,6 +71,10 @@ const Topbar = ({ collapsed, setCollapsed }) => {
       </Link>
     </div>
   );
+
+  const info = JSON.parse(localStorage.getItem("home_care_user"));
+  console.log("role", info.role);
+
   return (
     <div className="py-4 mx-[-40px] flex justify-between items-center bg-[#F2C470]  rounded-full  mt-2">
       <div className="flex items-center gap-2 text-base-color ml-4">
@@ -105,7 +109,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
             <div>
               <p className="text-black text-sm font-bold">David Wilson</p>
               <p className="text-xs font-normal !hover:bg-secondary-color">
-                Admin
+                {info.role == "admin" ? "Admin" : "Restaurant Owner"}
               </p>
             </div>
           </div>
