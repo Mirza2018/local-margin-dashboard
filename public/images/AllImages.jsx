@@ -42,6 +42,7 @@ import announcement from "./menuItems/Announcement.svg";
 import settings from "./menuItems/Settings.svg";
 import profile from "./menuItems/Profile.svg";
 import logOut from "./menuItems/Log Out.svg";
+import quick from "./menuItems/quick.svg";
 
 export const AllImages = {
   logo,
@@ -87,4 +88,5 @@ export const AllIcons = {
   settings,
   profile,
   logOut,
+  quick
 };

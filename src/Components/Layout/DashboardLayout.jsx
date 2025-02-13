@@ -143,6 +143,18 @@ const DashboardLayout = () => {
       ),
       children: [
         {
+          key: "quick-start",
+          icon: (
+            <img
+              src={AllIcons.quick}
+              alt="quick-start"
+              width={16}
+              height={16}
+            />
+          ),
+          label: <NavLink to="quick-start">Quick Start Guide</NavLink>,
+        },
+        {
           key: "privacy",
           icon: (
             <img src={AllIcons.privacy} alt="privacy" width={16} height={16} />

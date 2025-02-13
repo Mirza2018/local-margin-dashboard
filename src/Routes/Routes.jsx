@@ -40,6 +40,7 @@ import AllOverview from "../Pages/Role/Admin/AllOverview";
 import UserList from "../Pages/Role/Admin/UserList";
 import RestaurantListPage from "../Pages/Role/Admin/RestaurantListPage";
 import FAQ from "../Components/Dashboard/FAQ/FAQ";
+import QuickStartGuide from "../Pages/Role/RestaurantOwner/DataManagementPages/QuickStartGuide";
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -170,6 +171,10 @@ const router = createBrowserRouter([
       {
         path: "settings/update-password",
         element: <SettingsUpdatePassword />,
+      },
+      {
+        path: "quick-start",
+        element: <QuickStartGuide/>,
       },
       {
         path: "privacy",
