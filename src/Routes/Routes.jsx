@@ -133,7 +133,7 @@ const router = createBrowserRouter([
   {
     path: "admin",
     element: (
-      <ProtectedRoute role="admin">
+      <ProtectedRoute role="ADMIN">
         <DashboardLayout />
       </ProtectedRoute>
     ),
@@ -174,7 +174,7 @@ const router = createBrowserRouter([
       },
       {
         path: "quick-start",
-        element: <QuickStartGuide/>,
+        element: <QuickStartGuide />,
       },
       {
         path: "privacy",

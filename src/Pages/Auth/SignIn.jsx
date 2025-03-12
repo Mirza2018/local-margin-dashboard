@@ -2,14 +2,51 @@ import { Link, useNavigate } from "react-router-dom";
 import { AllImages } from "../../../public/images/AllImages";
 import { Button, Checkbox, Form, Input, Select, Typography } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { useUserLoginMutation } from "../../redux/api/authApi";
+import { useDispatch } from "react-redux";
+import Cookies from "universal-cookie";
+import { toast } from "sonner";
+import { setAccessToken, setUserInfo } from "../../redux/slices/authSlice";
 
 const SignIn = () => {
   const navigate = useNavigate(); // useNavigate hook for navigation
+  const [userLogin] = useUserLoginMutation();
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
+  const onFinish = async (values) => {
+    const toastId = toast.loading(" Logging in...");
 
-  const onFinish = (values) => {
-    localStorage.removeItem("home_care_user");
-    localStorage.setItem("home_care_user", JSON.stringify(values));
-    navigate("/"); // Correct use of navigate function
+    console.log(values);
+    try {
+      const res = await userLogin(values).unwrap();
+      //* Dispatch the accessToken and userInfo to Redux store
+      dispatch(setAccessToken(res?.data?.accessToken));
+      dispatch(setUserInfo(res?.data?.user));
+      cookies.set("localMargin_accessToken", res?.data?.accessToken, {
+        path: "/",
+      });
+      console.log("res: ", res);
+
+      toast.success(res.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      // Navigate after login
+      // navigate.refresh();
+      navigate("/admin/overview");
+    } catch (error) {
+      console.error("Login Error:", error); // Log the error for debugging
+
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during Login",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
   return (
     <div className="text-base-color">
@@ -75,7 +112,7 @@ const SignIn = () => {
             <Typography.Title level={4} style={{ color: "#222222" }}>
               Role
             </Typography.Title>
-            <Form.Item
+            {/* <Form.Item
               rules={[{ required: true }]}
               name="role"
               className="text-white"
@@ -92,7 +129,7 @@ const SignIn = () => {
                   Restaurant Owner
                 </Select.Option>
               </Select>
-            </Form.Item>
+            </Form.Item> */}
             <div className="flex justify-between items-center mt-10">
               <Checkbox className="">Remember me</Checkbox>
               <Link
