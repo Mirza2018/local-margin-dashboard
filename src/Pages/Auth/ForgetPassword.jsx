@@ -2,13 +2,40 @@ import { Button, Form, Input } from "antd";
 
 import { useNavigate } from "react-router-dom";
 import { AllIcons, AuthImages } from "../../../public/images/AllImages";
-
+import { useUserForgotEmailMutation } from "../../redux/api/authApi";
+import { toast } from "sonner";
+ 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+  const [emailData] = useUserForgotEmailMutation();
 
-  const onFinish = (values) => {
+  const onFinish =async (values) => {
     console.log("Success:", values);
-    navigate("/verify-otp");
+      localStorage.removeItem("localMargin-otpMatchToken");
+    localStorage.removeItem("localMargin-forgetToken");
+    console.log("Success:", values);
+    // navigate("/verify-otp");
+    const toastId = toast("OTP sending...");
+    console.log(values);
+    try {
+      const res = await emailData(values).unwrap();
+      console.log(res);
+      localStorage.setItem(
+        "localMargin-forgetToken",
+        res?.data?.forgotPasswordToken
+      );
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate("/verify-otp");
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.data?.message || "An error occurred during Signup", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
   return (
     <div className="text-base-color">

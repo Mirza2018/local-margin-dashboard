@@ -17,34 +17,32 @@ const StaffTable = ({
   showViewServiceUserModal,
   pageSize = 0,
 }) => {
-  // Filter data based on the selected company (this will apply to the table)
-
   const columns = [
     {
       title: "#UID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "UID",
+      key: "UID",
       responsive: ["md"],
     },
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
-      // render: (text) => (
-      //   <div className="flex items-center gap-2">
-      //     <img
-      //       src={AllImages.userImage}
-      //       alt={text}
-      //       className="w-8 h-8 rounded-full"
-      //     />
-      //     <p>{text}</p>
-      //   </div>
-      // ),
+      dataIndex: "profile",
+      key: "profile",
+      render: (text) => (
+        <div className="flex items-center gap-2">
+          <p>{text?.name}</p>
+        </div>
+      ),
     },
     {
       title: "Gender",
-      dataIndex: "gender",
-      key: "gender",
+      dataIndex: "profile",
+      key: "profile",
+      render: (text) => (
+        <div className="flex items-center gap-2">
+          <p>{text?.gender}</p>
+        </div>
+      ),
     },
     {
       title: "E-mail",
@@ -52,9 +50,13 @@ const StaffTable = ({
       key: "email",
     },
     {
-      title: "Phone No",
-      dataIndex: "phone",
-      key: "phone",
+      dataIndex: "profile",
+      key: "profile",
+      render: (text) => (
+        <div className="flex items-center gap-2">
+          <p>{text?.contactNo}</p>
+        </div>
+      ),
     },
     {
       title: "Status",
@@ -63,17 +65,17 @@ const StaffTable = ({
       filters: [
         {
           text: "Active",
-          value: "true",
+          value: "ACTIVE",
         },
         {
           text: "Inactive",
-          value: "false",
+          value: "INACTIVE",
         },
       ],
-      onFilter: (value, record) => record.status.toString() === value,
+      // onFilter: (value, record) => record.status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
-          {text ? (
+          {text == "ACTIVE" ? (
             <p className="text-base font-bold text-[#15D26A]">Active</p>
           ) : (
             <p className="text-base font-bold text-[#FC2E1C]">Inactive</p>

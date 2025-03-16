@@ -72,7 +72,7 @@ const router = createBrowserRouter([
   {
     path: "restaurantOwner",
     element: (
-      <ProtectedRoute role="restaurantOwner">
+      <ProtectedRoute role="RESTAURANT_OWNER">
         <DashboardLayout />
       </ProtectedRoute>
     ),
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
       {
         path: "overview",
         element: <OverviewPage />,
-      },
+      }, 
       {
         path: "staff",
         element: <StaffPage />,
@@ -143,13 +143,14 @@ const router = createBrowserRouter([
         element: <AllOverview />,
       },
       {
-        path: "user-list",
-        element: <UserList />,
-      },
-      {
         path: "restaurant-list",
         element: <RestaurantListPage />,
       },
+      {
+        path: "user-list",
+        element: <UserList />,
+      },
+
       {
         path: "notifications",
         element: <Notifications />,

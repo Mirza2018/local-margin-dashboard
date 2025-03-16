@@ -16,149 +16,93 @@ const FeedbackTable = ({
   const columns = [
     {
       title: "#UID",
-      dataIndex: "UID",
-      key: "UID",
+      dataIndex: "_id",
+      key: "_id",
       responsive: ["md"],
+      render: (id, _, index) => <div>{index + 1}</div>,
     },
     {
       title: "Feedback",
-      dataIndex: "Feedback",
-      key: "Feedback",
-      // render: (text) => (
-      //   <div className="flex items-center gap-2">
-      //     <img
-      //       src={AllImages.userImage}
-      //       alt={text}
-      //       className="w-8 h-8 rounded-full"
-      //     />
-      //     <p>{text}</p>
-      //   </div>
-      // ),
+      dataIndex: "comment",
+      key: "comment",
     },
     {
       title: "Staff",
-      dataIndex: "Staff",
-      key: "Staff",
+      dataIndex: "staffName",
+      key: "staffName",
     },
     {
       title: "Status",
-      dataIndex: "Status",
-      key: "Status",
+      dataIndex: "status",
+      key: "status",
       filters: [
         {
           text: "Resolved",
-          value: "true",
+          value: "resolved",
         },
         {
           text: "Pending",
-          value: "false",
+          value: "pending",
         },
       ],
       onFilter: (value, record) => record.Status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
-          {text ? (
+          {text === "resolved" ? (
             <p className="text-base font-bold text-[#15D26A]">Resolved</p>
           ) : (
-            <p className="text-base font-bold text-secondary-color">Pending</p>
+            <>
+              {text === "pending" ? (
+                <p className="text-base font-bold text-secondary-color">
+                  Pending
+                </p>
+              ) : (
+                <p className="text-base font-bold text-red-500">Rejected</p>
+              )}
+            </>
           )}
         </div>
       ),
     },
     {
       title: "Submitted On",
-      dataIndex: "Submitted On",
-      key: "Submitted On",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => {
+        const cleanedText = text.replace("=", "").split("T")[0];
+
+        return <div>{cleanedText}</div>;
+      },
     },
     {
       title: "Action",
-      dataIndex: "Action",
-      key: "Action",
-      render: (text) => (
-        <div className=" bg-secondary-color text-base font-bold text-white p-[10px] w-fit">
-          {text}
+      dataIndex: "status",
+      key: "status",
+      render: (text, record) => (
+        <div>
+          {text == "resolved" ? (
+            <p className=" bg-green-700 text-base font-bold text-white p-[10px] w-fit cursor-pointer">
+              {text}
+            </p>
+          ) : (
+            <>
+              {text === "pending" ? (
+                <p
+                  onClick={() => showViewServiceUserModal(record)}
+                  className=" bg-secondary-color text-base font-bold text-white p-[10px] w-fit cursor-pointer"
+                >
+                  {text}
+                </p>
+              ) : (
+                <p className=" bg-red-500 text-base font-bold text-white p-[10px] w-fit cursor-pointer">
+                  {text}
+                </p>
+              )}
+            </>
+          )}
         </div>
       ),
     },
-
-    // {
-    //   title: "Company Name",
-    //   dataIndex: "companyName",
-    //   key: "companyName",
-    //   filterDropdown: ({ setSelectedKeys, confirm, clearFilters }) => (
-    //     <div style={{ padding: 8 }}>
-    //       {/* Search input for filtering the dropdown */}
-    //       <Input
-    //         placeholder="Search Company"
-    //         value={searchTerm}
-    //         onChange={(e) => setSearchTerm(e.target.value)} // Update the search term
-    //         style={{ width: 188, marginBottom: 8 }}
-    //       />
-    //       <div className="flex flex-col items-start">
-    //         {/* Display filtered company names as buttons */}
-    //         {filteredCompanyNames.map((companyName) => (
-    //           <Button
-    //             className="!text-[#19363D]"
-    //             key={companyName}
-    //             type="link"
-    //             onClick={() => {
-    //               setSelectedKeys([companyName]); // Set selected filter value
-    //               setSearchTerm(companyName); // Update the selected company filter
-    //               setSelectedCompany(companyName); // Update the selected company filter
-    //               confirm(); // Apply the filter
-    //             }}
-    //           >
-    //             {companyName}
-    //           </Button>
-    //         ))}
-    //       </div>
-    //       <Space style={{ marginTop: 8 }}>
-    //         <Button
-    //           type="link"
-    //           onClick={() => {
-    //             clearFilters && clearFilters(); // Clear the filter
-    //             setSelectedKeys([]);
-    //             setSearchTerm(""); // Clear the search input field
-    //             setSelectedCompany(""); // Clear the selected company filter
-    //             confirm();
-    //           }}
-    //         >
-    //           Reset
-    //         </Button>
-    //         <Button type="link" onClick={() => confirm && confirm()}>
-    //           OK
-    //         </Button>
-    //       </Space>
-    //     </div>
-    //   ),
-    //   filters: filteredCompanyNames.map((companyName) => ({
-    //     text: companyName,
-    //     value: companyName,
-    //   })),
-    //   onFilter: (value, record) => record.companyName === value, // Filter by exact company name match
-    // },
-    // {
-    //   title: "Action",
-    //   key: "action",
-    //   render: (_, record) => (
-    //     <Space size="middle">
-    //       {/* View Details Tooltip */}
-    //       <Tooltip placement="right" title="View Details">
-    //         <Button
-    //           className="!p-0"
-    //           style={{
-    //             background: "#FFFFFF",
-    //             border: "none",
-    //             color: "#222222",
-    //           }}
-    //           onClick={() => showViewServiceUserModal(record)}
-    //         >
-    //           <GoEye style={{ fontSize: "24px" }} />
-    //         </Button>
-    //       </Tooltip>
-    //     </Space>
-    //   ),
-    // },
   ];
 
   return (

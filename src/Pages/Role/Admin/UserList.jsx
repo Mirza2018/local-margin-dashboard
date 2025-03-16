@@ -6,15 +6,14 @@ import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import UserListTable from "../../../Components/UserListPage/UserListTable";
 import ViewUserDetails from "../../../Components/UserListPage/ViewUserDetails";
-
-
-//* Modal Table
-
-// import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
-// import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
-
+import { useGetAllusersListQuery } from "../../../redux/api/usersApi";
+ 
 const UserList = () => {
+  const { data: userData, isLoading } = useGetAllusersListQuery();
+
   //* Store Search Value
+  // console.log(userData?.data, isLoading);
+
   const [searchText, setSearchText] = useState("");
 
   //* Use to set user
@@ -45,11 +44,11 @@ const UserList = () => {
   }, []);
 
   const filteredData = useMemo(() => {
-    if (!searchText) return data;
-    return data.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
+    if (!searchText) return userData?.data;
+    return userData?.data.filter((item) =>
+      item?.profile?.name?.toLowerCase().includes(searchText.toLowerCase())
     );
-  }, [data, searchText]);
+  }, [userData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -95,7 +94,7 @@ const UserList = () => {
       <div className="px-10 py-10">
         <UserListTable
           data={filteredData}
-          loading={loading}
+          loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
           pageSize={12}
         />

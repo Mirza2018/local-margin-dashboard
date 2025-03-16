@@ -8,10 +8,14 @@ import { SearchOutlined } from "@ant-design/icons";
 //* Modal Table
 import QueriesTable from "../../../Components/QueriesPage/QueriesTable";
 import ViewQueriesDetails from "../../../Components/QueriesPage/ViewQueriesDetails";
+import { useGetAllqueryListQuery } from "../../../redux/api/queryApi";
 // import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
 const QueriesPage = () => {
+  const { data: queryData, isFetching } = useGetAllqueryListQuery();
+  // console.log("queryData",queryData?.data);
+
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -27,27 +31,12 @@ const QueriesPage = () => {
   //* It's Use to Set Seclected User to Block and view
   const [currentRecord, setCurrentRecord] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/queries.json");
-        setData(response?.data); // Make sure this is an array
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const filteredData = useMemo(() => {
-    if (!searchText) return data;
-    return data.filter((item) =>
-      item.query.toLowerCase().includes(searchText.toLowerCase())
+    if (!searchText) return queryData?.data;
+    return queryData?.data.filter((item) =>
+      item?.query.toLowerCase().includes(searchText.toLowerCase())
     );
-  }, [data, searchText]);
+  }, [queryData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -95,7 +84,7 @@ const QueriesPage = () => {
       <div className="px-10 py-10">
         <QueriesTable
           data={filteredData}
-          loading={loading}
+          loading={isFetching}
           showViewServiceUserModal={showViewServiceUserModal}
           pageSize={12}
         />

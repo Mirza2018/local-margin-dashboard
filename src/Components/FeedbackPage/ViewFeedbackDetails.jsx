@@ -1,12 +1,56 @@
 /* eslint-disable react/prop-types */
 import { Button, ConfigProvider, Modal } from "antd";
 import { AllImages } from "../../../public/images/AllImages";
+import { toast } from "sonner";
+import { useFeedbackActionMutation } from "../../redux/api/queryApi";
 
 const ViewFeedbackDetails = ({
   isServiceUserViewModalVisible,
   handleCancel,
   currentRecord,
 }) => {
+  const [feedbackAction] = useFeedbackActionMutation();
+
+  const resolveActions = async (action) => {
+    const toastId = toast.loading("Blocking user...");
+    const id = currentRecord?._id;
+
+    let data;
+    if ((action = "del")) {
+      data = {
+        status: "rejected",
+      };
+    } else {
+      data = {
+        status: "resolved",
+      };
+    }
+
+    
+
+    try {
+      const res = await feedbackAction({ data, id }).unwrap();
+      console.log(res);
+      toast.success(res?.message || res?.data?.message || "User is Blocked", {
+        id: toastId,
+        duration: 2000,
+      });
+      handleCancel();
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during blocked user",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+  };
+
   return (
     <Modal
       title={[]}
@@ -19,22 +63,22 @@ const ViewFeedbackDetails = ({
             theme={{
               components: {
                 Button: {
-                  colorPrimary: "#0694FF",
-                  colorPrimaryActive: "#0694FF",
-                  colorPrimaryBg: "#0694FF",
-                  colorPrimaryBgHover: "#256fa8",
-                  colorPrimaryHover: "#256fa8",
-                  colorPrimaryTextActive: "#0694FF",
+                  colorPrimary: "#f34747",
+                  colorPrimaryActive: "#f34747",
+                  colorPrimaryBg: "#f34747",
+                  colorPrimaryBgHover: "#df5555",
+                  colorPrimaryHover: "#df5555",
+                  colorPrimaryTextActive: "#f34747",
                 },
               },
             }}
           >
             <Button
-              onClick={handleCancel}
+              onClick={() => resolveActions("del")}
               type="primary"
               className="text-base px-9  font-mediumtext-white rounded-none"
             >
-              Cancel
+              Reject
             </Button>
           </ConfigProvider>
           <ConfigProvider
@@ -52,37 +96,19 @@ const ViewFeedbackDetails = ({
             }}
           >
             <Button
+              onClick={resolveActions}
               type="primary"
               className="text-base  font-mediumtext-white rounded-none"
             >
-              Delete User
+              Resolve
             </Button>
           </ConfigProvider>
         </div>,
       ]}
       style={{ textAlign: "center" }}
-      className="lg:!w-[500px]"
+      // className="w-[500px]"
     >
-      <div className="flex flex-col justify-center items-center ">
-        {/* Avatar */}
-        <img
-          src={AllImages.userImage}
-          alt={currentRecord?.userName}
-          className="h-32 aspect-square object-cover rounded-lg"
-        />
-        <div className="mt-[6px ] flex flex-col justify-center items-center gap-[12px] text-black">
-          <h1 className="text-base font-semibold">{currentRecord?.name}</h1>
-          <h1 className="text-base font-medium">
-            Join Date : {currentRecord?.joinDate}
-          </h1>
-          <h1 className="text-base font-medium">
-            Total Queries : {currentRecord?.queries}
-          </h1>
-          <h1 className="text-base font-medium">
-            Feedback : {currentRecord?.feedback}
-          </h1>
-        </div>
-      </div>
+      <h1 className="text-xl font-semibold mb-10">Resolve this FeedBack</h1>
     </Modal>
   );
 };

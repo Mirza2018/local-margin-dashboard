@@ -6,7 +6,7 @@ import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import StaffTable from "../../../Components/StaffPage/StaffTable";
 import ViewStaffDetails from "../../../Components/StaffPage/ViewStaffDetails";
-
+import { useGetAllStaffListQuery } from "../../../redux/api/usersApi";
 
 //* Modal Table
 
@@ -14,7 +14,10 @@ import ViewStaffDetails from "../../../Components/StaffPage/ViewStaffDetails";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
 const StaffPage = () => {
+  const { data: StaffData, isFetching: isLoading } = useGetAllStaffListQuery();
   //* Store Search Value
+  console.log(StaffData, isLoading);
+
   const [searchText, setSearchText] = useState("");
 
   //* Use to set user
@@ -29,27 +32,12 @@ const StaffPage = () => {
   //* It's Use to Set Seclected User to Block and view
   const [currentRecord, setCurrentRecord] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/staffData.json");
-        setData(response?.data); // Make sure this is an array
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const filteredData = useMemo(() => {
-    if (!searchText) return data;
-    return data.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
+    if (!searchText) return StaffData?.data;
+    return StaffData?.data?.filter((item) =>
+      item?.email.toLowerCase().includes(searchText.toLowerCase())
     );
-  }, [data, searchText]);
+  }, [StaffData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -97,7 +85,7 @@ const StaffPage = () => {
       <div className="px-10 py-10">
         <StaffTable
           data={filteredData}
-          loading={loading}
+          loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
           pageSize={12}
         />

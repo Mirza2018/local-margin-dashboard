@@ -1,5 +1,5 @@
 / eslint-disable no-unused-vars /;
-import { DatePicker } from "antd";
+import { DatePicker, Spin } from "antd";
 import React from "react";
 import {
   Area,
@@ -28,13 +28,19 @@ const data = [
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
-const StaffOverviewAreaChart = ({title}) => {
+const StaffOverviewAreaChart = ({ title, isRatioLoading, ratioData }) => {
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;
 
   // Custom tick style
   const tickStyle = { fill: "#000000" };
-
+  if (isRatioLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
   return (
     <div className="py-5 bg-white rounded-lg">
       <div className="flex justify-between items-center mx-5 my-5">
@@ -47,7 +53,7 @@ const StaffOverviewAreaChart = ({title}) => {
       <div className="w-full  h-80">
         <ResponsiveContainer>
           <AreaChart
-            data={data}
+            data={ratioData}
             margin={{
               top: 20,
               right: 30,
@@ -83,7 +89,7 @@ const StaffOverviewAreaChart = ({title}) => {
             />
             <Area
               type="monotone"
-              dataKey="user"
+              dataKey="staff"
               stroke=""
               fill="url(#colorName)"
             />

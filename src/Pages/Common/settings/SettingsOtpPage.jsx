@@ -1,19 +1,59 @@
 import { Button, Form } from "antd";
+import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import { IoChevronBackOutline } from "react-icons/io5";
 import OTPInput from "react-otp-input";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useForgotPassOtpMutation } from "../../../redux/api/authApi";
 
 const SettingsOtpPage = () => {
   const [otp, setOtp] = useState("");
+  const token = useSelector((state) => state.auth);
+  const decodeToken = jwtDecode(token?.accessToken);
+  let user;
+  if (decodeToken?.role === "ADMIN") {
+    user = "admin";
+  } else {
+    user = "restaurantOwner";
+  }
+  const [otpSubmit] = useForgotPassOtpMutation();
 
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("home_care_user"));
+  const handleOTPSubmit = async () => {
+    const toastId = toast("Otp Sending...");
 
-  const handleOTPSubmit = () => {
-    console.log("OTP:", otp);
-    navigate(`/${user.role}/settings/update-password`);
+    const data = {
+      otp: Number(otp),
+    };
+    console.log(data);
+
+    try {
+      const res = await otpSubmit(data).unwrap();
+      console.log(res);
+      localStorage.setItem(
+        "localMarging-otpMatchToken",
+        res?.data?.forgetOtpMatchToken
+      );
+      toast.success(res?.message || "Success", {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate(`/${user}/settings/update-password`);
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.res?.message ||
+          error?.data?.message ||
+          "An error occured during Send Opt Please try Again",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
 
   return (
@@ -59,7 +99,7 @@ const SettingsOtpPage = () => {
             <div className="flex justify-between py-1">
               <p className=" text-base-color text-lg">Didn’t get OTP?</p>
               <Link
-                to={`/${user.role}/settings/otp-page`}
+                to={`/${user}/settings/otp-page`}
                 className="text-[#FFAC76] hover:text-[#FFAC76] text-lg"
               >
                 Resend

@@ -16,8 +16,12 @@ const RestaurantListTable = ({
   loading,
   showViewServiceUserModal,
   pageSize = 0,
+  pageinationData,
+  handleTableChange,
+  paginationConfig,
 }) => {
   // Filter data based on the selected company (this will apply to the table)
+  console.log(pageinationData);
 
   const columns = [
     {
@@ -43,42 +47,44 @@ const RestaurantListTable = ({
     },
     {
       title: "Assigned Owner",
-      dataIndex: "Assigned Owner",
-      key: "Assigned Owner",
+      dataIndex: "profile",
+      key: "profile",
+      render: (name) => `${name?.name}`,
     },
     {
       title: "Total Queries",
-      dataIndex: "Total Queries",
-      key: "Total Queries",
+      dataIndex: "profile",
+      key: "profile",
+      render: (name) => `${name?.totalQuery}`,
     },
     {
       title: "Location",
-      dataIndex: "Location",
-      key: "Location",
+      dataIndex: "location",
+      key: "location",
     },
     {
       title: "Phone No",
-      dataIndex: "Phone No",
-      key: "Phone No",
+      dataIndex: "profile",
+      key: "profile",
+      render: (name) => `${name?.contactNo}`,
     },
     {
       title: "Status",
-      dataIndex: "Status",
-      key: "Status",
+      dataIndex: "status",
+      key: "status",
       filters: [
         {
-          text: "Active",
-          value: "true",
+          text: "ACTIVE",
+          value: "ACTIVE",
         },
         {
-          text: "Inactive",
-          value: "false",
+          text: "INACTIVATED",
+          value: "INACTIVATED",
         },
       ],
-      onFilter: (value, record) => record.Status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
-          {text ? (
+          {text == "ACTIVE" ? (
             <p className="text-base font-bold text-[#15D26A]">Active</p>
           ) : (
             <p className="text-base font-bold text-[#FC2E1C]">Inactive</p>
@@ -86,62 +92,7 @@ const RestaurantListTable = ({
         </div>
       ),
     },
-    // {
-    //   title: "Company Name",
-    //   dataIndex: "companyName",
-    //   key: "companyName",
-    //   filterDropdown: ({ setSelectedKeys, confirm, clearFilters }) => (
-    //     <div style={{ padding: 8 }}>
-    //       {/* Search input for filtering the dropdown */}
-    //       <Input
-    //         placeholder="Search Company"
-    //         value={searchTerm}
-    //         onChange={(e) => setSearchTerm(e.target.value)} // Update the search term
-    //         style={{ width: 188, marginBottom: 8 }}
-    //       />
-    //       <div className="flex flex-col items-start">
-    //         {/* Display filtered company names as buttons */}
-    //         {filteredCompanyNames.map((companyName) => (
-    //           <Button
-    //             className="!text-[#19363D]"
-    //             key={companyName}
-    //             type="link"
-    //             onClick={() => {
-    //               setSelectedKeys([companyName]); // Set selected filter value
-    //               setSearchTerm(companyName); // Update the selected company filter
-    //               setSelectedCompany(companyName); // Update the selected company filter
-    //               confirm(); // Apply the filter
-    //             }}
-    //           >
-    //             {companyName}
-    //           </Button>
-    //         ))}
-    //       </div>
-    //       <Space style={{ marginTop: 8 }}>
-    //         <Button
-    //           type="link"
-    //           onClick={() => {
-    //             clearFilters && clearFilters(); // Clear the filter
-    //             setSelectedKeys([]);
-    //             setSearchTerm(""); // Clear the search input field
-    //             setSelectedCompany(""); // Clear the selected company filter
-    //             confirm();
-    //           }}
-    //         >
-    //           Reset
-    //         </Button>
-    //         <Button type="link" onClick={() => confirm && confirm()}>
-    //           OK
-    //         </Button>
-    //       </Space>
-    //     </div>
-    //   ),
-    //   filters: filteredCompanyNames.map((companyName) => ({
-    //     text: companyName,
-    //     value: companyName,
-    //   })),
-    //   onFilter: (value, record) => record.companyName === value, // Filter by exact company name match
-    // },
+
     {
       title: "Action",
       key: "action",
@@ -172,9 +123,10 @@ const RestaurantListTable = ({
         columns={columns}
         dataSource={data} // Use the filtered data here based on selected company
         loading={loading}
-        pagination={pageSize > 0 ? { pageSize } : false}
+        pagination={paginationConfig}
         rowKey="id"
         scroll={{ x: true }}
+        onChange={handleTableChange}
       />
     </div>
   );

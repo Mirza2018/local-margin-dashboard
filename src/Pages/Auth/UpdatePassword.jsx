@@ -2,12 +2,44 @@ import { Button, Form, Input, Typography } from "antd";
 
 import { useNavigate } from "react-router-dom";
 import { AllIcons, AuthImages } from "../../../public/images/AllImages";
+import { useForgotPassResetMutation } from "../../redux/api/authApi";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { clearAuth } from "../../redux/slices/authSlice";
 
 const UpdatePassword = () => {
+   const [resetPass] = useForgotPassResetMutation();
   const navigate = useNavigate();
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    navigate("/signin");
+    const dispatch = useDispatch();
+    const [form] = Form.useForm();
+  const onFinish = async(values) => {
+    // console.log("Success:", values);
+    // navigate("/signin");
+    const toastId = toast("Password reseting...");
+    try {
+      const res = await resetPass(values).unwrap();
+      console.log(res);
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+
+      navigate("/signin");
+      localStorage.removeItem("localMargin-otpMatchToken");
+      localStorage.removeItem("localMargin-forgetToken");
+      dispatch(clearAuth());
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.res?.message ||
+          error?.data?.message ||
+          "An error occured during Reset Password",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
 
   return (

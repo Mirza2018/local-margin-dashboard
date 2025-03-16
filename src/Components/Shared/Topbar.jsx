@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import user from "/images/user.png";
 import { AllImages } from "../../../public/images/AllImages";
+import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 const notifications = [
   {
@@ -36,7 +38,15 @@ const notifications = [
 ];
 
 const Topbar = ({ collapsed, setCollapsed }) => {
-  const user = JSON.parse(localStorage.getItem("home_care_user"));
+  const token = useSelector(state => state.auth)
+  const decodeToken = jwtDecode(token?.accessToken);
+  let user;
+  if (decodeToken.role==="ADMIN") {
+    user="admin"
+  } else {
+    user = "restaurantOwner";
+  }
+  
   const [notificationCount, setNotificationCount] = useState(
     notifications.length
   );
@@ -72,8 +82,8 @@ const Topbar = ({ collapsed, setCollapsed }) => {
     </div>
   );
 
-  const info = JSON.parse(localStorage.getItem("home_care_user"));
-  console.log("role", info.role);
+  const info = {role:"admin"}
+
 
   return (
     <div className="py-4 mx-[-40px] flex justify-between items-center bg-[#F2C470]  rounded-full  mt-2">
@@ -109,7 +119,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
             <div>
               <p className="text-black text-sm font-bold">David Wilson</p>
               <p className="text-xs font-normal !hover:bg-secondary-color">
-                {info.role == "admin" ? "Admin" : "Restaurant Owner"}
+                {decodeToken.role == "ADMIN" ? "Admin" : "Restaurant Owner"}
               </p>
             </div>
           </div>

@@ -4,13 +4,14 @@ import { useState } from "react";
 import axios from "axios";
 import UserListTable from "../UserListPage/UserListTable";
 import ViewUserDetails from "../UserListPage/ViewUserDetails";
+import { useGetAllusersListQuery } from "../../redux/api/usersApi";
 
 //* Modal Table
 
 // import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
-const ShortUserList = ({ title }) => {
+const ShortUserList = ({ title, userData,isLoading }) => {
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -42,11 +43,11 @@ const ShortUserList = ({ title }) => {
   }, []);
 
   const filteredData = useMemo(() => {
-    if (!searchText) return data;
-    return data.filter((item) =>
+    if (!searchText) return userData?.data;
+    return userData?.data.filter((item) =>
       item.name.toLowerCase().includes(searchText.toLowerCase())
     );
-  }, [data, searchText]);
+  }, [userData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -95,7 +96,7 @@ const ShortUserList = ({ title }) => {
       <div className="px-10 py-10">
         <UserListTable
           data={filteredData}
-          loading={loading}
+          loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
           pageSize={7}
         />

@@ -5,17 +5,17 @@ export const profileApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getProfile: build.query({
       query: () => ({
-        url: `/users/my-profile`,
-        method: "Get",
+        url: `/profile/my_profile`,
+        method: "GET",
       }),
       providesTags: [tagTypes.profile],
     }),
 
     profileUpdsate: build.mutation({
-      query: (profile) => ({
-        url: `/users/update-my-profile`,
+      query: ({ id, data }) => ({
+        url: `/profile/update_profile/${id}`,
         method: "PATCH",
-        body: profile,
+        body: data,
       }),
       invalidatesTags: [tagTypes.profile],
     }),

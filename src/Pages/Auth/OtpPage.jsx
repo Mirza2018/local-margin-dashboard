@@ -3,15 +3,47 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OTPInput from "react-otp-input";
 import { AllIcons, AuthImages } from "../../../public/images/AllImages";
-
+import { toast } from "sonner";
+import { useForgotPassOtpMutation } from "../../redux/api/authApi";
+ 
 const OtpPage = () => {
   const [otp, setOtp] = useState("");
+  const [otpSubmit] = useForgotPassOtpMutation();
 
   const navigate = useNavigate();
 
-  const handleOTPSubmit = () => {
-    console.log("OTP:", otp);
-    navigate("/update-password");
+  const handleOTPSubmit = async () => {
+    const toastId = toast("Otp Sending...");
+
+    const data = {
+      otp: Number(otp),
+    };
+    console.log(data);
+
+    try {
+      const res = await otpSubmit(data).unwrap();
+      console.log(res);
+      localStorage.setItem(
+        "localMarging-otpMatchToken",
+        res?.data?.forgetOtpMatchToken
+      );
+      toast.success(res?.message || "Success", {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate("/update-password");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.res?.message ||
+          error?.data?.message ||
+          "An error occured during Send Opt Please try Again",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
 
   return (
@@ -48,7 +80,7 @@ const OtpPage = () => {
                       hover:border-input-color focus:bg-transparent focus:border-input-color rounded-lg mr-[10px] sm:mr-[20px] text-secondary-color"
                     value={otp}
                     onChange={setOtp}
-                    numInputs={4}
+                    numInputs={6}
                     renderInput={(props) => <input {...props} required />}
                   />
                 </div>

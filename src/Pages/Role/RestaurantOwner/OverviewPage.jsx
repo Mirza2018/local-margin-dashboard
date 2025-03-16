@@ -7,20 +7,59 @@ import TopCategoriesBarChart from "../../../Components/OverviewPage/TopCategorie
 import StaffSatisfactionRatePieChart from "../../../Components/OverviewPage/StaffSatisfactionRatePieChart";
 import StaffTable from "../../../Components/StaffPage/StaffTable";
 import ShortStafflist from "../../../Components/OverviewPage/ShortStaffList";
-
+import {
+  useGetAllStaffListQuery,
+  useGetAllStaffRatioQuery,
+  useGetRestaurentCategoryRatioQuery,
+  useGetRestaurentQueryRatioQuery,
+  useGetRestaurentStaffSatisfactionRatioQuery,
+  useUserRatioQuery,
+} from "../../../redux/api/usersApi";
+  
 const OverviewPage = () => {
+  // const { data: userData, isFetching } =
+  const { data: staffData, isFetching } = useGetAllStaffListQuery();
+  const { data: ratioData, isFetching: isRatioLoading } =
+    useGetAllStaffRatioQuery();
+
+  const { data: restaurantQuery, isFetching: isRastaurentQueryLoading } =
+    useGetRestaurentQueryRatioQuery();
+  const { data: restaurentCategoryRatio, isFetching: isCategoryLoading } =
+    useGetRestaurentCategoryRatioQuery();
+  const { data: staffSatisfaction, isFetching: isStaffSatisfactionLoading } =
+    useGetRestaurentStaffSatisfactionRatioQuery();
+
+
+
   return (
     <React.Fragment>
       <OverViewHeader />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <StaffOverviewAreaChart title="Staff overview" />
-        <QueriesResolvedBarChart />
+        <StaffOverviewAreaChart
+          ratioData={ratioData?.data}
+          isRatioLoading={isRatioLoading}
+          title="Staff overview"
+        />
+        <QueriesResolvedBarChart
+          data={restaurantQuery?.data}
+          isLoading={isRastaurentQueryLoading}
+        />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-5">
-        <TopCategoriesBarChart />
-        <StaffSatisfactionRatePieChart />
+        <TopCategoriesBarChart
+          data={restaurentCategoryRatio?.data}
+          isLoading={isCategoryLoading}
+        />
+        <StaffSatisfactionRatePieChart
+          data={staffSatisfaction?.data}
+          isLoading={isStaffSatisfactionLoading}
+        />
       </div>
-      <ShortStafflist title="Staff List" />
+      <ShortStafflist
+        userData={staffData}
+        isLoading={isFetching}
+        title="Staff List"
+      />
     </React.Fragment>
   );
 };

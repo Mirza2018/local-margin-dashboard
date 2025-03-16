@@ -10,7 +10,7 @@ const getUniqueCompanyNames = (data) => {
   const companyNames = data.map((item) => item.companyName);
   return [...new Set(companyNames)]; // Remove duplicates by converting array to a Set and back to an array
 };
-
+ 
 const UserListTable = ({
   data,
   loading,
@@ -22,15 +22,15 @@ const UserListTable = ({
   const columns = [
     {
       title: "#UID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "UID",
+      key: "UID",
       responsive: ["md"],
     },
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
-      // render: (text) => (
+      dataIndex: "profile",
+      key: "profile",
+      render: (text) => text?.name,
       //   <div className="flex items-center gap-2">
       //     <img
       //       src={AllImages.userImage}
@@ -43,19 +43,20 @@ const UserListTable = ({
     },
     {
       title: "Queries",
-      dataIndex: "queries",
-      key: "queries",
+      dataIndex: "profile",
+      key: "profile",
+      render: (text) => text?.totalQuery,
     },
     {
       title: "Feedback",
       dataIndex: "feedback",
       key: "feedback",
     },
-    {
-      title: "Gender",
-      dataIndex: "gender",
-      key: "gender",
-    },
+    // {
+    //   title: "Gender",
+    //   dataIndex: "gender",
+    //   key: "gender",
+    // },
     {
       title: "E-mail",
       dataIndex: "email",
@@ -63,8 +64,9 @@ const UserListTable = ({
     },
     {
       title: "Phone No",
-      dataIndex: "phone",
-      key: "phone",
+      dataIndex: "profile",
+      key: "profile",
+      render: (text) => text?.contactNo,
     },
     {
       title: "Status",
@@ -83,7 +85,7 @@ const UserListTable = ({
       onFilter: (value, record) => record.status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
-          {text ? (
+          {text=="ACTIVE" ? (
             <p className="text-base font-bold text-[#15D26A]">Active</p>
           ) : (
             <p className="text-base font-bold text-[#FC2E1C]">Inactive</p>

@@ -22,7 +22,7 @@ const authSlice = createSlice({
     },
   },
 });
-   
+    
 export const { setAccessToken, clearAuth, setUserInfo } = authSlice.actions;
 export const selectToken = (state) => state.auth.accessToken;
 export const selectUser = (state) => state.auth.userInfo;

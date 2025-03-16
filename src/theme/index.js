@@ -76,5 +76,8 @@ export const mainTheme = {
       colorPrimary: "#F3F3F3",
       colorPrimaryHover: "#F3F3F3",
     },
+    Spin: {
+      colorPrimary: "rgb(242,196,112)",
+    },
   },
 };

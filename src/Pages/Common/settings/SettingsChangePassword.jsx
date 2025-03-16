@@ -1,12 +1,46 @@
 import { Button, Form, Input, Typography } from "antd";
 import { Link } from "react-router-dom";
+import { usePassResetMutation } from "../../../redux/api/authApi";
+import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 const SettingsChangePassword = () => {
-  const user = JSON.parse(localStorage.getItem("home_care_user"));
-  const onFinish = (values) => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth);
+  const decodeToken = jwtDecode(token?.accessToken);
+  let user;
+  if (decodeToken.role === "ADMIN") {
+    user = "admin";
+  } else {
+    user = "restaurantOwner";
+  }
+  const [resetPass] = usePassResetMutation();
+  const [form] = Form.useForm();
+  const onFinish = async (values) => {
+    const toastId = toast("Password reseting...");
     console.log("Success:", values);
-    // localStorage.removeItem("home_care_user");
-    // window.location.reload();
+
+
+    try {
+      const res = await resetPass(values).unwrap();
+      console.log(res);
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+
+      // navigate("/signin");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message || "An error occured during Reset Password",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
   return (
     <div
@@ -38,7 +72,7 @@ const SettingsChangePassword = () => {
                     message: "Please enter your current password!",
                   },
                 ]}
-                name="currentPassword"
+                name="oldPassword"
                 className="text-white "
               >
                 <Input.Password
@@ -68,7 +102,7 @@ const SettingsChangePassword = () => {
                 Re-enter new Password
               </Typography.Title>
               <Form.Item
-                name="reEnterPassword"
+                name="confirmPassword"
                 className="text-white"
                 rules={[
                   { required: true, message: "Please confirm your password!" },
@@ -93,7 +127,7 @@ const SettingsChangePassword = () => {
               </Form.Item>
               <div className="mt-10">
                 <Link
-                  to={`/${user?.role}/settings/forgot-password`}
+                  to={`/${user}/settings/forgot-password`}
                   className="!text-secondary-color text-lg !underline"
                 >
                   Forgot Password?
@@ -103,7 +137,7 @@ const SettingsChangePassword = () => {
 
             <div className="col-span-2 flex justify-end items-end gap-3 mt-10 mg:mt-0 ">
               <p
-                onClick={() => window.location.reload()} 
+                onClick={() => window.location.reload()}
                 className="border border-[#EF4A00] text-[#EF4A00] hover:border-[#bc4812] transition delay-150 duration-100 py-3 px-8 rounded-xl"
               >
                 Cancel

@@ -13,13 +13,13 @@ const baseQuery = fetchBaseQuery({
     const otpMatchToken = getFromLocalStorage("localMargin-otpMatchToken");
 
     if (token) {
-      headers.set("authorization", `${token}`);
+      headers.set("authorization", `Bearer ${token}`);
     }
     if (forgotPassToken) {
-      headers.set("token", `${forgotPassToken}`);
+      headers.set("authorization", `forgotPasswordToken ${forgotPassToken}`);
     }
     if (otpMatchToken) {
-      headers.set("token", `${otpMatchToken}`);
+      headers.set("authorization", `forgotPasswordToken ${otpMatchToken}`);
     }
 
     return headers;

@@ -1,24 +1,32 @@
 /* eslint-disable no-unused-vars */
-import { Button, ConfigProvider, Form, Input, Typography, Upload } from "antd";
-import profileImage from "/images/profileImage.png";
-import { useState } from "react";
-import { EditOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Spin, Typography, Upload } from "antd";
+import { useEffect, useState } from "react";
+import { IoCameraOutline } from "react-icons/io5";
 import { MdOutlineEdit } from "react-icons/md";
-import { IoCameraOutline, IoChevronBackOutline } from "react-icons/io5";
+import {
+  useGetProfileQuery,
+  useProfileUpdsateMutation,
+} from "../../redux/api/profileApi";
+import { toast } from "sonner";
+import { getImageUrl } from "../../redux/getBaseUrl";
 
 const EditProfile = () => {
-  const profileData = {
-    fullname: "James Mitchell",
-    email: "emily@gmail.com",
-    address: "Vancouver, BC VG1Z4, Canada",
-    contactNumber: "+99-01846875456",
-  };
+  const { data, isLoading } = useGetProfileQuery();
 
-  const [imageUrl, setImageUrl] = useState(profileImage);
+  const [updateProfile] = useProfileUpdsateMutation();
+  console.log(data?.data[0]);
+  const userData = data?.data[0];
+
+  const [imageUrl, setImageUrl] = useState(
+    getImageUrl() + userData?.profile?.profileImage
+  );
+  useEffect(() => {
+    setImageUrl(getImageUrl() + userData?.profile?.profileImage);
+  }, [userData]);
 
   const handleImageUpload = (info) => {
     if (info.file.status === "removed") {
-      setImageUrl(profileImage); // Reset to null or fallback image
+      setImageUrl(getImageUrl() + userData?.profile?.profileImage); // Reset to null or fallback image
     } else {
       const file = info.file.originFileObj || info.file; // Handle the file object safely
       if (file) {
@@ -29,10 +37,52 @@ const EditProfile = () => {
     }
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    const toastId = toast.loading("Profile Updateing...");
     console.log("Success:", values);
-    console.log(imageUrl);
+    const image = values.image?.fileList[0].originFileObj;
+    const jsonData = {
+      name: values?.userName,
+      contactNo: values?.contactNumber,
+    };
+
+    const formData = new FormData();
+    if (values.image) {
+      formData.append("profileImage", image, image?.name);
+    }
+
+    formData.append("data", JSON.stringify(jsonData));
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    try {
+      const res = await updateProfile({
+        id: userData?.profile?._id,
+        data: formData,
+      }).unwrap();
+      console.log("I am from profile update", res);
+      toast.success(res?.message || "profile updated successfully", {
+        id: toastId,
+        duration: 2000,
+      });
+      // navigate("/admin/profile");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.data?.message || "error", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large"></Spin>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -87,7 +137,7 @@ const EditProfile = () => {
               Full Name<span className="text-secondary-color">*</span>
             </Typography.Title>
             <Form.Item
-              initialValue={profileData.fullname}
+              initialValue={userData?.profile?.name}
               name="userName"
               className="text-white"
             >
@@ -100,12 +150,22 @@ const EditProfile = () => {
             </Form.Item>
 
             <Typography.Title level={5} style={{ color: "#222222" }}>
-              Phone
+              Phone<span className="text-secondary-color">*</span>
             </Typography.Title>
             <Form.Item
-              initialValue={profileData.contactNumber}
+              initialValue={userData?.profile?.contactNo}
               name="contactNumber"
               className="text-white"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your contact number!",
+                },
+                {
+                  pattern: /^[+\d-]*$/, // Regex for 10 digits (adjust as needed for your country)
+                  message: "Please enter a valid phone number!",
+                },
+              ]}
             >
               <Input
                 required
@@ -116,33 +176,23 @@ const EditProfile = () => {
             </Form.Item>
 
             <Typography.Title level={5} style={{ color: "#222222" }}>
-              Email<span className="text-secondary-color">*</span>
+              Email
             </Typography.Title>
             <Form.Item
-              initialValue={profileData.email}
+              initialValue={userData?.email}
               name="email"
               className="text-white "
             >
               <Input
+                readOnly
                 required
-                suffix={<MdOutlineEdit />}
-                type="email"
+                // suffix={<MdOutlineEdit />}
                 placeholder="Enter your email"
                 className="py-2 px-3 text-xl border !border-input-color !text-base-color !bg-transparent"
               />
             </Form.Item>
           </div>
         </div>
-        {/* <div className="col-span-2 flex justify-end items-end">
-          <Form.Item>
-            <Button
-              className="w-full py-6 border !border-secondary-color hover:border-secondary-color text-xl !text-primary-color bg-secondary-color hover:!bg-secondary-color font-semibold rounded-2xl mt-8"
-              htmlType="submit"
-            >
-              Save & Change
-            </Button>
-          </Form.Item>
-        </div> */}
 
         <div className="col-span-2 flex justify-end items-end gap-3">
           <button

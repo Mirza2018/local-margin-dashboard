@@ -3,12 +3,17 @@ import { AllImages } from "../../../public/images/AllImages";
 import { Button, Checkbox, Form, Input, Select, Typography } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useUserLoginMutation } from "../../redux/api/authApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "universal-cookie";
 import { toast } from "sonner";
 import { setAccessToken, setUserInfo } from "../../redux/slices/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 const SignIn = () => {
+  // const token = useSelector((state) => state.auth);
+  // const decodeToken = jwtDecode(token?.accessToken);
+  // console.log(decodeToken);
+  
   const navigate = useNavigate(); // useNavigate hook for navigation
   const [userLogin] = useUserLoginMutation();
   const dispatch = useDispatch();
@@ -22,18 +27,24 @@ const SignIn = () => {
       //* Dispatch the accessToken and userInfo to Redux store
       dispatch(setAccessToken(res?.data?.accessToken));
       dispatch(setUserInfo(res?.data?.user));
-      cookies.set("localMargin_accessToken", res?.data?.accessToken, {
-        path: "/",
-      });
-      console.log("res: ", res);
+      // cookies.set("localMargin_accessToken", res?.data?.accessToken, {
+      //   path: "/",
+      // });
+        const decodeToken = jwtDecode(res?.data?.accessToken);
+      console.log("res: ", res, decodeToken.role);
 
       toast.success(res.message, {
         id: toastId,
         duration: 2000,
       });
+      if (decodeToken.role == "ADMIN") {
+         navigate("/admin/overview");
+      } else {
+        navigate("/restaurantOwner/overview");
+      }
       // Navigate after login
       // navigate.refresh();
-      navigate("/admin/overview");
+     
     } catch (error) {
       console.error("Login Error:", error); // Log the error for debugging
 

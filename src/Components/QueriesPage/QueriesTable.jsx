@@ -8,6 +8,7 @@ import { IoMdDownload } from "react-icons/io";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { render } from "react-dom";
 
 // Function to get unique company names
 const getUniqueCompanyNames = (data) => {
@@ -25,14 +26,15 @@ const QueriesTable = ({
 
   // };
 
-  const downloadExcel = (record) => {
+  const downloadExcel = (record, index) => {
+       const cleanedText = record?.createdAt?.replace("=", "").split("T")[0];
     const data = [
       {
-        ID: `${record.uid}`,
+        ID: `${index + 1}`,
         Query: `${record.query}`,
         Category: `${record.category}`,
-        Staff: `${record.staff}`,
-        Submitted_On: `${record.submittedOn}`,
+        Staff: `${record.staffName}`,
+        Submitted_On: `${cleanedText}`,
       },
     ];
 
@@ -41,33 +43,23 @@ const QueriesTable = ({
     XLSX.utils.book_append_sheet(workbook, worksheet, "Query Info");
 
     // Writing the file
-    XLSX.writeFile(
-      workbook,
-      `Query"${record.staff}"${record.uid}.xlsx`
-    );
+    XLSX.writeFile(workbook, `Query"${record.staffName}"${record._id}.xlsx`);
   };
 
   const columns = [
     {
       title: "#UID",
-      dataIndex: "uid",
-      key: "uid",
+      dataIndex: "_id",
+      key: "_id",
       responsive: ["md"],
+      render: (id, _, index) => {
+        return <div>{index + 1}</div>;
+      },
     },
     {
       title: "Query",
       dataIndex: "query",
       key: "query",
-      // render: (text) => (
-      //   <div className="flex items-center gap-2">
-      //     <img
-      //       src={AllImages.userImage}
-      //       alt={text}
-      //       className="w-8 h-8 rounded-full"
-      //     />
-      //     <p>{text}</p>
-      //   </div>
-      // ),
     },
     {
       title: "Category",
@@ -76,75 +68,26 @@ const QueriesTable = ({
     },
     {
       title: "Staff",
-      dataIndex: "staff",
-      key: "staff",
+      dataIndex: "staffName",
+      key: "staffName",
     },
     {
       title: "Submitted On",
-      dataIndex: "submittedOn",
-      key: "submittedOn",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => {
+        const cleanedText = text.replace("=", "").split("T")[0];
+        console.log(cleanedText);
+
+        return <div>{cleanedText}</div>;
+      },
     },
-    // {
-    //   title: "Company Name",
-    //   dataIndex: "companyName",
-    //   key: "companyName",
-    //   filterDropdown: ({ setSelectedKeys, confirm, clearFilters }) => (
-    //     <div style={{ padding: 8 }}>
-    //       {/* Search input for filtering the dropdown */}
-    //       <Input
-    //         placeholder="Search Company"
-    //         value={searchTerm}
-    //         onChange={(e) => setSearchTerm(e.target.value)} // Update the search term
-    //         style={{ width: 188, marginBottom: 8 }}
-    //       />
-    //       <div className="flex flex-col items-start">
-    //         {/* Display filtered company names as buttons */}
-    //         {filteredCompanyNames.map((companyName) => (
-    //           <Button
-    //             className="!text-[#19363D]"
-    //             key={companyName}
-    //             type="link"
-    //             onClick={() => {
-    //               setSelectedKeys([companyName]); // Set selected filter value
-    //               setSearchTerm(companyName); // Update the selected company filter
-    //               setSelectedCompany(companyName); // Update the selected company filter
-    //               confirm(); // Apply the filter
-    //             }}
-    //           >
-    //             {companyName}
-    //           </Button>
-    //         ))}
-    //       </div>
-    //       <Space style={{ marginTop: 8 }}>
-    //         <Button
-    //           type="link"
-    //           onClick={() => {
-    //             clearFilters && clearFilters(); // Clear the filter
-    //             setSelectedKeys([]);
-    //             setSearchTerm(""); // Clear the search input field
-    //             setSelectedCompany(""); // Clear the selected company filter
-    //             confirm();
-    //           }}
-    //         >
-    //           Reset
-    //         </Button>
-    //         <Button type="link" onClick={() => confirm && confirm()}>
-    //           OK
-    //         </Button>
-    //       </Space>
-    //     </div>
-    //   ),
-    //   filters: filteredCompanyNames.map((companyName) => ({
-    //     text: companyName,
-    //     value: companyName,
-    //   })),
-    //   onFilter: (value, record) => record.companyName === value, // Filter by exact company name match
-    // },
+
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <Space size="middle">
+      render: (_, record,index) => (
+        <Space size="">
           {/* View Details Tooltip */}
           <Tooltip placement="right" title="Dowenload Query">
             <Button
@@ -154,7 +97,7 @@ const QueriesTable = ({
                 border: "none",
                 color: "#222222",
               }}
-              onClick={() => downloadExcel(record)}
+              onClick={() => downloadExcel(record,index)}
             >
               <IoMdDownload
                 style={{ fontSize: "24px" }}

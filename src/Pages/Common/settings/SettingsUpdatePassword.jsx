@@ -1,11 +1,44 @@
 import { Button, Form, Input, Typography } from "antd";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useForgotPassResetMutation } from "../../../redux/api/authApi";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { clearAuth } from "../../../redux/slices/authSlice";
 
 const SettingsUpdatePassword = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    localStorage.removeItem("home_care_user");
-    window.location.reload();
+  const [resetPass] = useForgotPassResetMutation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const onFinish = async (values) => {
+    // console.log("Success:", values);
+    // navigate("/signin");
+    const toastId = toast("Password is reseting...");
+    try {
+      const res = await resetPass(values).unwrap();
+      console.log(res);
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+
+      navigate("/signin");
+      localStorage.removeItem("localMargin-otpMatchToken");
+      localStorage.removeItem("localMargin-forgetToken");
+      dispatch(clearAuth());
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.res?.message ||
+          error?.data?.message ||
+          "An error occured during Reset Password",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
   return (
     <div
@@ -46,7 +79,7 @@ const SettingsUpdatePassword = () => {
               rules={[
                 { required: true, message: "Please enter your new password!" },
               ]}
-              name="newPassword"
+              name="password"
               className="text-white"
             >
               <Input.Password
@@ -58,13 +91,13 @@ const SettingsUpdatePassword = () => {
               Re-enter new Password
             </Typography.Title>
             <Form.Item
-              name="reEnterPassword"
+              name="confirmPassword"
               className="text-white"
               rules={[
                 { required: true, message: "Please confirm your password!" },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
-                    if (!value || getFieldValue("newPassword") === value) {
+                    if (!value || getFieldValue("password") === value) {
                       return Promise.resolve();
                     }
                     return Promise.reject(

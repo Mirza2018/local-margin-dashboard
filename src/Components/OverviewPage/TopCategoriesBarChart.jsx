@@ -1,4 +1,4 @@
-import { DatePicker } from "antd";
+import { DatePicker, Spin } from "antd";
 import {
   BarChart,
   Bar,
@@ -8,18 +8,30 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { name: "Menu", uv: 80 },
-  { name: "Policy", uv: 70 },
-  { name: "Dish", uv: 50 },
-  { name: "Food", uv: 60 },
-  { name: "Tips", uv: 30 },
-];
+// const data = [
+// { name: "Menu", value: 80 },
+// { name: "Policy",value: 80 },
+// { name: "Dish", value: 80},
+// { name: "Food", value: 80 },
+// { name: "Tips", value: 80 },
+// ];
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
-const TopCategoriesBarChart = () => {
-  // Formatter function to add 'K' suffix to Y-axis values
+const TopCategoriesBarChart = ({ data, isLoading }) => {
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  const result =
+    data && typeof data === "object" && data !== null
+      ? Object.entries(data).map(([name, value]) => ({ name, value }))
+      : [];
+
   const yAxisTickFormatter = (value) => `${value}K`;
 
   // Custom tick style
@@ -39,7 +51,7 @@ const TopCategoriesBarChart = () => {
         <ResponsiveContainer>
           <BarChart
             layout="vertical" // This changes the bar chart to a horizontal orientation
-            data={data}
+            data={result}
             margin={{
               top: 10,
               right: 30,
@@ -64,7 +76,7 @@ const TopCategoriesBarChart = () => {
               }}
               tickMargin={16}
             />
-            <Bar dataKey="uv" fill="#F2C470" barSize={30} />
+            <Bar dataKey="value" fill="#F2C470" barSize={30} />
           </BarChart>
         </ResponsiveContainer>
       </div>

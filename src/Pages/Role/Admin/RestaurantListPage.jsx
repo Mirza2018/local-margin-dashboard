@@ -9,11 +9,17 @@ import {
   Input,
   Modal,
   Select,
+  Spin,
   Typography,
 } from "antd";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import RestaurantListTable from "../../../Components/RestaurantListPage/RestaurantListTable";
 import ViewRestaurantDetails from "../../../Components/RestaurantListPage/ViewRestaurantDetails";
+import {
+  useCreateRestaurantMutation,
+  useGetAllRestaurantQuery,
+} from "../../../redux/api/restaurantApi";
+import { toast } from "sonner";
 
 //* Modal Table
 
@@ -21,13 +27,59 @@ import ViewRestaurantDetails from "../../../Components/RestaurantListPage/ViewRe
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
 const RestaurantListPage = () => {
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 14, // should match your limit
+  });
+
+  const { data: restaurentData, isLoading } = useGetAllRestaurantQuery({
+    page: pagination.current,
+    limit: pagination.pageSize,
+  });
+  const handleTableChange = (paginationConfig) => {
+    setPagination({
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize || 14,
+    });
+  };
+
+  const paginationConfig = {
+    current: pagination.current, // Current page
+    pageSize: pagination.pageSize, // Items per page
+    total: restaurentData?.meta?.total || 0, // Total items from API
+    showSizeChanger: true, // Show dropdown to change items per page
+    pageSizeOptions: ["10", "20", "50"], // Options for items per page (as requested)
+    showQuickJumper: true, // Optional: allows jumping to a specific page
+    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`, // Optional: display range
+    onChange: (page, pageSize) => {
+      // Update state when page or page size changes
+      console.log(`Navigating to page ${page} with ${pageSize} items per page`);
+      setPagination({
+        current: page,
+        pageSize: pageSize,
+      });
+    },
+  };
+
+  // const paginationConfig = {
+  //   current: pagination.current, // Current page
+  //   pageSize: pagination.pageSize, // Items per page (fixed at 14 for now)
+  //   total: restaurentData?.meta?.total || 0, // Total items from API
+  //   onChange: (page) => {
+  //     // Update the current page when a page number is clicked
+  //     console.log(`Navigating to page ${page}`);
+  //     setPagination((prev) => ({
+  //       ...prev,
+  //       current: page,
+  //     }));
+  //   },
+  // };
+  const [createData] = useCreateRestaurantMutation();
+  // console.log(restaurentData?.data);
+
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
-  //* Use to set user
-  const [data, setData] = useState([]);
-
-  const [loading, setLoading] = useState(true);
   const [loadingAddNewResturant, setLoadingAddNewResturant] = useState(false);
   const [openAddNewResturant, setOpenAddNewResturant] = useState(false);
   const [form] = Form.useForm();
@@ -39,27 +91,12 @@ const RestaurantListPage = () => {
   //* It's Use to Set Seclected User to Block and view
   const [currentRecord, setCurrentRecord] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/reaturantsData.json");
-        setData(response?.data); // Make sure this is an array
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   const filteredData = useMemo(() => {
-    if (!searchText) return data;
-    return data.filter((item) =>
+    if (!searchText) return restaurentData?.data;
+    return restaurentData?.data.filter((item) =>
       item.restaurantName.toLowerCase().includes(searchText.toLowerCase())
     );
-  }, [data, searchText]);
+  }, [restaurentData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -78,30 +115,49 @@ const RestaurantListPage = () => {
     setOpenAddNewResturant(true);
   };
 
-  // const handleOkAddNewResturant = () => {
-  //   setLoadingAddNewResturant(true);
-  //   setTimeout(() => {
-  //     setLoadingAddNewResturant(false);
-  //     // setOpenAddNewResturant(false);
-  //   }, 2000);
-  // };
-
   const handleCancelAddNewResturant = () => {
     setOpenAddNewResturant(false);
   };
 
-  const handleNewResturantData = (values) => {
-    console.log(values);
+  const handleNewResturantData = async (values) => {
+    const toastId = toast.loading("Restaurent info is adding...");
     setLoadingAddNewResturant(true);
+    console.log(values);
+    const data = { ...values, password: "hello1234" };
 
+    try {
+      const res = await createData(data).unwrap();
+      console.log(res);
+      toast.success(
+        res?.message ||
+          res?.data?.message ||
+          "Restaurent Info is Sucessfully added",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+      setLoadingAddNewResturant(true);
+      setTimeout(() => {
+        form.resetFields();
+      }, 1000);
 
-    setTimeout(() => {
-          form.resetFields();
-    }, 1000);
-    setTimeout(() => {
       handleCancelAddNewResturant();
       setLoadingAddNewResturant(false);
-    }, 2000);
+    } catch (error) {
+      console.error(error);
+      handleCancelAddNewResturant();
+      setLoadingAddNewResturant(false);
+      toast.error(
+        error.error ||
+          error.data.message ||
+          "An error occour during create restaurent",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
 
   return (
@@ -152,79 +208,105 @@ const RestaurantListPage = () => {
         footer={[]}
         className="!w-[700px]"
       >
-        <Form form={form} onFinish={handleNewResturantData}>
-          <Typography.Title level={4} style={{ color: "#222222" }}>
-            Restaurant Name
-          </Typography.Title>
-          <Form.Item
-            rules={[{ required: true }]}
-            name="restaurantName"
-            className="text-white"
-          >
-            <Input
-              placeholder="Enter Restaurant Name"
-              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
-            />
-          </Form.Item>
-          <Typography.Title level={4} style={{ color: "#222222" }}>
-            Location
-          </Typography.Title>
-          <Form.Item
-            rules={[{ required: true }]}
-            name="location"
-            className="text-white"
-          >
-            <Input
-              placeholder="Enter location"
-              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
-            />
-          </Form.Item>
-          <Typography.Title level={4} style={{ color: "#222222" }}>
-            Assigned Owner
-          </Typography.Title>
-          <Form.Item
-            rules={[{ required: true }]}
-            name="assignedOwner"
-            className="text-white"
-          >
-            <Input
-              placeholder="Enter Assigned Owner"
-              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
-            />
-          </Form.Item>
-          <Typography.Title level={4} style={{ color: "#222222" }}>
-            Phone No
-          </Typography.Title>
-          <Form.Item
-            rules={[{ required: true }]}
-            name="phoneNo"
-            className="text-white"
-          >
-            <Input
-              placeholder="Enter Phone No"
-              type="tel"
-              className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
-            />
-          </Form.Item>
-          <Button
-            key="submit"
-            type="primary"
-            className="w-full !py-5"
-            loading={loadingAddNewResturant}
-            htmlType="submit"
-          >
-            Save
-          </Button>
-        </Form>
+        {loadingAddNewResturant ? (
+          <div className="flex justify-center items-center min-h-[400px]">
+            <Spin size="large" />
+          </div>
+        ) : (
+          <Form form={form} onFinish={handleNewResturantData}>
+            <Typography.Title level={4} style={{ color: "#222222" }}>
+              Restaurant Name
+            </Typography.Title>
+            <Form.Item
+              rules={[{ required: true }]}
+              name="restaurantName"
+              className="text-white"
+            >
+              <Input
+                placeholder="Enter Restaurant Name"
+                className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+              />
+            </Form.Item>
+
+            <Typography.Title level={4} style={{ color: "#222222" }}>
+              Assigned Owner
+            </Typography.Title>
+            <Form.Item
+              rules={[{ required: true }]}
+              name="name"
+              className="text-white"
+            >
+              <Input
+                placeholder="Enter Assigned Owner"
+                className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+              />
+            </Form.Item>
+
+            <Typography.Title level={4} style={{ color: "#222222" }}>
+              Email
+            </Typography.Title>
+            <Form.Item
+              rules={[{ required: true }]}
+              name="email"
+              className="text-white"
+            >
+              <Input
+                placeholder="Enter Email"
+                className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+              />
+            </Form.Item>
+
+            <Typography.Title level={4} style={{ color: "#222222" }}>
+              Location
+            </Typography.Title>
+            <Form.Item
+              rules={[{ required: true }]}
+              name="location"
+              className="text-white"
+            >
+              <Input
+                placeholder="Enter location"
+                className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+              />
+            </Form.Item>
+
+            <Typography.Title level={4} style={{ color: "#222222" }}>
+              Phone No
+            </Typography.Title>
+            <Form.Item
+              rules={[{ required: true }]}
+              name="contactNo"
+              className="text-white"
+            >
+              <Input
+                placeholder="Enter Phone No"
+                type="tel"
+                className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
+              />
+            </Form.Item>
+            <Button
+              key="submit"
+              type="primary"
+              className="w-full !py-5"
+              loading={loadingAddNewResturant}
+              htmlType="submit"
+            >
+              Save
+            </Button>
+          </Form>
+        )}
       </Modal>
 
       {/* Table  */}
       <div className="px-10 pb-10">
         <RestaurantListTable
           data={filteredData}
-          loading={loading}
+          pageinationData={restaurentData?.meta}
+          loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
           pageSize={12}
+          handleTableChange={handleTableChange}
+          paginationConfig={paginationConfig}
         />
       </div>
 

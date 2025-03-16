@@ -1,12 +1,66 @@
 /* eslint-disable react/prop-types */
 import { Button, ConfigProvider, Modal } from "antd";
 import { AllImages } from "../../../public/images/AllImages";
+import { toast } from "sonner";
+import { useUserActionMutation } from "../../redux/api/usersApi";
+import { useRestaurentActionMutation } from "../../redux/api/restaurantApi";
 
 const ViewRestaurantDetails = ({
   isServiceUserViewModalVisible,
   handleCancel,
   currentRecord,
 }) => {
+  console.log(currentRecord?.status);
+  const [userAction] = useRestaurentActionMutation();
+
+  const userActions = async (action) => {
+    const toastId = toast.loading("Blocking user...");
+    const id = currentRecord?._id;
+    let data;
+
+    if (action == "del") {
+
+
+      data = {
+        action: "delete",
+      };
+    } else if (currentRecord?.status == "ACTIVE") {
+
+      data = {
+        action: "block",
+      };
+    } else {
+
+      data = {
+        action: "unblock",
+      };
+    }
+
+    console.log(data, id);
+
+    try {
+      const res = await userAction({ data, id }).unwrap();
+      console.log(res);
+      toast.success(res?.message || res?.data?.message || "User is Blocked", {
+        id: toastId,
+        duration: 2000,
+      });
+      handleCancel();
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during blocked user",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+  };
+
   return (
     <Modal
       title={[]}
@@ -19,22 +73,22 @@ const ViewRestaurantDetails = ({
             theme={{
               components: {
                 Button: {
-                  colorPrimary: "#0694FF",
-                  colorPrimaryActive: "#0694FF",
-                  colorPrimaryBg: "#0694FF",
-                  colorPrimaryBgHover: "#256fa8",
-                  colorPrimaryHover: "#256fa8",
-                  colorPrimaryTextActive: "#0694FF",
+                  colorPrimary: "#f34747",
+                  colorPrimaryActive: "#f34747",
+                  colorPrimaryBg: "#f34747",
+                  colorPrimaryBgHover: "#df5555",
+                  colorPrimaryHover: "#df5555",
+                  colorPrimaryTextActive: "#f34747",
                 },
               },
             }}
           >
             <Button
-              onClick={handleCancel}
+              onClick={() => userActions("del")}
               type="primary"
               className="text-base px-9  font-mediumtext-white rounded-none"
             >
-              Cancel
+              Delete Restaurent
             </Button>
           </ConfigProvider>
           <ConfigProvider
@@ -52,10 +106,14 @@ const ViewRestaurantDetails = ({
             }}
           >
             <Button
+              onClick={userActions}
               type="primary"
               className="text-base  font-mediumtext-white rounded-none"
             >
-              Delete User
+              {currentRecord?.status == "ACTIVE"
+                ? "Block Restaurent"
+                : "Unblock Restaurent"}
+              {/* Block User */}
             </Button>
           </ConfigProvider>
         </div>,
@@ -76,7 +134,7 @@ const ViewRestaurantDetails = ({
             Join Date : {currentRecord?.joinDate}
           </h1>
           <h1 className="text-base font-medium">
-            Total Queries : {currentRecord?.queries}
+            Total Queries : {currentRecord?.profile?.totalQuery}
           </h1>
           <h1 className="text-base font-medium">
             Feedback : {currentRecord?.feedback}

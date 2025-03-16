@@ -1,13 +1,50 @@
 import { Button, Form, Input, Typography } from "antd";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useUserForgotEmailMutation } from "../../../redux/api/authApi";
+import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 const SettingsForgotPassword = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("home_care_user"));
-  const onFinish = (values) => {
+  const [emailData] = useUserForgotEmailMutation();
+  const token = useSelector((state) => state.auth);
+  const decodeToken = jwtDecode(token?.accessToken);
+  let user;
+  if (decodeToken.role === "ADMIN") {
+    user = "admin";
+  } else {
+    user = "restaurantOwner";
+  }
+
+  const onFinish = async (values) => {
     console.log("Success:", values);
-    navigate(`/${user.role}/settings/otp-page`);
+    localStorage.removeItem("localMargin-otpMatchToken");
+    localStorage.removeItem("localMargin-forgetToken");
+    console.log("Success:", values);
+    // navigate("/verify-otp");
+    const toastId = toast("OTP sending...");
+    console.log(values);
+    try {
+      const res = await emailData(values).unwrap();
+      console.log(res);
+      localStorage.setItem(
+        "localMargin-forgetToken",
+        res?.data?.forgotPasswordToken
+      );
+      toast.success(res?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+      navigate(`/${user}/settings/otp-page`);
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.data?.message || "An error occurred during Signup", {
+        id: toastId,
+        duration: 2000,
+      });
+    }
   };
   return (
     <div

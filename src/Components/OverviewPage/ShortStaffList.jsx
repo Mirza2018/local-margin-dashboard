@@ -12,7 +12,8 @@ import ViewStaffDetails from "../StaffPage/ViewStaffDetails";
 // import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
-const ShortStafflist = ({title}) => {
+const ShortStafflist = ({ title, isLoading, userData }) => {
+  
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -68,36 +69,14 @@ const ShortStafflist = ({title}) => {
       className="bg-highlight-color   rounded-xl  ps-5"
       style={{ boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.25)" }}
     >
-      {/* Header  */}
-      {/* <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
-        <div className=" w-[95%] mx-auto  flex items-center justify-between">
-          <p className="text-3xl text-primary-color font-semibold">
-            Staff List
-          </p>
-          <div className="flex gap-4 items-center">
-            <ConfigProvider
-              theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
-            >
-              <Input
-                placeholder="Search User..."
-                value={searchText}
-                onChange={(e) => onSearch(e.target.value)}
-                className="text-primary-color font-semibold !border-primary-color !bg-transparent py-2 !rounded-full"
-                prefix={
-                  <SearchOutlined className="text-primary-color font-bold text-lg mr-2" />
-                }
-              />
-            </ConfigProvider>
-          </div>
-        </div>
-      </div> */}
-      <h1 className="text-2xl font-bold pt-5 ps-5">{ title}</h1>
+
+      <h1 className="text-2xl font-bold pt-5 ps-5">{title}</h1>
 
       {/* Table  */}
       <div className="px-10 py-10">
         <StaffTable
-          data={filteredData}
-          loading={loading}
+          data={userData?.data}
+          loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
           pageSize={7}
         />

@@ -21,9 +21,20 @@ import {
 } from "react-router-dom";
 import TopLoadingBar from "react-top-loading-bar";
 import { AllIcons, AllImages } from "../../../public/images/AllImages";
+import { clearAuth } from "../../redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 const DashboardLayout = () => {
-  const userRole = JSON.parse(localStorage.getItem("home_care_user")); // Parse the stored JSON string
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth);
+  const decodeToken = jwtDecode(token?.accessToken);
+  let user;
+  if (decodeToken.role === "ADMIN") {
+    user = "admin";
+  } else {
+    user = "restaurantOwner";
+  }
 
   const location = useLocation();
   const pathSegment = location.pathname.split("/").pop();
@@ -405,7 +416,7 @@ const DashboardLayout = () => {
         />
       ),
       label: (
-        <div onClick={() => localStorage.removeItem("home_care_user")}>
+        <div onClick={() => dispatch(clearAuth())}>
           <NavLink to="/signin">Log Out</NavLink>
         </div>
       ),
@@ -514,8 +525,7 @@ const DashboardLayout = () => {
   ];
 
   // Select the appropriate menu items based on user role
-  const menuItems =
-    userRole?.role === "admin" ? adminMenuItems : restaurantOwner;
+  const menuItems = user === "admin" ? adminMenuItems : restaurantOwner;
 
   const [progress, setProgress] = useState(0);
 
@@ -567,7 +577,7 @@ const DashboardLayout = () => {
           }}
           className=""
         >
-          <Link to="/">
+          <Link to={`/${user}/overview`}>
             <img
               src={AllImages.logo}
               alt="logo"

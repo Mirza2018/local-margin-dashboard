@@ -1,16 +1,37 @@
-import { DatePicker } from "antd";
+import { DatePicker, Spin } from "antd";
 import React from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
-const StaffSatisfactionRatePieChart = () => {
+const StaffSatisfactionRatePieChart = ({ data: result, isLoading }) => {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
-  const data = [
-    { name: "Group A", value: 800 },
-    { name: "Group B", value: 150 },
-    { name: "Group C", value: 50 },
-  ];
+
+
+console.log(result);
+
+
+
+  
+  let ratioData;
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if ((result == [])) {
+    ratioData = [
+      { name: "A", value: 10 },
+      { name: "B", value: 20 },
+      { name: "C", value: 30 },
+    ];
+  } else {
+    ratioData = result;
+  }
 
   const COLORS = ["#E99026", "#F8E1B0", "#F2C470"];
 
@@ -56,16 +77,16 @@ const StaffSatisfactionRatePieChart = () => {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={400} height={400}>
             <Pie
-              data={data}
+              data={ratioData}
               cx="50%"
               cy="50%"
               labelLine={false}
               label={renderCustomizedLabel}
               outerRadius={120}
               fill="#8884d8"
-              dataKey="value"
+              dataKey="count"
             >
-              {data.map((entry, index) => (
+              {ratioData?.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
@@ -77,16 +98,19 @@ const StaffSatisfactionRatePieChart = () => {
         <div className="flex flex-col justify-start items-start">
           <div className="flex justify-center items-center gap-2">
             <div className="size-4 bg-[#E99026] "></div>
-            <h1 className="text-xl"> Positive</h1>
+            <h1 className="text-xl">
+              {/* Positive */}
+              {ratioData[0]?.staffReview}
+            </h1>
           </div>
           <div className="flex justify-center items-center gap-2">
             <div className="size-4 bg-[#F8E1B0] "></div>
-            <h1 className="text-xl">Indifferent</h1>
+            <h1 className="text-xl"> {ratioData[1]?.staffReview}</h1>
           </div>
 
           <div className="flex justify-center items-center gap-2">
             <div className="size-4 bg-[#F2C470] "></div>
-            <h1 className="text-xl">Negative</h1>
+            <h1 className="text-xl"> {ratioData[2]?.staffReview}</h1>
           </div>
         </div>
       </div>
