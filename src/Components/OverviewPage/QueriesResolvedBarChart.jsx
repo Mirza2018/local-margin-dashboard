@@ -27,7 +27,7 @@ const onChange = (date, dateString) => {
 };
 const QueriesResolvedBarChart = ({ data, isLoading }) => {
   // Formatter function to add 'K' suffix to Y-axis values
-  const yAxisTickFormatter = (value) => `${value}K`;
+  const yAxisTickFormatter = (value) => `${value}`;
 
   // Custom tick style
   const tickStyle = { fill: "#222222" };

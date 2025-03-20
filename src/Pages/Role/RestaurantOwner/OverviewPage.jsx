@@ -9,15 +9,18 @@ import StaffTable from "../../../Components/StaffPage/StaffTable";
 import ShortStafflist from "../../../Components/OverviewPage/ShortStaffList";
 import {
   useGetAllStaffListQuery,
-  useGetAllStaffRatioQuery,
+  useGetAllStaffRatioQuery, 
   useGetRestaurentCategoryRatioQuery,
   useGetRestaurentQueryRatioQuery,
   useGetRestaurentStaffSatisfactionRatioQuery,
-  useUserRatioQuery,
+  useUserRatioQuery, 
 } from "../../../redux/api/usersApi";
-  
+import { useGetRestaurantCountQuery } from "../../../redux/api/restaurantApi";
+
 const OverviewPage = () => {
-  // const { data: userData, isFetching } =
+  const { data: count, isFetching:isCountFetching } = useGetRestaurantCountQuery();
+
+
   const { data: staffData, isFetching } = useGetAllStaffListQuery();
   const { data: ratioData, isFetching: isRatioLoading } =
     useGetAllStaffRatioQuery();
@@ -29,16 +32,15 @@ const OverviewPage = () => {
   const { data: staffSatisfaction, isFetching: isStaffSatisfactionLoading } =
     useGetRestaurentStaffSatisfactionRatioQuery();
 
-
-
   return (
     <React.Fragment>
-      <OverViewHeader />
+      <OverViewHeader data={count?.data } isFetching={isCountFetching} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <StaffOverviewAreaChart
           ratioData={ratioData?.data}
           isRatioLoading={isRatioLoading}
           title="Staff overview"
+          user="STAFF"
         />
         <QueriesResolvedBarChart
           data={restaurantQuery?.data}

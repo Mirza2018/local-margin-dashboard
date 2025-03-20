@@ -13,7 +13,7 @@ const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
 const FeedbackResolvedBarChart = ({ data, isFetching }) => {
-  console.log(data);
+
 
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;

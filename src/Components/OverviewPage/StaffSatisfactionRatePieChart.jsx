@@ -7,12 +7,8 @@ const StaffSatisfactionRatePieChart = ({ data: result, isLoading }) => {
     console.log(date, dateString);
   };
 
+  console.log(result);
 
-console.log(result);
-
-
-
-  
   let ratioData;
 
   if (isLoading) {
@@ -23,11 +19,11 @@ console.log(result);
     );
   }
 
-  if ((result == [])) {
+  if (result == []) {
     ratioData = [
-      { name: "A", value: 10 },
-      { name: "B", value: 20 },
-      { name: "C", value: 30 },
+      { staffReview: "A", value: 10 },
+      { staffReview: "B", value: 20 },
+      { staffReview: "C", value: 30 },
     ];
   } else {
     ratioData = result;
@@ -100,7 +96,7 @@ console.log(result);
             <div className="size-4 bg-[#E99026] "></div>
             <h1 className="text-xl">
               {/* Positive */}
-              {ratioData[0]?.staffReview}
+              {ratioData?.[0]?.staffReview ?? "N/A"}
             </h1>
           </div>
           <div className="flex justify-center items-center gap-2">

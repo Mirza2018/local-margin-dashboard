@@ -7,27 +7,49 @@ import StaffSatisfactionRatePieChart from "../../../Components/OverviewPage/Staf
 import ShortUserList from "../../../Components/OverviewPage/ShortUserList";
 import {
   useGetAllusersListQuery,
+  useGetRestaurentCategoryRatioQuery,
+  useGetRestaurentQueryRatioQuery,
+  useGetRestaurentStaffSatisfactionRatioQuery,
   useUserRatioQuery,
 } from "../../../redux/api/usersApi";
-  
-const AllOverview = () => {
-  const { data: userData,isFetching } = useGetAllusersListQuery();
-  const { data: ratioData, isFetching: isRatioLoading } = useUserRatioQuery();
+import { useGetRestaurantCountQuery } from "../../../redux/api/restaurantApi";
  
+const AllOverview = () => {
+  const { data: count, isFetching:isCountFetching } = useGetRestaurantCountQuery();
+  const { data: userData, isFetching } = useGetAllusersListQuery();
+  const { data: ratioData, isFetching: isRatioLoading } = useUserRatioQuery();
+  const { data: staffSatisfaction, isFetching: isStaffSatisfactionLoading } =
+    useGetRestaurentStaffSatisfactionRatioQuery();
+    const { data: restaurantQuery, isFetching: isRastaurentQueryLoading } =
+    useGetRestaurentQueryRatioQuery();
+    const { data: restaurentCategoryRatio, isFetching: isCategoryLoading } =
+      useGetRestaurentCategoryRatioQuery();
+
+
   return (
     <React.Fragment>
-      <AllOverviewHeader />
+      <AllOverviewHeader data={count?.data} isFetching={isCountFetching} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <OverviewAreaChart
-          ratioData={ratioData}
+          ratioData={ratioData?.data}
           isRatioLoading={isRatioLoading}
           title="User overview"
+          user="count"
         />
-        <QueriesResolvedBarChart />
+        <QueriesResolvedBarChart
+          data={restaurantQuery?.data}
+          isLoading={isRastaurentQueryLoading}
+        />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-5">
-        <TopCategoriesBarChart />
-        <StaffSatisfactionRatePieChart />
+        <TopCategoriesBarChart
+          data={restaurentCategoryRatio?.data}
+          isLoading={isCategoryLoading}
+        />
+        <StaffSatisfactionRatePieChart
+          data={staffSatisfaction?.data}
+          isLoading={isStaffSatisfactionLoading}
+        />
       </div>
       <ShortUserList
         userData={userData}

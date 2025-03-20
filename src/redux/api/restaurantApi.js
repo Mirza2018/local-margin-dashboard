@@ -30,6 +30,14 @@ export const restaurentApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [tagTypes.restaurent],
     }),
+
+    getRestaurantCount: build.query({
+      query: () => ({
+        url: `/restaurant/total_count`,
+        method: "Get",
+      }),
+      providesTags: [tagTypes.restaurent],
+    }),
   }),
 });
 
@@ -37,4 +45,5 @@ export const {
   useGetAllRestaurantQuery,
   useCreateRestaurantMutation,
   useRestaurentActionMutation,
+  useGetRestaurantCountQuery,
 } = restaurentApi;

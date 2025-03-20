@@ -12,18 +12,14 @@ import {
   useGetAllFeedbackListQuery,
 } from "../../../redux/api/queryApi";
 
-//* Modal Table
-
-// import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
-// import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
-
 const FeedbackPage = () => {
   const { data: feedbackData, isFetching } = useGetAllFeedbackListQuery();
   const { data: feedbackRatio, isFetching: isRatioFetching } =
     useFeedbackRatioQuery();
 
 
-  // console.log(feedbackData,isFetching);
+
+  console.log(feedbackData,isFetching);
 
   //* Store Search Value
   const [searchText, setSearchText] = useState("");

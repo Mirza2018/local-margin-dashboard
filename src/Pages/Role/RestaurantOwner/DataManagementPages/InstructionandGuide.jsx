@@ -1,10 +1,37 @@
 import React, { useState } from "react";
 import Editor from "../../../../Components/DataManegementPages/Editor";
+import { toast } from "sonner";
+import { usePrivacyTermsMutation } from "../../../../redux/api/settingsApi";
 
 const InstructionandGuide = () => {
+  const [staticContent] = usePrivacyTermsMutation();
   const [content, setContent] = useState("");
-  const handleOnSave = () => {
+  const handleOnSave = async () => {
     console.log(content);
+    const toastId = toast.loading("Instruction and Guide is Posting");
+    const data = {
+      type: "instruction-and-guide",
+      content: content,
+    };
+    try {
+      const res = await staticContent(data).unwrap();
+      console.log(res);
+      toast.success("Instruction and Guide Updated Successfully", {
+        id: toastId,
+        duration: 2000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during posting Instruction and Guide",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
   };
 
   return (

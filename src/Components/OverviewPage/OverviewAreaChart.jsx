@@ -28,7 +28,9 @@ const data = [
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
-const StaffOverviewAreaChart = ({ title, isRatioLoading, ratioData }) => {
+const StaffOverviewAreaChart = ({ title, isRatioLoading, ratioData,user }) => {
+  console.log("hdfeuiwufue", ratioData);
+
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;
 
@@ -89,7 +91,8 @@ const StaffOverviewAreaChart = ({ title, isRatioLoading, ratioData }) => {
             />
             <Area
               type="monotone"
-              dataKey="staff"
+              // dataKey={"staff" || "STAFF"}
+              dataKey={user}
               stroke=""
               fill="url(#colorName)"
             />

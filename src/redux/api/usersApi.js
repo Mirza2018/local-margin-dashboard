@@ -13,7 +13,7 @@ export const usersApi = baseApi.injectEndpoints({
 
     userRatio: build.query({
       query: () => ({
-        url: `/users/user_ratio`,
+        url: `/users/user_ratio?year=2025`,
         method: "GET",
       }),
       invalidatesTags: [tagTypes.allUsers],
