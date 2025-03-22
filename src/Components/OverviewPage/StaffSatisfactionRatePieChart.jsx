@@ -2,7 +2,11 @@ import { DatePicker, Spin } from "antd";
 import React from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
-const StaffSatisfactionRatePieChart = ({ data: result, isLoading }) => {
+const StaffSatisfactionRatePieChart = ({
+  data: result,
+  isLoading,
+  isError,
+}) => {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
@@ -16,6 +20,11 @@ const StaffSatisfactionRatePieChart = ({ data: result, isLoading }) => {
       <div className="flex justify-center items-center">
         <Spin size="large" />
       </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center">Something worng...</div>
     );
   }
 

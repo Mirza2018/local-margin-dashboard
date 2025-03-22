@@ -27,20 +27,20 @@ const ShortUserList = ({ title, userData,isLoading }) => {
   //* It's Use to Set Seclected User to Block and view
   const [currentRecord, setCurrentRecord] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/data/staffData.json");
-        setData(response?.data); // Make sure this is an array
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get("/data/staffData.json");
+  //       setData(response?.data); // Make sure this is an array
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const filteredData = useMemo(() => {
     if (!searchText) return userData?.data;

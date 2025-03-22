@@ -8,6 +8,9 @@ import user from "/images/user.png";
 import { AllImages } from "../../../public/images/AllImages";
 import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
+import { useGetProfileQuery } from "../../redux/api/profileApi";
+import { getImageUrl } from "../../redux/getBaseUrl";
+import { FaUser, FaUserCircle } from "react-icons/fa";
 
 const notifications = [
   {
@@ -38,15 +41,18 @@ const notifications = [
 ];
 
 const Topbar = ({ collapsed, setCollapsed }) => {
-  const token = useSelector(state => state.auth)
+  const { data, isLoading } = useGetProfileQuery();
+  const token = useSelector((state) => state.auth);
   const decodeToken = jwtDecode(token?.accessToken);
   let user;
-  if (decodeToken.role==="ADMIN") {
-    user="admin"
+  if (decodeToken.role === "ADMIN") {
+    user = "admin";
   } else {
     user = "restaurantOwner";
   }
-  
+
+  const image = getImageUrl() + data?.data[0]?.profile?.profileImage;
+
   const [notificationCount, setNotificationCount] = useState(
     notifications.length
   );
@@ -82,8 +88,8 @@ const Topbar = ({ collapsed, setCollapsed }) => {
     </div>
   );
 
-  const info = {role:"admin"}
 
+  
 
   return (
     <div className="py-4 mx-[-40px] flex justify-between items-center bg-[#F2C470]  rounded-full  mt-2">
@@ -94,7 +100,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
         />
       </div>
       <div className="flex items-center justify-center mr-5 gap-5">
-        <Dropdown
+        {/* <Dropdown
           overlay={notificationMenu}
           trigger={["hover"]}
           placement="bottomRight"
@@ -105,19 +111,26 @@ const Topbar = ({ collapsed, setCollapsed }) => {
             size="small"
             className="bg-[#F7F5F5] py-4 px-2 text-xl rounded-full shadow h-6 font-bold text-secondary-color border border-[#8D969B]"
           />
-        </Dropdown>
+        </Dropdown> */}
         <Link
           to="setting"
           className="flex items-center justify-center gap-2 bg-transparent text-base-color border-0 rounded-lg h-8 px-2 py-1  mr-5"
         >
           <div className="flex gap-2 bg-white border border-[#8D969B] p-1 rounded-lg">
-            <img
-              src={AllImages.user}
-              alt="profile_pic"
-              className="rounded-full object-cover aspect-square size-10"
-            />
+            {image ? (
+              <img
+                src={image}
+                alt="profile_pic"
+                className="rounded-full object-cover aspect-square size-10"
+              />
+            ) : (
+              <div>
+                <FaUserCircle className="text-4xl" />
+              </div>
+            )}
+
             <div>
-              <p className="text-black text-sm font-bold">David Wilson</p>
+              <p className="text-black text-sm font-bold">{ data?.data[0]?.profile?.name}</p>
               <p className="text-xs font-normal !hover:bg-secondary-color">
                 {decodeToken.role == "ADMIN" ? "Admin" : "Restaurant Owner"}
               </p>

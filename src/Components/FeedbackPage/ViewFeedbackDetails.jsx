@@ -16,17 +16,15 @@ const ViewFeedbackDetails = ({
     const id = currentRecord?._id;
 
     let data;
-    if ((action = "del")) {
+    if (action == "del") {
       data = {
         status: "rejected",
       };
-    } else {
+    } else if (action == "res") {
       data = {
         status: "resolved",
       };
     }
-
-    
 
     try {
       const res = await feedbackAction({ data, id }).unwrap();
@@ -96,7 +94,7 @@ const ViewFeedbackDetails = ({
             }}
           >
             <Button
-              onClick={resolveActions}
+              onClick={() => resolveActions("res")}
               type="primary"
               className="text-base  font-mediumtext-white rounded-none"
             >

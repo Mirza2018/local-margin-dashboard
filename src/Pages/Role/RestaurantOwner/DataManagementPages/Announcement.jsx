@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Editor from "../../../../Components/DataManegementPages/Editor";
 import { toast } from "sonner";
 import { usePrivacyTermsMutation } from "../../../../redux/api/settingsApi";
-
+ 
 const Announcement = () => {
   const [staticContent] = usePrivacyTermsMutation();
   const [content, setContent] = useState("");

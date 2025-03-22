@@ -3,23 +3,50 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Input, Collapse, ConfigProvider } from "antd";
 import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
+import { toast } from "sonner";
+import { usePrivacyTermsMutation } from "../../../redux/api/settingsApi";
 
 const { Panel } = Collapse;
 
 const FAQ = () => {
+  const [staticContent] = usePrivacyTermsMutation();
   const editor = useRef(null);
   // State to hold the FAQ list and active panel key
-  const [faqList, setFaqList] = useState([{ question: "", answer: "" }]); // Initial Q/A pair
+  const [faqList, setFaqList] = useState([{ title: "", content: "" }]); // Initial Q/A pair
   const [activeKey, setActiveKey] = useState([0]); // Track the active panel
 
   // Function to save all Q/A pairs
-  const handleOnSave = () => {
-    console.log(faqList); // This will log all Q/A pairs
-  };
 
+  const handleOnSave = async () => {
+    console.log(faqList);
+    const toastId = toast.loading("Faq is Posting");
+    const data = {
+      type: "faq",
+      faq: faqList,
+    };
+    try {
+      const res = await staticContent(data).unwrap();
+      console.log(res);
+      toast.success("Faq Updated Successfully", {
+        id: toastId,
+        duration: 2000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        error?.data?.message ||
+          error?.error ||
+          "An error occurred during posting Faq",
+        {
+          id: toastId,
+          duration: 2000,
+        }
+      );
+    }
+  };
   // Function to add a new Q/A pair
   const handleAddQus = () => {
-    const newFaqList = [...faqList, { question: "", answer: "" }]; // Add new Q/A pair
+    const newFaqList = [...faqList, { title: "", content: "" }]; // Add new Q/A pair
     setFaqList(newFaqList);
     setActiveKey([newFaqList.length - 1]); // Set the new panel as active
   };
@@ -27,14 +54,14 @@ const FAQ = () => {
   // Function to update question text
   const handleQuestionChange = (index, value) => {
     const newFaqList = [...faqList];
-    newFaqList[index].question = value;
+    newFaqList[index].title = value;
     setFaqList(newFaqList);
   };
 
   // Function to update answer text
   const handleAnswerChange = (index, value) => {
     const newFaqList = [...faqList];
-    newFaqList[index].answer = value;
+    newFaqList[index].content = value;
     setFaqList(newFaqList);
   };
 
@@ -48,15 +75,10 @@ const FAQ = () => {
   };
 
   return (
-    <div
-      className="min-h-screen rounded-lg"
-     
-    >
+    <div className="min-h-screen rounded-lg">
       <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
         <div className=" w-[95%] mx-auto  flex items-center justify-between">
-          <p className="text-3xl text-primary-color font-semibold">
-            FAQ
-          </p>
+          <p className="text-3xl text-primary-color font-semibold">FAQ</p>
         </div>
       </div>
       <div className="p-2 rounded flex flex-col gap-5 w-full  mx-auto">
@@ -105,7 +127,7 @@ const FAQ = () => {
                     }`}</p>
                     <Input
                       placeholder="Type your question"
-                      value={faq.question}
+                      value={faq.title}
                       onChange={(e) =>
                         handleQuestionChange(index, e.target.value)
                       }
@@ -118,7 +140,7 @@ const FAQ = () => {
                     </p>
                     <JoditEditor
                       ref={editor}
-                      value={faq.answer}
+                      value={faq.content}
                       config={{ height: 300, theme: "light", readonly: false }}
                       onBlur={(newContent) =>
                         handleAnswerChange(index, newContent)
