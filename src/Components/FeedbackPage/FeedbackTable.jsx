@@ -9,7 +9,10 @@ const FeedbackTable = ({
   data,
   loading,
   showViewServiceUserModal,
-  pageSize = 0,
+  pageSize,
+  meta,
+  setPaginationData,
+  setFilter,
 }) => {
   // Filter data based on the selected company (this will apply to the table)
 
@@ -33,7 +36,7 @@ const FeedbackTable = ({
     },
     {
       title: "Status",
-      dataIndex: "status",
+      dataIndex: "status", // This tells the table to look for "status" in your data
       key: "status",
       filters: [
         {
@@ -44,22 +47,21 @@ const FeedbackTable = ({
           text: "Pending",
           value: "pending",
         },
+        {
+          text: "Rejected",
+          value: "rejected",
+        },
       ],
-      onFilter: (value, record) => record.Status.toString() === value,
+      filterMultiple: false, // Radio buttons
+      onFilter: (value, record) => record.status === value,
       render: (text) => (
         <div className="flex items-center gap-2">
           {text === "resolved" ? (
             <p className="text-base font-bold text-[#15D26A]">Resolved</p>
+          ) : text === "pending" ? (
+            <p className="text-base font-bold text-secondary-color">Pending</p>
           ) : (
-            <>
-              {text === "pending" ? (
-                <p className="text-base font-bold text-secondary-color">
-                  Pending
-                </p>
-              ) : (
-                <p className="text-base font-bold text-red-500">Rejected</p>
-              )}
-            </>
+            <p className="text-base font-bold text-red-500">Rejected</p>
           )}
         </div>
       ),
@@ -105,13 +107,32 @@ const FeedbackTable = ({
     },
   ];
 
+  const handleTableChange = (pagination, filters, sorter) => {
+    setPaginationData({ page: pagination.current, limit: pagination.pageSize });
+
+    const statusFilter = filters?.status[0];
+    setFilter(statusFilter);
+
+    console.log("filter", pagination, filters, sorter);
+  };
   return (
     <div>
       <Table
         columns={columns}
         dataSource={data} // Use the filtered data here based on selected company
         loading={loading}
-        pagination={pageSize > 0 ? { pageSize } : false}
+        pagination={{
+          total: meta?.total || 0,
+          pageSize: meta?.limit || pageSize,
+          current: meta?.page || 1,
+          showTotal: (total, range) =>
+            `SHOWING ${range[0]}-${range[1]} OF ${total}`,
+          showSizeChanger: true,
+          pageSizeOptions: ["12", "24", "50", "100"],
+          onChange: (page, pageSize) =>
+            handleTableChange({ current: page, pageSize }),
+        }}
+        onChange={handleTableChange}
         rowKey="id"
         scroll={{ x: true }}
       />

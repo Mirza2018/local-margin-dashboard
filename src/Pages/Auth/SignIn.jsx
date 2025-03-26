@@ -120,9 +120,9 @@ const SignIn = () => {
                 className="py-2 px-3 text-xl bg-site-color border !border-secondary-color text-base-color"
               />
             </Form.Item>
-            <Typography.Title level={4} style={{ color: "#222222" }}>
+            {/* <Typography.Title level={4} style={{ color: "#222222" }}>
               Role
-            </Typography.Title>
+            </Typography.Title> */}
             {/* <Form.Item
               rules={[{ required: true }]}
               name="role"
@@ -141,8 +141,8 @@ const SignIn = () => {
                 </Select.Option>
               </Select>
             </Form.Item> */}
-            <div className="flex justify-between items-center mt-10">
-              <Checkbox className="">Remember me</Checkbox>
+            <div className="flex justify-end items-center mt-10">
+              {/* <Checkbox className="">Remember me</Checkbox> */}
               <Link
                 to="/forgot-password"
                 className="!text-secondary-color !underline"

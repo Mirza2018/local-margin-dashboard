@@ -44,7 +44,7 @@ import QuickStartGuide from "../Pages/Role/RestaurantOwner/DataManagementPages/Q
 
 function AuthRedirect() {
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("home_care_user"));
     if (user && user.role) {

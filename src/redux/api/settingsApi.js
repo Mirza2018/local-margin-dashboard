@@ -9,9 +9,16 @@ export const settingsApi = baseApi.injectEndpoints({
         method: "POST",
         body: privacy,
       }),
-      invalidatesTags: [tagTypes.privacy],
+      invalidatesTags: [tagTypes.privacy, tagTypes.faq],
+    }),
+    getFaq: build.query({
+      query: () => ({
+        url: `/static_content?type=faq`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.faq],
     }),
   }),
-}); 
+});
 
-export const { usePrivacyTermsMutation } = settingsApi;
+export const { usePrivacyTermsMutation,useGetFaqQuery } = settingsApi;

@@ -11,18 +11,37 @@ import {
   useFeedbackRatioQuery,
   useGetAllFeedbackListQuery,
 } from "../../../redux/api/queryApi";
+import { useLocation } from "react-router-dom";
 
 const FeedbackPage = () => {
-  const { data: feedbackData, isFetching } = useGetAllFeedbackListQuery();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+  const initialLimit = parseInt(queryParams.get("limit")) || 12;
+  const initialSearchTerm = queryParams.get("searchTerm") || "";
+  const initialFilter = queryParams.get("filter") || "";
+  const initialYear = parseInt(queryParams.get("year") || 2025);
+
+  // State for pagination and filters
+  const [paginationData, setPaginationData] = useState({
+    page: initialPage,
+    limit: initialLimit,
+  });
+  const [searchText, setSearchText] = useState(initialSearchTerm);
+  const [filter, setFilter] = useState(initialFilter);
+  const [year, setYear] = useState(initialYear);
+
+  const { data: feedbackData, isFetching } = useGetAllFeedbackListQuery({
+    ...paginationData,
+    searchTerm: searchText,
+    filter,
+  });
   const { data: feedbackRatio, isFetching: isRatioFetching } =
-    useFeedbackRatioQuery();
+    useFeedbackRatioQuery({ year });
 
-
-
-  console.log(feedbackData,isFetching);
+  // console.log(feedbackData, isFetching);
 
   //* Store Search Value
-  const [searchText, setSearchText] = useState("");
 
   //* It's Use to Show Modal
   const [isServiceUserViewModalVisible, setIsServiceUserViewModalVisible] =
@@ -56,6 +75,7 @@ const FeedbackPage = () => {
       <FeedbackResolvedBarChart
         data={feedbackRatio?.data}
         isFetching={isRatioFetching}
+        setYear={setYear}
       />
       <div
         className="bg-highlight-color min-h-[90vh]  rounded-xl"
@@ -70,7 +90,7 @@ const FeedbackPage = () => {
               >
                 <Input
                   placeholder="Search Feedback..."
-                  value={searchText}
+                  // value={searchText}
                   onChange={(e) => onSearch(e.target.value)}
                   className=" font-semibold !border- !bg-transparent py-2 !rounded-full"
                   prefix={
@@ -85,10 +105,13 @@ const FeedbackPage = () => {
         {/* Table  */}
         <div className="px-10 py-10">
           <FeedbackTable
-            data={filteredData}
+            data={feedbackData?.data}
             loading={isFetching}
             showViewServiceUserModal={showViewServiceUserModal}
-            pageSize={7}
+            setFilter={setFilter}
+            setPaginationData={setPaginationData}
+            pageSize={paginationData.limit}
+            meta={feedbackData?.meta}
           />
         </div>
 

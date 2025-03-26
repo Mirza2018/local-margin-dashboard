@@ -1,5 +1,5 @@
 / eslint-disable no-unused-vars /;
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Select, Spin } from "antd";
 import React from "react";
 import {
   Area,
@@ -10,26 +10,17 @@ import {
   YAxis,
 } from "recharts";
 
-const data = [
-  { month: "Jan", user: 475 },
-  { month: "Feb", user: 580 },
-  { month: "Mar", user: 300 },
-  { month: "Apr", user: 525 },
-  { month: "May", user: 375 },
-  { month: "Jun", user: 450 },
-  { month: "Jul", user: 575 },
-  { month: "Aug", user: 360 },
-  { month: "Sep", user: 200 },
-  { month: "Oct", user: 400 },
-  { month: "Nov", user: 300 },
-  { month: "Dec", user: 600 },
-];
 
-const onChange = (date, dateString) => {
-  console.log(date, dateString);
-};
-const StaffOverviewAreaChart = ({ title, isRatioLoading, ratioData,user }) => {
-  console.log("hdfeuiwufue", ratioData);
+ 
+const StaffOverviewAreaChart = ({
+  title,
+  isRatioLoading,
+  ratioData,
+  user,
+  currentDate,
+  setYear,
+}) => {
+  // console.log("hdfeuiwufue", ratioData);
 
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;
@@ -43,13 +34,26 @@ const StaffOverviewAreaChart = ({ title, isRatioLoading, ratioData,user }) => {
       </div>
     );
   }
+  const dateOptions = [
+    { value: currentDate, label: currentDate },
+    { value: currentDate - 1, label: currentDate - 1 },
+    { value: currentDate - 2, label: currentDate - 2 },
+    { value: currentDate - 3, label: currentDate - 4 },
+  ];
   return (
     <div className="py-5 bg-white rounded-lg">
       <div className="flex justify-between items-center mx-5 my-5">
         <h1 className="text-2xl font-bold">{title}</h1>
 
         <div>
-          <DatePicker onChange={onChange} picker="year" prefix="User" />
+          <Select
+            onChange={(value) => {
+              setYear(value);
+            }}
+            defaultValue={"Select Year "}
+            style={{ width: 120 }}
+            options={dateOptions}
+          />
         </div>
       </div>
       <div className="w-full  h-80">

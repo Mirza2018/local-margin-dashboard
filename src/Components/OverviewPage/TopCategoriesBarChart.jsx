@@ -16,7 +16,7 @@ import {
 // { name: "Tips", value: 80 },
 // ];
 const onChange = (date, dateString) => {
-  console.log(date, dateString);
+  // console.log(date, dateString);
 };
 const TopCategoriesBarChart = ({ data, isLoading }) => {
   if (isLoading) {

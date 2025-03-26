@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useLocation } from "react-router-dom"; // To extract query params
 import axios from "axios";
 import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -9,37 +10,46 @@ import { SearchOutlined } from "@ant-design/icons";
 import QueriesTable from "../../../Components/QueriesPage/QueriesTable";
 import ViewQueriesDetails from "../../../Components/QueriesPage/ViewQueriesDetails";
 import { useGetAllqueryListQuery } from "../../../redux/api/queryApi";
-// import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
-// import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
-
+ 
 const QueriesPage = () => {
-  const { data: queryData, isFetching } = useGetAllqueryListQuery();
-  // console.log("queryData",queryData?.data);
+  // Extract query parameters from the URL
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+  const initialLimit = parseInt(queryParams.get("limit")) || 12;
+  const initialSearchTerm = queryParams.get("searchTerm") || "";
+  const initialFilter = queryParams.get("filter") || "";
 
-  //* Store Search Value
-  const [searchText, setSearchText] = useState("");
+  // State for pagination and filters
+  const [paginationData, setPaginationData] = useState({
+    page: initialPage,
+    limit: initialLimit,
+  });
+  const [searchText, setSearchText] = useState(initialSearchTerm);
+  const [filter, setFilter] = useState(initialFilter);
 
-  //* Use to set user
-  const [data, setData] = useState([]);
+  // Pass searchText and filter to the API query
+  const { data: queryData, isFetching } = useGetAllqueryListQuery({
+    ...paginationData,
+    searchTerm: searchText,
+    filter,
+  });
 
-  const [loading, setLoading] = useState(true);
 
-  //* It's Use to Show Modal
-  const [isServiceUserViewModalVisible, setIsServiceUserViewModalVisible] =
-    useState(false);
 
-  //* It's Use to Set Seclected User to Block and view
-  const [currentRecord, setCurrentRecord] = useState(null);
 
-  const filteredData = useMemo(() => {
-    if (!searchText) return queryData?.data;
-    return queryData?.data.filter((item) =>
-      item?.query.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [queryData, searchText]);
 
+  
+  // Handle search input change
   const onSearch = (value) => {
     setSearchText(value);
+    setPaginationData({ ...paginationData, page: 1 }); // Reset to page 1 on search
+  };
+
+  // Optional: Handle filter change (e.g., via dropdown)
+  const onFilterChange = (value) => {
+    setFilter(value);
+    setPaginationData({ ...paginationData, page: 1 }); // Reset to page 1 on filter change
   };
 
   const showViewServiceUserModal = (record) => {
@@ -51,14 +61,18 @@ const QueriesPage = () => {
     setIsServiceUserViewModalVisible(false);
   };
 
+  const [isServiceUserViewModalVisible, setIsServiceUserViewModalVisible] =
+    useState(false);
+  const [currentRecord, setCurrentRecord] = useState(null);
+
   return (
     <div
-      className="bg-highlight-color min-h-[90vh]  rounded-xl"
-      style={{ boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.25)" }}
+      className="bg-highlight-color min-h-[90vh] rounded-xl"
+      style={{ boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.25)" }}
     >
-      {/* Header  */}
-      <div className="bg-secondary-color w-full p-4   rounded-tl-xl rounded-tr-xl">
-        <div className=" w-[95%] mx-auto  flex items-center justify-between">
+      {/* Header */}
+      <div className="bg-secondary-color w-full p-4 rounded-tl-xl rounded-tr-xl">
+        <div className="w-[95%] mx-auto flex items-center justify-between">
           <p className="text-3xl text-primary-color font-semibold">
             Service Users
           </p>
@@ -76,22 +90,25 @@ const QueriesPage = () => {
                 }
               />
             </ConfigProvider>
+            {/* Optional: Add filter dropdown */}
+            {/* Example: <Select value={filter} onChange={onFilterChange} options={[{ value: "neutral", label: "Neutral" }]} /> */}
           </div>
         </div>
       </div>
 
-      {/* Table  */}
+      {/* Table */}
       <div className="px-10 py-10">
         <QueriesTable
-          data={filteredData}
+          data={queryData?.data}
           loading={isFetching}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={12}
+          setPaginationData={setPaginationData}
+          pageSize={paginationData.limit}
+          meta={queryData?.meta}
         />
       </div>
 
       {/* Modals */}
-
       <ViewQueriesDetails
         isServiceUserViewModalVisible={isServiceUserViewModalVisible}
         handleCancel={handleCancel}

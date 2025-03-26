@@ -12,8 +12,8 @@ export const usersApi = baseApi.injectEndpoints({
     }),
 
     userRatio: build.query({
-      query: () => ({
-        url: `/users/user_ratio?year=2025`,
+      query: ({year}) => ({
+        url: `/users/user_ratio?year=${year}`,
         method: "GET",
       }),
       invalidatesTags: [tagTypes.allUsers],
@@ -39,10 +39,14 @@ export const usersApi = baseApi.injectEndpoints({
     }),
 
     getAllStaffRatio: build.query({
-      query: () => ({
-        url: `/restaurant/restaurant_staff_ratio?year=2025`,
-        method: "Get",
-      }),
+      query: ({ year }) => {
+        console.log("need",year);
+
+       return ({
+          url: `/restaurant/restaurant_staff_ratio?year=${year}`,
+          method: "Get",
+        });
+      },
       providesTags: [tagTypes.staff],
     }),
 

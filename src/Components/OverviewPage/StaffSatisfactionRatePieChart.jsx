@@ -8,10 +8,10 @@ const StaffSatisfactionRatePieChart = ({
   isError,
 }) => {
   const onChange = (date, dateString) => {
-    console.log(date, dateString);
+    // console.log(date, dateString);
   };
 
-  console.log(result);
+  // console.log(result);
 
   let ratioData;
 

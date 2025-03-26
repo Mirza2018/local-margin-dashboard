@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AllOverviewHeader from "../../../Components/OverviewPage/AllOverviewHeader";
 import OverviewAreaChart from "../../../Components/OverviewPage/OverviewAreaChart";
 import QueriesResolvedBarChart from "../../../Components/OverviewPage/QueriesResolvedBarChart";
@@ -13,21 +13,26 @@ import {
   useUserRatioQuery,
 } from "../../../redux/api/usersApi";
 import { useGetRestaurantCountQuery } from "../../../redux/api/restaurantApi";
- 
+  
 const AllOverview = () => {
+    const currentDate = new Date().getFullYear();
   const { data: count, isFetching:isCountFetching,isError } = useGetRestaurantCountQuery();
   const { data: userData, isFetching } = useGetAllusersListQuery();
-  const { data: ratioData, isFetching: isRatioLoading, } = useUserRatioQuery();
+    const [year, setYear] = useState(currentDate);
+  const { data: ratioData, isFetching: isRatioLoading, } = useUserRatioQuery({year});
   const {
     data: staffSatisfaction,
     isFetching: isStaffSatisfactionLoading,
     isError: isStaffSatisfactionRatePieChartError,
   } = useGetRestaurentStaffSatisfactionRatioQuery();
+
+
+    const [restaurantYear, setRestaurantYear] = useState(currentDate);
     const { data: restaurantQuery, isFetching: isRastaurentQueryLoading } =
     useGetRestaurentQueryRatioQuery();
     const { data: restaurentCategoryRatio, isFetching: isCategoryLoading } =
       useGetRestaurentCategoryRatioQuery();
-
+ 
 
   return (
     <React.Fragment>
@@ -42,6 +47,8 @@ const AllOverview = () => {
           isRatioLoading={isRatioLoading}
           title="User overview"
           user="count"
+          currentDate={currentDate}
+          setYear={setYear}
         />
         <QueriesResolvedBarChart
           data={restaurantQuery?.data}

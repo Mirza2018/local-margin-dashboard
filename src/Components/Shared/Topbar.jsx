@@ -50,6 +50,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
   } else {
     user = "restaurantOwner";
   }
+  // console.log("image", getImageUrl() + data?.data[0]?.profile?.profileImage);
 
   const image = getImageUrl() + data?.data[0]?.profile?.profileImage;
 
@@ -87,9 +88,6 @@ const Topbar = ({ collapsed, setCollapsed }) => {
       </Link>
     </div>
   );
-
-
-  
 
   return (
     <div className="py-4 mx-[-40px] flex justify-between items-center bg-[#F2C470]  rounded-full  mt-2">
@@ -130,7 +128,9 @@ const Topbar = ({ collapsed, setCollapsed }) => {
             )}
 
             <div>
-              <p className="text-black text-sm font-bold">{ data?.data[0]?.profile?.name}</p>
+              <p className="text-black text-sm font-bold">
+                {data?.data[0]?.profile?.name}
+              </p>
               <p className="text-xs font-normal !hover:bg-secondary-color">
                 {decodeToken.role == "ADMIN" ? "Admin" : "Restaurant Owner"}
               </p>

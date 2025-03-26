@@ -4,12 +4,19 @@ import { Button, Input, Collapse, ConfigProvider } from "antd";
 import JoditEditor from "jodit-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
-import { usePrivacyTermsMutation } from "../../../redux/api/settingsApi";
+import {
+  useGetFaqQuery,
+  usePrivacyTermsMutation,
+} from "../../../redux/api/settingsApi";
 
 const { Panel } = Collapse;
 
 const FAQ = () => {
   const [staticContent] = usePrivacyTermsMutation();
+  const { data: faqData, isFetching } = useGetFaqQuery();
+  const length = faqData?.data?.faq?.length;
+  console.log(faqData?.data?.faq, isFetching);
+
   const editor = useRef(null);
   // State to hold the FAQ list and active panel key
   const [faqList, setFaqList] = useState([{ title: "", content: "" }]); // Initial Q/A pair
@@ -18,12 +25,14 @@ const FAQ = () => {
   // Function to save all Q/A pairs
 
   const handleOnSave = async () => {
-    console.log(faqList);
     const toastId = toast.loading("Faq is Posting");
     const data = {
       type: "faq",
       faq: faqList,
     };
+
+    console.log(data);
+
     try {
       const res = await staticContent(data).unwrap();
       console.log(res);
@@ -106,14 +115,14 @@ const FAQ = () => {
           >
             {faqList.map((faq, index) => (
               <Panel
-                header={`Question ${index + 1}`}
+                header={`Question ${length + index + 1}`}
                 key={index}
                 className="!text-base-color bg-primary-color flex flex-col gap-1"
                 extra={
                   faqList.length > 1 && (
                     <button
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleRemoveQus(index)}
+                      onClick={() => handleRemoveQus( index)}
                     >
                       Remove
                     </button>
@@ -123,7 +132,7 @@ const FAQ = () => {
                 <div className="flex flex-col gap-3">
                   <div className="flex flex-col gap-3">
                     <p className="text-base-color text-xl font-medium">{`Question ${
-                      index + 1
+                      length + index + 1
                     }`}</p>
                     <Input
                       placeholder="Type your question"
@@ -174,6 +183,12 @@ const FAQ = () => {
           </Button>
         </div>
       </div>
+      {faqData?.data?.faq.slice(0, 6).map((faq, index) => (
+        <div key={index} className="p-2">
+          <p className="text-xl font-medium">Question: {faq?.title}</p>
+          <p className="text-xl">Answer: {faq?.content}</p>
+        </div>
+      ))}
     </div>
   );
 };

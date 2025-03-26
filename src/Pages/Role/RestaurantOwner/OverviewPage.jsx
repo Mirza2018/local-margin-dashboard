@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import OverViewHeader from "../../../Components/OverviewPage/OverViewHeader";
 import { AllIcons } from "../../../../public/images/AllImages";
 import StaffOverviewAreaChart from "../../../Components/OverviewPage/OverviewAreaChart";
@@ -9,21 +9,24 @@ import StaffTable from "../../../Components/StaffPage/StaffTable";
 import ShortStafflist from "../../../Components/OverviewPage/ShortStaffList";
 import {
   useGetAllStaffListQuery,
-  useGetAllStaffRatioQuery, 
+  useGetAllStaffRatioQuery,
   useGetRestaurentCategoryRatioQuery,
   useGetRestaurentQueryRatioQuery,
   useGetRestaurentStaffSatisfactionRatioQuery,
-  useUserRatioQuery, 
+  useUserRatioQuery,
 } from "../../../redux/api/usersApi";
 import { useGetRestaurantCountQuery } from "../../../redux/api/restaurantApi";
 
 const OverviewPage = () => {
-  const { data: count, isFetching:isCountFetching } = useGetRestaurantCountQuery();
-
+  const currentDate = new Date().getFullYear();
+  const { data: count, isFetching: isCountFetching } =
+    useGetRestaurantCountQuery();
 
   const { data: staffData, isFetching } = useGetAllStaffListQuery();
+
+  const [year, setYear] = useState(currentDate);
   const { data: ratioData, isFetching: isRatioLoading } =
-    useGetAllStaffRatioQuery();
+    useGetAllStaffRatioQuery( {year});
 
   const { data: restaurantQuery, isFetching: isRastaurentQueryLoading } =
     useGetRestaurentQueryRatioQuery();
@@ -34,13 +37,15 @@ const OverviewPage = () => {
 
   return (
     <React.Fragment>
-      <OverViewHeader data={count?.data } isFetching={isCountFetching} />
+      <OverViewHeader data={count?.data} isFetching={isCountFetching} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <StaffOverviewAreaChart
           ratioData={ratioData?.data}
           isRatioLoading={isRatioLoading}
           title="Staff overview"
           user="STAFF"
+          currentDate={currentDate}
+          setYear={setYear}
         />
         <QueriesResolvedBarChart
           data={restaurantQuery?.data}

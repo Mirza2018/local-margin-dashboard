@@ -1,4 +1,4 @@
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Select, Spin } from "antd";
 import React from "react";
 import {
   BarChart,
@@ -12,8 +12,16 @@ import {
 const onChange = (date, dateString) => {
   console.log(date, dateString);
 };
-const FeedbackResolvedBarChart = ({ data, isFetching }) => {
-
+const FeedbackResolvedBarChart = ({ data, isFetching, setYear }) => {
+  const currentYear = new Date().getFullYear();
+  console.log(currentYear);
+ 
+  const dateOptions = [
+    { value: currentYear, label: currentYear },
+    { value: currentYear - 1, label: currentYear - 1 },
+    { value: currentYear - 2, label: currentYear - 2 },
+    { value: currentYear - 3, label: currentYear - 4 },
+  ];
 
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;
@@ -35,7 +43,20 @@ const FeedbackResolvedBarChart = ({ data, isFetching }) => {
         <h1 className="text-2xl font-bold">Feedback Resolved</h1>
 
         <div>
-          <DatePicker onChange={onChange} picker="year" prefix="User" />
+          {/* <DatePicker
+            disabledDate={disabledDate}
+            onChange={onChange}
+            picker="year"
+            prefix="User"
+          /> */}
+          <Select
+            onChange={(value) => {
+              setYear(value);
+            }}
+            defaultValue={currentYear}
+            style={{ width: 120 }}
+            options={dateOptions}
+          />
           <div className="flex gap-2 mt-5 text-sm font-bold justify-center items-center">
             <React.Fragment>
               <div className="size-3 rounded-full bg-secondary-color"></div>

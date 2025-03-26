@@ -23,7 +23,7 @@ import {
 //   { name: "Dec", uv: 36 },
 // ];
 const onChange = (date, dateString) => {
-  console.log(date, dateString);
+  // console.log(date, dateString);
 };
 const QueriesResolvedBarChart = ({ data, isLoading }) => {
   // Formatter function to add 'K' suffix to Y-axis values

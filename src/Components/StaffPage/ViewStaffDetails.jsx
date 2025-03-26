@@ -54,6 +54,7 @@ const ViewStaffDetails = ({
       );
     }
   };
+// console.log(getImageUrl() + currentRecord?.profile?.profileImage);
 
   return (
     <Modal

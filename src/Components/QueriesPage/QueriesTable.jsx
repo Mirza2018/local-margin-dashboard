@@ -8,7 +8,7 @@ import { IoMdDownload } from "react-icons/io";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { render } from "react-dom";
+import { render } from "react-dom"; 
 
 // Function to get unique company names
 const getUniqueCompanyNames = (data) => {
@@ -20,30 +20,13 @@ const QueriesTable = ({
   data,
   loading,
   showViewServiceUserModal,
-  pageSize = 0,
+  pageSize = 12,
+  meta,
+  setPaginationData,
 }) => {
-  // Filter data based on the selected company (this will apply to the table)
-
-  // };
-
-  const downloadExcel = (record, index) => {
-       const cleanedText = record?.createdAt?.replace("=", "").split("T")[0];
-    const data = [
-      {
-        ID: `${index + 1}`,
-        Query: `${record.query}`,
-        Category: `${record.category}`,
-        Staff: `${record.staffName}`,
-        Submitted_On: `${cleanedText}`,
-      },
-    ];
-
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Query Info");
-
-    // Writing the file
-    XLSX.writeFile(workbook, `Query"${record.staffName}"${record._id}.xlsx`);
+  // Handle page change
+  const handleTableChange = (pagination) => {
+    setPaginationData({ page: pagination.current, limit: pagination.pageSize });
   };
 
   const columns = [
@@ -52,9 +35,7 @@ const QueriesTable = ({
       dataIndex: "_id",
       key: "_id",
       responsive: ["md"],
-      render: (id, _, index) => {
-        return <div>{index + 1}</div>;
-      },
+      render: (id, _, index) => <div>{index + 1}</div>,
     },
     {
       title: "Query",
@@ -75,21 +56,14 @@ const QueriesTable = ({
       title: "Submitted On",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text) => {
-        const cleanedText = text.replace("=", "").split("T")[0];
-        console.log(cleanedText);
-
-        return <div>{cleanedText}</div>;
-      },
+      render: (text) => <div>{text.replace("=", "").split("T")[0]}</div>,
     },
-
     {
       title: "Action",
       key: "action",
-      render: (_, record,index) => (
+      render: (_, record, index) => (
         <Space size="">
-          {/* View Details Tooltip */}
-          <Tooltip placement="right" title="Dowenload Query">
+          <Tooltip placement="right" title="Download Query">
             <Button
               className="!p-0"
               style={{
@@ -97,7 +71,7 @@ const QueriesTable = ({
                 border: "none",
                 color: "#222222",
               }}
-              onClick={() => downloadExcel(record,index)}
+              onClick={() => downloadExcel(record, index)}
             >
               <IoMdDownload
                 style={{ fontSize: "24px" }}
@@ -114,10 +88,21 @@ const QueriesTable = ({
     <div>
       <Table
         columns={columns}
-        dataSource={data} // Use the filtered data here based on selected company
+        dataSource={data}
         loading={loading}
-        pagination={pageSize > 0 ? { pageSize } : false}
-        rowKey="id"
+        pagination={{
+          total: meta?.total || 0,
+          pageSize: meta?.limit || pageSize,
+          current: meta?.page || 1,
+          showTotal: (total, range) =>
+            `SHOWING ${range[0]}-${range[1]} OF ${total}`,
+          showSizeChanger: true,
+          pageSizeOptions: ["12", "24", "50","100"],
+          onChange: (page, pageSize) =>
+            handleTableChange({ current: page, pageSize }),
+        }}
+        onChange={handleTableChange}
+        rowKey="_id"
         scroll={{ x: true }}
       />
     </div>
@@ -125,3 +110,14 @@ const QueriesTable = ({
 };
 
 export default QueriesTable;
+
+// pagination={{
+//           pageSize: 8,
+//           total: 250, // Total number of items
+//           showSizeChanger: true,
+//           pageSizeOptions: ['8', '60', '120'],
+//           defaultCurrent: 1,
+//           showTotal: (total, range) => `SHOWING ${range[0]}-${range[1]} OF ${total}`,
+//         }}
+
+//  total: meta.total, current: meta.page 
