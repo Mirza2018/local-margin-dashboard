@@ -11,7 +11,15 @@ import { useGetAllusersListQuery } from "../../redux/api/usersApi";
 // import AllServiceUserTable from "../../Components/Tables/Admin/AllServiceUserTable";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
-const ShortUserList = ({ title, userData,isLoading }) => {
+const ShortUserList = ({
+  title,
+  userData,
+  isLoading,
+  pageSize,
+  setPaginationData,
+  meta,
+  setFilter,
+}) => {
   //* Store Search Value
   const [searchText, setSearchText] = useState("");
 
@@ -98,7 +106,10 @@ const ShortUserList = ({ title, userData,isLoading }) => {
           data={filteredData}
           loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={7}
+          pageSize={pageSize}
+          setPaginationData={setPaginationData}
+          meta={meta}
+          setFilter={setFilter}
         />
       </div>
 

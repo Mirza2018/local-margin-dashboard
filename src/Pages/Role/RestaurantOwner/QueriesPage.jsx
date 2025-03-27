@@ -5,12 +5,12 @@ import { useLocation } from "react-router-dom"; // To extract query params
 import axios from "axios";
 import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-
+ 
 //* Modal Table
 import QueriesTable from "../../../Components/QueriesPage/QueriesTable";
 import ViewQueriesDetails from "../../../Components/QueriesPage/ViewQueriesDetails";
 import { useGetAllqueryListQuery } from "../../../redux/api/queryApi";
- 
+  
 const QueriesPage = () => {
   // Extract query parameters from the URL
   const location = useLocation();
@@ -20,7 +20,7 @@ const QueriesPage = () => {
   const initialSearchTerm = queryParams.get("searchTerm") || "";
   const initialFilter = queryParams.get("filter") || "";
 
-  // State for pagination and filters
+  // State for pagination and filters 
   const [paginationData, setPaginationData] = useState({
     page: initialPage,
     limit: initialLimit,
@@ -105,6 +105,7 @@ const QueriesPage = () => {
           setPaginationData={setPaginationData}
           pageSize={paginationData.limit}
           meta={queryData?.meta}
+          setFilter={setFilter}
         />
       </div>
 

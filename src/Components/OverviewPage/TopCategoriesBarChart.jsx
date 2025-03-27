@@ -1,4 +1,4 @@
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Select, Spin } from "antd";
 import {
   BarChart,
   Bar,
@@ -8,17 +8,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// const data = [
-// { name: "Menu", value: 80 },
-// { name: "Policy",value: 80 },
-// { name: "Dish", value: 80},
-// { name: "Food", value: 80 },
-// { name: "Tips", value: 80 },
-// ];
 const onChange = (date, dateString) => {
   // console.log(date, dateString);
 };
-const TopCategoriesBarChart = ({ data, isLoading }) => {
+const TopCategoriesBarChart = ({ data, isLoading, currentDate, setYear }) => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center">
@@ -36,6 +29,12 @@ const TopCategoriesBarChart = ({ data, isLoading }) => {
 
   // Custom tick style
   const tickStyle = { fill: "#222222" };
+    const dateOptions = [
+      { value: currentDate, label: currentDate },
+      { value: currentDate - 1, label: currentDate - 1 },
+      { value: currentDate - 2, label: currentDate - 2 },
+      { value: currentDate - 3, label: currentDate - 4 },
+    ];
 
   return (
     <div className="py-5 bg-white rounded-lg">
@@ -43,7 +42,14 @@ const TopCategoriesBarChart = ({ data, isLoading }) => {
         <h1 className="text-2xl font-bold">Top Categories</h1>
 
         <div>
-          <DatePicker onChange={onChange} picker="year" prefix="User" />
+          <Select
+            onChange={(value) => {
+              setYear(value);
+            }}
+            defaultValue={"Select Year "}
+            style={{ width: 120 }}
+            options={dateOptions}
+          />
         </div>
       </div>
       {/* <div className="w-full h-1 border-t border-secondary-color mb-5 "></div> */}

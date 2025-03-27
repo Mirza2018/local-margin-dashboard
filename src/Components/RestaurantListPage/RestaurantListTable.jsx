@@ -2,26 +2,19 @@
 import { Button, Input, Space, Table, Tooltip } from "antd";
 import { GoEye } from "react-icons/go";
 
-import { useEffect, useState } from "react";
-import { AllImages } from "../../../public/images/AllImages";
+ 
 
-// Function to get unique company names
-const getUniqueCompanyNames = (data) => {
-  const companyNames = data.map((item) => item.companyName);
-  return [...new Set(companyNames)]; // Remove duplicates by converting array to a Set and back to an array
-};
 
 const RestaurantListTable = ({
   data,
   loading,
   showViewServiceUserModal,
-  pageSize = 0,
-  pageinationData,
-  handleTableChange,
-  paginationConfig,
+  pageSize,
+  setPaginationData,
+  meta,
+  setFilter,
 }) => {
   // Filter data based on the selected company (this will apply to the table)
-  console.log(pageinationData);
 
   const columns = [
     {
@@ -34,16 +27,6 @@ const RestaurantListTable = ({
       title: "Restaurant Name",
       dataIndex: "restaurantName",
       key: "restaurantName",
-      // render: (text) => (
-      //   <div className="flex items-center gap-2">
-      //     <img
-      //       src={AllImages.userImage}
-      //       alt={text}
-      //       className="w-8 h-8 rounded-full"
-      //     />
-      //     <p>{text}</p>
-      //   </div>
-      // ),
     },
     {
       title: "Assigned Owner",
@@ -74,14 +57,16 @@ const RestaurantListTable = ({
       key: "status",
       filters: [
         {
-          text: "ACTIVE",
-          value: "ACTIVE",
+          text: "Active",
+          value: "active",
         },
         {
-          text: "INACTIVATED",
-          value: "INACTIVATED",
+          text: "Inactive",
+          value: "inactivated",
         },
       ],
+      filterMultiple: false, // Radio buttons
+      onFilter: (value, record) => record.status,
       render: (text) => (
         <div className="flex items-center gap-2">
           {text == "ACTIVE" ? (
@@ -117,16 +102,39 @@ const RestaurantListTable = ({
     },
   ];
 
+
+    const handleTableChange = (pagination, filters, sorter) => {
+      setPaginationData({
+        page: pagination.current,
+        limit: pagination.pageSize,
+      });
+
+      const statusFilter = filters?.status[0];
+      setFilter(statusFilter);
+
+      // console.log("filter", pagination, filters, sorter);
+    };
+
   return (
     <div>
       <Table
         columns={columns}
         dataSource={data} // Use the filtered data here based on selected company
         loading={loading}
-        pagination={paginationConfig}
+        pagination={{
+          total: meta?.total || 0,
+          pageSize: meta?.limit || pageSize,
+          current: meta?.page || 1,
+          showTotal: (total, range) =>
+            `SHOWING ${range[0]}-${range[1]} OF ${total}`,
+          showSizeChanger: true,
+          pageSizeOptions: ["12", "24", "50", "100"],
+          onChange: (page, pageSize) =>
+            handleTableChange({ current: page, pageSize }),
+        }}
+        onChange={handleTableChange}
         rowKey="id"
         scroll={{ x: true }}
-        onChange={handleTableChange}
       />
     </div>
   );

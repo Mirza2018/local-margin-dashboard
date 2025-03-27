@@ -1,4 +1,4 @@
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Select, Spin } from "antd";
 import React from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
@@ -6,6 +6,8 @@ const StaffSatisfactionRatePieChart = ({
   data: result,
   isLoading,
   isError,
+  currentDate,
+  setYear,
 }) => {
   const onChange = (date, dateString) => {
     // console.log(date, dateString);
@@ -66,6 +68,12 @@ const StaffSatisfactionRatePieChart = ({
       </text>
     );
   };
+  const dateOptions = [
+    { value: currentDate, label: currentDate },
+    { value: currentDate - 1, label: currentDate - 1 },
+    { value: currentDate - 2, label: currentDate - 2 },
+    { value: currentDate - 3, label: currentDate - 4 },
+  ];
 
   return (
     <div className="bg-white rounded-lg ">
@@ -73,7 +81,14 @@ const StaffSatisfactionRatePieChart = ({
         <h1 className="text-2xl font-bold">Staff Satisfaction Rate</h1>
 
         <div>
-          <DatePicker onChange={onChange} picker="year" prefix="User" />
+          <Select
+            onChange={(value) => {
+              setYear(value);
+            }}
+            defaultValue={"Select Year "}
+            style={{ width: 120 }}
+            options={dateOptions}
+          />
         </div>
       </div>
       {/* <div className="w-full h-1 border-t border-secondary-color mb-5 "></div> */}
@@ -82,7 +97,7 @@ const StaffSatisfactionRatePieChart = ({
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={400} height={400}>
             <Pie
-              data={ratioData}
+              data={result}
               cx="50%"
               cy="50%"
               labelLine={false}
@@ -91,7 +106,7 @@ const StaffSatisfactionRatePieChart = ({
               fill="#8884d8"
               dataKey="count"
             >
-              {ratioData?.map((entry, index) => (
+              {result?.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
@@ -105,17 +120,17 @@ const StaffSatisfactionRatePieChart = ({
             <div className="size-4 bg-[#E99026] "></div>
             <h1 className="text-xl">
               {/* Positive */}
-              {ratioData?.[0]?.staffReview ?? "N/A"}
+              {result?.[0]?.staffReview ?? "N/A"}
             </h1>
           </div>
           <div className="flex justify-center items-center gap-2">
             <div className="size-4 bg-[#F8E1B0] "></div>
-            <h1 className="text-xl"> {ratioData[1]?.staffReview}</h1>
+            <h1 className="text-xl"> {result[1]?.staffReview}</h1>
           </div>
 
           <div className="flex justify-center items-center gap-2">
             <div className="size-4 bg-[#F2C470] "></div>
-            <h1 className="text-xl"> {ratioData[2]?.staffReview}</h1>
+            <h1 className="text-xl"> {result[2]?.staffReview}</h1>
           </div>
         </div>
       </div>

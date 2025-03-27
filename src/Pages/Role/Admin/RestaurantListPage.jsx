@@ -20,6 +20,7 @@ import {
   useGetAllRestaurantQuery,
 } from "../../../redux/api/restaurantApi";
 import { toast } from "sonner";
+import { useLocation } from "react-router-dom";
 
 //* Modal Table
 
@@ -27,39 +28,26 @@ import { toast } from "sonner";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
 const RestaurantListPage = () => {
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 14, // should match your limit
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+  const initialLimit = parseInt(queryParams.get("limit")) || 12;
+  const initialSearchTerm = queryParams.get("searchTerm") || "";
+  const initialFilter = queryParams.get("filter") || "";
+
+  // State for pagination and filters
+  const [paginationData, setPaginationData] = useState({
+    page: initialPage,
+    limit: initialLimit,
   });
+  const [searchText, setSearchText] = useState(initialSearchTerm);
+  const [filter, setFilter] = useState(initialFilter);
 
   const { data: restaurentData, isLoading } = useGetAllRestaurantQuery({
-    page: pagination.current,
-    limit: pagination.pageSize,
+    ...paginationData,
+    searchTerm: searchText,
+    filter,
   });
-  const handleTableChange = (paginationConfig) => {
-    setPagination({
-      current: paginationConfig.current,
-      pageSize: paginationConfig.pageSize || 14,
-    });
-  };
-
-  const paginationConfig = {
-    current: pagination.current, // Current page
-    pageSize: pagination.pageSize, // Items per page
-    total: restaurentData?.meta?.total || 0, // Total items from API
-    showSizeChanger: true, // Show dropdown to change items per page
-    pageSizeOptions: ["10", "20", "50"], // Options for items per page (as requested)
-    showQuickJumper: true, // Optional: allows jumping to a specific page
-    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`, // Optional: display range
-    onChange: (page, pageSize) => {
-      // Update state when page or page size changes
-      console.log(`Navigating to page ${page} with ${pageSize} items per page`);
-      setPagination({
-        current: page,
-        pageSize: pageSize,
-      });
-    },
-  };
 
   // const paginationConfig = {
   //   current: pagination.current, // Current page
@@ -78,7 +66,6 @@ const RestaurantListPage = () => {
   // console.log(restaurentData?.data);
 
   //* Store Search Value
-  const [searchText, setSearchText] = useState("");
 
   const [loadingAddNewResturant, setLoadingAddNewResturant] = useState(false);
   const [openAddNewResturant, setOpenAddNewResturant] = useState(false);
@@ -176,7 +163,7 @@ const RestaurantListPage = () => {
               theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
             >
               <Input
-                placeholder="Search Restaurant Name..."
+                placeholder="Search Assigned Owner..."
                 value={searchText}
                 onChange={(e) => onSearch(e.target.value)}
                 className="text-primary-color font-semibold !border-primary-color !bg-transparent py-2 !rounded-full"
@@ -300,13 +287,14 @@ const RestaurantListPage = () => {
       {/* Table  */}
       <div className="px-10 pb-10">
         <RestaurantListTable
-          data={filteredData}
+          data={restaurentData?.data}
           pageinationData={restaurentData?.meta}
           loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={12}
-          handleTableChange={handleTableChange}
-          paginationConfig={paginationConfig}
+          setPaginationData={setPaginationData}
+          pageSize={paginationData.limit}
+          meta={restaurentData?.meta}
+          setFilter={setFilter}
         />
       </div>
 

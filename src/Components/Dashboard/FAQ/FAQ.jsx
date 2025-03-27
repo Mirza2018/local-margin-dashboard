@@ -122,7 +122,7 @@ const FAQ = () => {
                   faqList.length > 1 && (
                     <button
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleRemoveQus( index)}
+                      onClick={() => handleRemoveQus(index)}
                     >
                       Remove
                     </button>
@@ -183,12 +183,19 @@ const FAQ = () => {
           </Button>
         </div>
       </div>
-      {faqData?.data?.faq.slice(0, 6).map((faq, index) => (
-        <div key={index} className="p-2">
-          <p className="text-xl font-medium">Question: {faq?.title}</p>
-          <p className="text-xl">Answer: {faq?.content}</p>
-        </div>
-      ))}
+      <div className="flex flex-col gap-4 ">
+        {faqData?.data?.faq.map((faq, index) => (
+          <div
+            key={index}
+            className="m-4 p-2 border-2 border-dashed border-secondary-color rounded-lg"
+          >
+            <p className="text-xl font-medium">
+              Question {index + 1} : {faq?.title}
+            </p>
+            <p className="text-xl">Answer: {faq?.content}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

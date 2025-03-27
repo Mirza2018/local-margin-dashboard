@@ -1,4 +1,4 @@
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Select, Spin } from "antd";
 import {
   BarChart,
   Bar,
@@ -8,24 +8,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// const data = [
-//   { name: "Jan", uv: 80 },
-//   { name: "Feb", uv: 70 },
-//   { name: "Mar", uv: 50 },
-//   { name: "Apr", uv: 60 },
-//   { name: "May", uv: 30 },
-//   { name: "Jun", uv: 20 },
-//   { name: "Jul", uv: 45 },
-//   { name: "Aug", uv: 36 },
-//   { name: "Sep", uv: 53 },
-//   { name: "Oct", uv: 69 },
-//   { name: "Nov", uv: 78 },
-//   { name: "Dec", uv: 36 },
-// ];
-const onChange = (date, dateString) => {
-  // console.log(date, dateString);
-};
-const QueriesResolvedBarChart = ({ data, isLoading }) => {
+
+const QueriesResolvedBarChart = ({ data, isLoading, currentDate, setYear }) => {
   // Formatter function to add 'K' suffix to Y-axis values
   const yAxisTickFormatter = (value) => `${value}`;
 
@@ -39,6 +23,12 @@ const QueriesResolvedBarChart = ({ data, isLoading }) => {
       </div>
     );
   }
+  const dateOptions = [
+    { value: currentDate, label: currentDate },
+    { value: currentDate - 1, label: currentDate - 1 },
+    { value: currentDate - 2, label: currentDate - 2 },
+    { value: currentDate - 3, label: currentDate - 4 },
+  ];
 
   return (
     <div className="py-5 bg-white rounded-lg">
@@ -46,7 +36,14 @@ const QueriesResolvedBarChart = ({ data, isLoading }) => {
         <h1 className="text-2xl font-bold">Queries Resolved</h1>
 
         <div>
-          <DatePicker onChange={onChange} picker="year" prefix="User" />
+          <Select
+            onChange={(value) => {
+              setYear(value);
+            }}
+            defaultValue={"Select Year "}
+            style={{ width: 120 }}
+            options={dateOptions}
+          />
         </div>
       </div>
       {/* <div className="w-full h-1 border-t border-secondary-color mb-5 "></div> */}

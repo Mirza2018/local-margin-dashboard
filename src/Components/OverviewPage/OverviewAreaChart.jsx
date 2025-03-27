@@ -19,7 +19,7 @@ const StaffOverviewAreaChart = ({
   user,
   currentDate,
   setYear,
-}) => {
+}) => { 
   // console.log("hdfeuiwufue", ratioData);
 
   // Formatter function to add 'K' suffix to Y-axis values

@@ -36,7 +36,7 @@ const FeedbackPage = () => {
     searchTerm: searchText,
     filter,
   });
-  const { data: feedbackRatio, isFetching: isRatioFetching } =
+  const { data: feedbackRatio, isLoading: isRatioFetching } =
     useFeedbackRatioQuery({ year });
 
   // console.log(feedbackData, isFetching);
@@ -116,7 +116,7 @@ const FeedbackPage = () => {
         </div>
 
         {/* Modals */}
-
+ 
         <ViewFeedbackDetails
           isServiceUserViewModalVisible={isServiceUserViewModalVisible}
           handleCancel={handleCancel}

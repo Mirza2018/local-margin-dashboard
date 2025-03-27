@@ -12,7 +12,7 @@ const ViewUserDetails = ({
   currentRecord,
 }) => {
   const [userAction] = useUserActionMutation();
-  console.log(currentRecord);
+  // console.log(currentRecord);
 
   const userActions = async (action) => {
     const toastId = toast.loading("Blocking user...");

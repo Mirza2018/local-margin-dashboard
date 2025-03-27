@@ -4,9 +4,10 @@ import { baseApi } from "./baseApi";
 export const restaurentApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllRestaurant: build.query({
-      query: ({ page, limit }) => ({
-        url: `/restaurant/restaurant_list?page=${page}&limit=${limit}`,
+      query: ({ page, limit, filter, searchTerm }) => ({
+        url: `/restaurant/restaurant_list`,
         method: "Get",
+        params: { page, limit, filter, searchTerm },
       }),
       providesTags: [tagTypes.restaurent],
     }),

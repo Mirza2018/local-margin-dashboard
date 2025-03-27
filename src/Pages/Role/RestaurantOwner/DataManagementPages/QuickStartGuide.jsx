@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Editor from "../../../../Components/DataManegementPages/Editor";
 import { usePrivacyTermsMutation } from "../../../../redux/api/settingsApi";
 import { toast } from "sonner";
-
+ 
 const QuickStartGuide = () => {
   const [staticContent] = usePrivacyTermsMutation();
   const [content, setContent] = useState("");
@@ -16,7 +16,7 @@ const QuickStartGuide = () => {
     try {
       const res = await staticContent(data).unwrap();
       console.log(res);
-      toast.success("privacy policy Updated Successfully", {
+      toast.success("Quick start Updated Successfully", {
         id: toastId,
         duration: 2000,
       });
@@ -25,7 +25,7 @@ const QuickStartGuide = () => {
       toast.error(
         error?.data?.message ||
           error?.error ||
-          "An error occurred during posting Privacy policy",
+          "An error occurred during posting Quick start",
         {
           id: toastId,
           duration: 2000,

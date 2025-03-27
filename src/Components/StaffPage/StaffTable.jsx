@@ -9,13 +9,16 @@ import { AllImages } from "../../../public/images/AllImages";
 const getUniqueCompanyNames = (data) => {
   const companyNames = data.map((item) => item.companyName);
   return [...new Set(companyNames)]; // Remove duplicates by converting array to a Set and back to an array
-};
+}; 
 
 const StaffTable = ({
   data,
   loading,
   showViewServiceUserModal,
-  pageSize = 0,
+  pageSize,
+  meta,
+  setPaginationData,
+  setFilter,
 }) => {
   const columns = [
     {
@@ -65,13 +68,15 @@ const StaffTable = ({
       filters: [
         {
           text: "Active",
-          value: "ACTIVE",
+          value: "active",
         },
         {
           text: "Inactive",
-          value: "INACTIVE",
+          value: "inactivated",
         },
       ],
+      filterMultiple: false, // Radio buttons
+      onFilter: (value, record) => (record.status = value),
       // onFilter: (value, record) => record.status.toString() === value,
       render: (text) => (
         <div className="flex items-center gap-2">
@@ -83,62 +88,7 @@ const StaffTable = ({
         </div>
       ),
     },
-    // {
-    //   title: "Company Name",
-    //   dataIndex: "companyName",
-    //   key: "companyName",
-    //   filterDropdown: ({ setSelectedKeys, confirm, clearFilters }) => (
-    //     <div style={{ padding: 8 }}>
-    //       {/* Search input for filtering the dropdown */}
-    //       <Input
-    //         placeholder="Search Company"
-    //         value={searchTerm}
-    //         onChange={(e) => setSearchTerm(e.target.value)} // Update the search term
-    //         style={{ width: 188, marginBottom: 8 }}
-    //       />
-    //       <div className="flex flex-col items-start">
-    //         {/* Display filtered company names as buttons */}
-    //         {filteredCompanyNames.map((companyName) => (
-    //           <Button
-    //             className="!text-[#19363D]"
-    //             key={companyName}
-    //             type="link"
-    //             onClick={() => {
-    //               setSelectedKeys([companyName]); // Set selected filter value
-    //               setSearchTerm(companyName); // Update the selected company filter
-    //               setSelectedCompany(companyName); // Update the selected company filter
-    //               confirm(); // Apply the filter
-    //             }}
-    //           >
-    //             {companyName}
-    //           </Button>
-    //         ))}
-    //       </div>
-    //       <Space style={{ marginTop: 8 }}>
-    //         <Button
-    //           type="link"
-    //           onClick={() => {
-    //             clearFilters && clearFilters(); // Clear the filter
-    //             setSelectedKeys([]);
-    //             setSearchTerm(""); // Clear the search input field
-    //             setSelectedCompany(""); // Clear the selected company filter
-    //             confirm();
-    //           }}
-    //         >
-    //           Reset
-    //         </Button>
-    //         <Button type="link" onClick={() => confirm && confirm()}>
-    //           OK
-    //         </Button>
-    //       </Space>
-    //     </div>
-    //   ),
-    //   filters: filteredCompanyNames.map((companyName) => ({
-    //     text: companyName,
-    //     value: companyName,
-    //   })),
-    //   onFilter: (value, record) => record.companyName === value, // Filter by exact company name match
-    // },
+    
     {
       title: "Action",
       key: "action",
@@ -162,14 +112,32 @@ const StaffTable = ({
       ),
     },
   ];
+  const handleTableChange = (pagination, filters, sorter) => {
+    setPaginationData({ page: pagination.current, limit: pagination.pageSize });
 
+    const statusFilter = filters?.status[0];
+    setFilter(statusFilter);
+
+    // console.log("filter", pagination, filters, sorter);
+  };
   return (
     <div>
       <Table
         columns={columns}
         dataSource={data} // Use the filtered data here based on selected company
         loading={loading}
-        pagination={pageSize > 0 ? { pageSize } : false}
+        pagination={{
+          total: meta?.total || 0,
+          pageSize: meta?.limit || pageSize,
+          current: meta?.page || 1,
+          showTotal: (total, range) =>
+            `SHOWING ${range[0]}-${range[1]} OF ${total}`,
+          showSizeChanger: true,
+          pageSizeOptions: ["12", "24", "50", "100"],
+          onChange: (page, pageSize) =>
+            handleTableChange({ current: page, pageSize }),
+        }}
+        onChange={handleTableChange}
         rowKey="id"
         scroll={{ x: true }}
       />

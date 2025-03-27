@@ -4,15 +4,16 @@ import { baseApi } from "./baseApi";
 export const usersApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getAllusersList: build.query({
-      query: () => ({
+      query: ({ page, limit, filter, searchTerm }) => ({
         url: `/users/user_list`,
         method: "Get",
+        params: { page, limit, filter, searchTerm },
       }),
       providesTags: [tagTypes.allUsers],
     }),
 
     userRatio: build.query({
-      query: ({year}) => ({
+      query: ({ year }) => ({
         url: `/users/user_ratio?year=${year}`,
         method: "GET",
       }),
@@ -31,21 +32,20 @@ export const usersApi = baseApi.injectEndpoints({
     }),
 
     getAllStaffList: build.query({
-      query: () => ({
+      query: ({ page, limit, filter, searchTerm }) => ({
         url: `/restaurant/staff_list`,
         method: "Get",
+        params: { page, limit, filter, searchTerm },
       }),
       providesTags: [tagTypes.staff],
     }),
 
     getAllStaffRatio: build.query({
       query: ({ year }) => {
-        console.log("need",year);
-
-       return ({
+        return {
           url: `/restaurant/restaurant_staff_ratio?year=${year}`,
           method: "Get",
-        });
+        };
       },
       providesTags: [tagTypes.staff],
     }),
@@ -62,22 +62,26 @@ export const usersApi = baseApi.injectEndpoints({
     }),
 
     getRestaurentQueryRatio: build.query({
-      query: () => ({
-        url: `/restaurant/restaurant_query_ratio?year=2025`,
-        method: "Get",
-      }),
+      query: ({ year }) => {
+        console.log("need", year);
+
+        return {
+          url: `/restaurant/restaurant_query_ratio?year=${year}`,
+          method: "Get",
+        };
+      },
       providesTags: [tagTypes.staff],
     }),
     getRestaurentCategoryRatio: build.query({
-      query: () => ({
-        url: `/restaurant/restaurant_top_category_ratio?year=2025`,
+      query: ({ year }) => ({
+        url: `/restaurant/restaurant_top_category_ratio?year=${year}`,
         method: "Get",
       }),
       providesTags: [tagTypes.staff],
     }),
     getRestaurentStaffSatisfactionRatio: build.query({
-      query: () => ({
-        url: `/restaurant/restaurant_staff_staisfaction_ratio?year=2025`,
+      query: ({ year }) => ({
+        url: `/restaurant/restaurant_staff_staisfaction_ratio?year=${year}`,
         method: "Get",
       }),
       providesTags: [tagTypes.staff],

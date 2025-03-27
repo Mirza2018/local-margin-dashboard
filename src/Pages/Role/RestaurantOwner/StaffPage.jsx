@@ -7,6 +7,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import StaffTable from "../../../Components/StaffPage/StaffTable";
 import ViewStaffDetails from "../../../Components/StaffPage/ViewStaffDetails";
 import { useGetAllStaffListQuery } from "../../../redux/api/usersApi";
+import { useLocation } from "react-router-dom";
 
 //* Modal Table
 
@@ -14,16 +15,28 @@ import { useGetAllStaffListQuery } from "../../../redux/api/usersApi";
 // import ViewAdminServiceUserModal from "../../Components/Modal/Admin/ViewAdminServiceUserModal";
 
 const StaffPage = () => {
-  const { data: StaffData, isFetching: isLoading } = useGetAllStaffListQuery();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+  const initialLimit = parseInt(queryParams.get("limit")) || 12;
+  const initialSearchTerm = queryParams.get("searchTerm") || "";
+  const initialFilter = queryParams.get("filter") || "";
+ 
+  // State for pagination and filters
+  const [paginationData, setPaginationData] = useState({
+    page: initialPage,
+    limit: initialLimit,
+  });
+  const [searchText, setSearchText] = useState(initialSearchTerm);
+  const [filter, setFilter] = useState(initialFilter);
+
+  const { data: StaffData, isFetching: isLoading } = useGetAllStaffListQuery({
+    ...paginationData,
+    searchTerm: searchText,
+    filter,
+  }); 
   //* Store Search Value
   console.log(StaffData, isLoading);
-
-  const [searchText, setSearchText] = useState("");
-
-  //* Use to set user
-  const [data, setData] = useState([]);
-
-  const [loading, setLoading] = useState(true);
 
   //* It's Use to Show Modal
   const [isServiceUserViewModalVisible, setIsServiceUserViewModalVisible] =
@@ -32,12 +45,6 @@ const StaffPage = () => {
   //* It's Use to Set Seclected User to Block and view
   const [currentRecord, setCurrentRecord] = useState(null);
 
-  const filteredData = useMemo(() => {
-    if (!searchText) return StaffData?.data;
-    return StaffData?.data?.filter((item) =>
-      item?.email.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [StaffData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -80,14 +87,17 @@ const StaffPage = () => {
           </div>
         </div>
       </div>
-
+ 
       {/* Table  */}
       <div className="px-10 py-10">
         <StaffTable
-          data={filteredData}
+          data={StaffData?.data}
           loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={12}
+          setPaginationData={setPaginationData}
+          pageSize={paginationData.limit}
+          meta={StaffData?.meta}
+          setFilter={setFilter}
         />
       </div>
 

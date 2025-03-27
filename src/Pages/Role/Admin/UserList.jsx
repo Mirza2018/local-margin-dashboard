@@ -1,54 +1,40 @@
-import { useMemo } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-import { ConfigProvider, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
+import { ConfigProvider, Input } from "antd";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import UserListTable from "../../../Components/UserListPage/UserListTable";
 import ViewUserDetails from "../../../Components/UserListPage/ViewUserDetails";
 import { useGetAllusersListQuery } from "../../../redux/api/usersApi";
- 
+
 const UserList = () => {
-  const { data: userData, isLoading } = useGetAllusersListQuery();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+  const initialLimit = parseInt(queryParams.get("limit")) || 12;
+  const initialSearchTerm = queryParams.get("searchTerm") || "";
+  const initialFilter = queryParams.get("filter") || "";
 
-  //* Store Search Value
-  // console.log(userData?.data, isLoading);
+  // State for pagination and filters
+  const [paginationData, setPaginationData] = useState({
+    page: initialPage,
+    limit: initialLimit,
+  });
+  const [searchText, setSearchText] = useState(initialSearchTerm);
+  const [filter, setFilter] = useState(initialFilter);
 
-  const [searchText, setSearchText] = useState("");
+  const { data: userData, isLoading } = useGetAllusersListQuery({
+    ...paginationData,
+    searchTerm: searchText,
+    filter,
+  });
 
-  //* Use to set user
-  const [data, setData] = useState([]);
-
-  const [loading, setLoading] = useState(true);
-
-  //* It's Use to Show Modal
   const [isServiceUserViewModalVisible, setIsServiceUserViewModalVisible] =
     useState(false);
 
   //* It's Use to Set Seclected User to Block and view
   const [currentRecord, setCurrentRecord] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get("/data/staffData.json");
-  //       setData(response?.data); // Make sure this is an array
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
 
-  //   fetchData();
-  // }, []);
-
-  const filteredData = useMemo(() => {
-    if (!searchText) return userData?.data;
-    return userData?.data.filter((item) =>
-      item?.profile?.name?.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [userData, searchText]);
 
   const onSearch = (value) => {
     setSearchText(value);
@@ -77,7 +63,7 @@ const UserList = () => {
               theme={{ token: { colorTextPlaceholder: "#f3f3f3" } }}
             >
               <Input
-                placeholder="Search User..."
+                placeholder="Search Email..."
                 value={searchText}
                 onChange={(e) => onSearch(e.target.value)}
                 className="text-primary-color font-semibold !border-primary-color !bg-transparent py-2 !rounded-full"
@@ -93,10 +79,13 @@ const UserList = () => {
       {/* Table  */}
       <div className="px-10 py-10">
         <UserListTable
-          data={filteredData}
+          data={userData?.data}
           loading={isLoading}
           showViewServiceUserModal={showViewServiceUserModal}
-          pageSize={12}
+          setPaginationData={setPaginationData}
+          pageSize={paginationData.limit}
+          meta={userData?.meta}
+          setFilter={setFilter}
         />
       </div>
 

@@ -1,9 +1,8 @@
-import React from 'react';
-import { AllIcons } from '../../../public/images/AllImages';
-import { Spin } from 'antd';
+import React from "react";
+import { AllIcons } from "../../../public/images/AllImages";
+import { Spin } from "antd";
 
 const AllOverviewHeader = ({ data, isFetching, isError }) => {
-  console.log(data);
   if (isFetching) {
     return (
       <div className="flex justify-center items-center">
@@ -13,9 +12,7 @@ const AllOverviewHeader = ({ data, isFetching, isError }) => {
   }
   if (isError) {
     return (
-      <div className="flex justify-center items-center">
-        Something worng...
-      </div>
+      <div className="flex justify-center items-center">Something worng...</div>
     );
   }
 
