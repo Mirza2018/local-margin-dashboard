@@ -28,6 +28,25 @@ const QueriesTable = ({
   const handleTableChange = (pagination) => {
     setPaginationData({ page: pagination.current, limit: pagination.pageSize });
   };
+  const downloadExcel = (record, index) => {
+    const cleanedText = record?.createdAt?.replace("=", "").split("T")[0];
+    const data = [
+      {
+        ID: `${index + 1}`,
+        Query: `${record.query}`,
+        Category: `${record.category}`,
+        Staff: `${record.staffName}`,
+        Submitted_On: `${cleanedText}`,
+      },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Query Info");
+
+    // Writing the file
+    XLSX.writeFile(workbook, `Query"${record.staffName}"${record._id}.xlsx`);
+  };
 
   const columns = [
     {
