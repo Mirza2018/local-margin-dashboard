@@ -7,7 +7,7 @@ import carer from "../../../public/images/dashboard-logo/carer.svg";
 import employee from "../../../public/images/dashboard-logo/employee.svg";
 import report from "../../../public/images/dashboard-logo/report.svg";
 import serviceUser from "../../../public/images/dashboard-logo/service.svg";
-
+ 
 import { Layout, Menu, Typography } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
@@ -264,6 +264,18 @@ const DashboardLayout = () => {
         <img src={AllIcons.data} alt="data-management" width={16} height={16} />
       ),
       children: [
+        {
+          key: "ai-input",
+          icon: (
+            <img
+              src={AllIcons.instruction}
+              alt="ai-input"
+              width={16}
+              height={16}
+            />
+          ),
+          label: <NavLink to="ai-input">AI Input</NavLink>,
+        },
         {
           key: "instruction",
           icon: (

@@ -11,6 +11,14 @@ export const settingsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.privacy, tagTypes.faq],
     }),
+    aiInput: build.mutation({
+      query: (aiInput) => ({
+        url: `/restaurant/chat_memory`,
+        method: "POST",
+        body: aiInput,
+      }),
+    }),
+
     getFaq: build.query({
       query: () => ({
         url: `/static_content?type=faq`,
@@ -21,4 +29,4 @@ export const settingsApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { usePrivacyTermsMutation,useGetFaqQuery } = settingsApi;
+export const { usePrivacyTermsMutation, useGetFaqQuery,useAiInputMutation } = settingsApi;

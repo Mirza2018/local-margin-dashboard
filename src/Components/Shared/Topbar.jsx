@@ -42,6 +42,7 @@ const notifications = [
 
 const Topbar = ({ collapsed, setCollapsed }) => {
   const { data, isLoading } = useGetProfileQuery();
+  
   const token = useSelector((state) => state.auth);
   const decodeToken = jwtDecode(token?.accessToken);
   let user;
@@ -53,6 +54,7 @@ const Topbar = ({ collapsed, setCollapsed }) => {
   // console.log("image", getImageUrl() + data?.data[0]?.profile?.profileImage);
 
   const image = getImageUrl() + data?.data[0]?.profile?.profileImage;
+// console.log("image", data?.data[0]?.profile);
 
   const [notificationCount, setNotificationCount] = useState(
     notifications.length

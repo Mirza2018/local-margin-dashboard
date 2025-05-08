@@ -41,6 +41,7 @@ import UserList from "../Pages/Role/Admin/UserList";
 import RestaurantListPage from "../Pages/Role/Admin/RestaurantListPage";
 import FAQ from "../Components/Dashboard/FAQ/FAQ";
 import QuickStartGuide from "../Pages/Role/RestaurantOwner/DataManagementPages/QuickStartGuide";
+import AiInput from "../Pages/Role/RestaurantOwner/DataManagementPages/AiInput";
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
       {
         path: "feedback",
         element: <FeedbackPage />,
+      },
+      {
+        path: "ai-input",
+        element: <AiInput />,
       },
       {
         path: "instruction",
